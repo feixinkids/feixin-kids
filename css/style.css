@@ -666,3 +666,17 @@ footer {
     padding: 32px 24px;
   }
 }
+.tool-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tool-card-link:hover {
+  transform: translateY(-4px);
+}
+
+.tool-card-link * {
+  pointer-events: none;
+}
