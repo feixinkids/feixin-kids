@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Feixin Kids｜親子設計工具</title>
+
+  <meta
+    name="description"
+    content="免費製作姓名貼、書包名牌卡、課表、生日邀請卡與謝師卡。完成後可下載並使用 ibon 列印。"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        Arial,
+        sans-serif;
+      background: #fffaf7;
+      color: #4d4143;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1100px, 90%);
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 250, 247, 0.94);
+      border-bottom: 1px solid #f2dddd;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: #d46c7b;
+      letter-spacing: 0.5px;
+    }
+
+    .logo span {
+      color: #72aa98;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: #d46c7b;
+    }
+
+    .hero {
+      padding: 90px 0 70px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: #fbe4e8;
+      color: #bd5e6d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1.2;
+      color: #493d40;
+    }
+
+    .hero h1 span {
+      color: #d46c7b;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 24px auto 0;
+      color: #76696b;
+      font-size: 18px;
+    }
+
+    .hero-buttons {
+      margin-top: 34px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 50px;
+      padding: 12px 24px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .button-primary {
+      background: #d87483;
+      color: white;
+      box-shadow: 0 10px 24px rgba(216, 116, 131, 0.24);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px);
+      background: #ca6676;
+    }
+
+    .button-secondary {
+      background: white;
+      border: 1px solid #ead8d9;
+      color: #65575a;
+    }
+
+    .button-secondary:hover {
+      transform: translateY(-2px);
+      border-color: #d87483;
+    }
+
+    .steps {
+      padding: 20px 0 70px;
+    }
+
+    .steps-box {
+      padding: 25px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      background: white;
+      border: 1px solid #f0dddd;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(97, 69, 73, 0.06);
+    }
+
+    .step {
+      text-align: center;
+      padding: 16px;
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 12px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #f8e1e5;
+      color: #c35f6e;
+      font-weight: 800;
+    }
+
+    .step h3 {
+      margin-bottom: 5px;
+      font-size: 18px;
+    }
+
+    .step p {
+      color: #84777a;
+      font-size: 14px;
+    }
+
+    .tools {
+      padding: 75px 0;
+      background: #ffffff;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title span {
+      color: #d46c7b;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .section-title h2 {
+      margin-top: 8px;
+      font-size: clamp(30px, 4vw, 44px);
+      color: #493d40;
+    }
+
+    .section-title p {
+      margin: 10px auto 0;
+      max-width: 600px;
+      color: #84777a;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .tool-card {
+      padding: 28px;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #f0e1e1;
+      border-radius: 24px;
+      background: #fffaf7;
+      transition: 0.25s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 40px rgba(99, 70, 74, 0.1);
+    }
+
+    .tool-icon {
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: white;
+      font-size: 31px;
+    }
+
+    .tool-card h3 {
+      margin-top: 20px;
+      font-size: 21px;
+    }
+
+    .tool-card p {
+      margin-top: 8px;
+      color: #817477;
+      font-size: 15px;
+    }
+
+    .tool-status {
+      margin-top: auto;
+      padding-top: 20px;
+      color: #c05f6d;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .featured {
+      background: #fce8eb;
+      border-color: #f1cbd1;
+    }
+
+    .print-info {
+      padding: 80px 0;
+    }
+
+    .print-box {
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 45px;
+      border-radius: 30px;
+      background: #e9f5f0;
+    }
+
+    .print-box h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      color: #405b52;
+    }
+
+    .print-box p {
+      margin-top: 15px;
+      color: #61756e;
+    }
+
+    .print-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .print-item {
+      padding: 15px 18px;
+      background: rgba(255, 255, 255, 0.72);
+      border-radius: 15px;
+      font-weight: 700;
+      color: #4d695f;
+    }
+
+    footer {
+      padding: 35px 0;
+      text-align: center;
+      color: #8a7c7f;
+      border-top: 1px solid #f0dfdf;
+      font-size: 14px;
+    }
+
+    @media (max-width: 850px) {
+      .nav-links {
+        display: none;
+      }
+
+      .steps-box,
+      .tool-grid,
+      .print-box {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 70px;
+      }
+
+      .print-box {
+        padding: 32px 24px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .tool-card {
+        min-height: 220px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <a class="logo" href="#">
+        Feixin <span>Kids</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#tools">設計工具</a>
+        <a href="#print">列印方式</a>
+        <a href="#about">關於我們</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge">
+          免費親子設計工具
+        </div>
+
+        <h1>
+          輕鬆製作孩子的
+          <span>專屬小物</span>
+        </h1>
+
+        <p>
+          選擇工具、完成設計、下載檔案，
+          再到 7-ELEVEN ibon、影印店或家用印表機列印。
+        </p>
+
+        <div class="hero-buttons">
+          <a class="button button-primary" href="#tools">
+            開始製作
+          </a>
+
+          <a class="button button-secondary" href="#print">
+            查看列印方式
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="steps">
+      <div class="container">
+        <div class="steps-box">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>選擇工具</h3>
+            <p>挑選姓名貼、名牌卡或其他設計。</p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>完成設計</h3>
+            <p>加入照片、姓名、文字與喜歡的樣式。</p>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>下載列印</h3>
+            <p>下載 PNG 或 PDF，再自行列印使用。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tools" id="tools">
+      <div class="container">
+        <div class="section-title">
+          <span>DESIGN TOOLS</span>
+          <h2>想製作什麼呢？</h2>
+          <p>
+            第一階段將推出五種最常用的親子設計工具。
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          <article class="tool-card featured">
+            <div class="tool-icon">📷</div>
+            <h3>大頭照姓名貼</h3>
+            <p>
+              上傳照片、輸入姓名，製作孩子專屬的可愛姓名貼。
+            </p>
+            <div class="tool-status">即將開放</div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-icon">🎒</div>
+            <h3>書包名牌卡</h3>
+            <p>
+              可加入姓名、班級與聯絡資料，放入透明卡套即可使用。
+            </p>
+            <div class="tool-status">即將開放</div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-icon">📚</div>
+            <h3>課表設計器</h3>
+            <p>
+              自訂科目、配色與圖案，快速完成專屬課表。
+            </p>
+            <div class="tool-status">即將開放</div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-icon">🎂</div>
+            <h3>生日邀請卡</h3>
+            <p>
+              輸入日期、地點與邀請內容，製作生日派對卡片。
+            </p>
+            <div class="tool-status">即將開放</div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-icon">💌</div>
+            <h3>謝師卡</h3>
+            <p>
+              選擇卡片樣式，寫下想對老師說的感謝話語。
+            </p>
+            <div class="tool-status">即將開放</div>
+          </article>
+
+          <article class="tool-card">
+            <div class="tool-icon">✨</div>
+            <h3>更多親子工具</h3>
+            <p>
+              未來將加入月曆、獎勵表、收納標籤與更多內容。
+            </p>
+            <div class="tool-status">持續新增中</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="print-info" id="print">
+      <div class="container">
+        <div class="print-box">
+          <div>
+            <h2>設計完成後，去哪裡列印？</h2>
+
+            <p>
+              Feixin Kids 提供可下載的圖片或 PDF。
+              使用者可依需求選擇便利商店、影印店或家用印表機。
+            </p>
+          </div>
+
+          <div class="print-list">
+            <div class="print-item">
+              🏪 7-ELEVEN ibon
+            </div>
+
+            <div class="print-item">
+              🖨 家用印表機
+            </div>
+
+            <div class="print-item">
+              📄 影印店或文具店
+            </div>
+
+            <div class="print-item">
+              📱 手機下載後列印
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="about">
+    <div class="container">
+      <p>
+        © 2026 Feixin Kids · Design · Download · Print
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
