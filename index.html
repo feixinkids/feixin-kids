@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Feixin Kids｜親子設計工具</title>
 
   <meta
     name="description"
-    content="免費製作姓名貼、書包名牌卡、課表、生日邀請卡與謝師卡。完成後可下載並使用 ibon 列印。"
-  />
+    content="免費製作大頭照姓名貼、書包名牌卡、課表、生日邀請卡與謝師卡。完成後可下載並自行列印。"
+  >
 
   <style>
     * {
@@ -27,14 +23,10 @@
     }
 
     body {
-      font-family:
-        "Noto Sans TC",
-        "Microsoft JhengHei",
-        Arial,
-        sans-serif;
-      background: #fffaf7;
-      color: #4d4143;
+      font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+      color: #514754;
       line-height: 1.7;
+      background: #fffafd;
     }
 
     a {
@@ -43,21 +35,21 @@
     }
 
     .container {
-      width: min(1100px, 90%);
+      width: min(1120px, 90%);
       margin: 0 auto;
     }
 
     header {
       position: sticky;
       top: 0;
-      z-index: 10;
-      background: rgba(255, 250, 247, 0.94);
-      border-bottom: 1px solid #f2dddd;
-      backdrop-filter: blur(10px);
+      z-index: 20;
+      background: rgba(255, 250, 253, 0.92);
+      border-bottom: 1px solid #f2dce8;
+      backdrop-filter: blur(12px);
     }
 
     .navbar {
-      min-height: 72px;
+      min-height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -65,66 +57,108 @@
     }
 
     .logo {
-      font-size: 24px;
-      font-weight: 800;
-      color: #d46c7b;
+      font-size: 27px;
+      font-weight: 900;
+      color: #e06f91;
       letter-spacing: 0.5px;
     }
 
     .logo span {
-      color: #72aa98;
+      color: #9b7bd5;
     }
 
     .nav-links {
       display: flex;
-      align-items: center;
-      gap: 24px;
+      gap: 28px;
+      font-weight: 700;
       font-size: 15px;
-      font-weight: 600;
     }
 
     .nav-links a:hover {
-      color: #d46c7b;
+      color: #d66c95;
     }
 
     .hero {
-      padding: 90px 0 70px;
-      text-align: center;
+      position: relative;
       overflow: hidden;
+      padding: 105px 0 95px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 10% 20%, #ffdbe8 0 75px, transparent 76px),
+        radial-gradient(circle at 88% 24%, #e4dcff 0 90px, transparent 91px),
+        radial-gradient(circle at 80% 90%, #d9f5e9 0 80px, transparent 81px),
+        linear-gradient(135deg, #fff1f7 0%, #f8f2ff 52%, #effbf7 100%);
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      font-size: 42px;
+      opacity: 0.65;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .hero::before {
+      content: "✦";
+      top: 55px;
+      left: 12%;
+      color: #b99be8;
+    }
+
+    .hero::after {
+      content: "♡";
+      right: 13%;
+      bottom: 45px;
+      color: #ec91ad;
+      animation-delay: 1s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
     }
 
     .hero-badge {
       display: inline-block;
-      margin-bottom: 20px;
-      padding: 8px 16px;
+      padding: 9px 18px;
+      margin-bottom: 22px;
       border-radius: 999px;
-      background: #fbe4e8;
-      color: #bd5e6d;
+      background: rgba(255, 255, 255, 0.8);
+      color: #c96688;
+      border: 1px solid #f0c5d5;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
+      box-shadow: 0 8px 24px rgba(154, 112, 144, 0.08);
     }
 
     .hero h1 {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
-      font-size: clamp(38px, 6vw, 68px);
+      font-size: clamp(40px, 6vw, 70px);
       line-height: 1.2;
-      color: #493d40;
+      color: #514550;
     }
 
     .hero h1 span {
-      color: #d46c7b;
+      background: linear-gradient(90deg, #e06f91, #9c7ed7);
+      -webkit-background-clip: text;
+      color: transparent;
     }
 
     .hero p {
       max-width: 650px;
       margin: 24px auto 0;
-      color: #76696b;
+      color: #766a78;
       font-size: 18px;
     }
 
     .hero-buttons {
-      margin-top: 34px;
+      margin-top: 35px;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
@@ -132,187 +166,215 @@
     }
 
     .button {
+      min-height: 52px;
+      padding: 13px 27px;
       display: inline-flex;
-      min-height: 50px;
-      padding: 12px 24px;
       align-items: center;
       justify-content: center;
-      border-radius: 14px;
-      font-weight: 700;
-      transition: 0.2s ease;
+      border-radius: 16px;
+      font-weight: 800;
+      transition: 0.25s ease;
     }
 
     .button-primary {
-      background: #d87483;
       color: white;
-      box-shadow: 0 10px 24px rgba(216, 116, 131, 0.24);
-    }
-
-    .button-primary:hover {
-      transform: translateY(-2px);
-      background: #ca6676;
+      background: linear-gradient(135deg, #e87599, #a181dd);
+      box-shadow: 0 12px 28px rgba(185, 111, 157, 0.25);
     }
 
     .button-secondary {
-      background: white;
-      border: 1px solid #ead8d9;
-      color: #65575a;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid #e6d2e3;
+      color: #685c6b;
     }
 
-    .button-secondary:hover {
-      transform: translateY(-2px);
-      border-color: #d87483;
+    .button:hover {
+      transform: translateY(-3px);
     }
 
     .steps {
-      padding: 20px 0 70px;
+      padding: 65px 0;
+      background:
+        radial-gradient(#eddaf0 1.5px, transparent 1.5px),
+        #fffafd;
+      background-size: 24px 24px;
     }
 
     .steps-box {
-      padding: 25px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      background: white;
-      border: 1px solid #f0dddd;
-      border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(97, 69, 73, 0.06);
     }
 
     .step {
+      padding: 28px 22px;
       text-align: center;
-      padding: 16px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid #f0deea;
+      border-radius: 24px;
+      box-shadow: 0 14px 35px rgba(102, 73, 100, 0.07);
     }
 
     .step-number {
-      width: 42px;
-      height: 42px;
-      margin: 0 auto 12px;
+      width: 46px;
+      height: 46px;
+      margin: 0 auto 14px;
       display: grid;
       place-items: center;
       border-radius: 50%;
-      background: #f8e1e5;
-      color: #c35f6e;
-      font-weight: 800;
+      color: white;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ef8da9, #aa8de2);
     }
 
     .step h3 {
+      font-size: 19px;
       margin-bottom: 5px;
-      font-size: 18px;
     }
 
     .step p {
-      color: #84777a;
+      color: #857886;
       font-size: 14px;
     }
 
     .tools {
-      padding: 75px 0;
-      background: #ffffff;
+      padding: 90px 0;
+      background: linear-gradient(180deg, #ffffff 0%, #fff8fc 100%);
     }
 
     .section-title {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 48px;
     }
 
     .section-title span {
-      color: #d46c7b;
+      color: #d97094;
       font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 2px;
+      font-weight: 900;
+      letter-spacing: 3px;
     }
 
     .section-title h2 {
       margin-top: 8px;
-      font-size: clamp(30px, 4vw, 44px);
-      color: #493d40;
-    }
-
-    .section-title p {
-      margin: 10px auto 0;
-      max-width: 600px;
-      color: #84777a;
+      font-size: clamp(32px, 4vw, 48px);
+      color: #514550;
     }
 
     .tool-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
+      gap: 24px;
     }
 
     .tool-card {
-      padding: 28px;
-      min-height: 250px;
+      position: relative;
+      overflow: hidden;
+      min-height: 275px;
+      padding: 30px;
       display: flex;
       flex-direction: column;
-      border: 1px solid #f0e1e1;
-      border-radius: 24px;
-      background: #fffaf7;
+      border-radius: 28px;
+      border: 1px solid rgba(111, 84, 108, 0.08);
       transition: 0.25s ease;
     }
 
+    .tool-card::after {
+      content: "✦";
+      position: absolute;
+      right: 22px;
+      top: 15px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 34px;
+    }
+
     .tool-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 18px 40px rgba(99, 70, 74, 0.1);
+      transform: translateY(-7px) rotate(-0.5deg);
+      box-shadow: 0 20px 42px rgba(99, 72, 100, 0.13);
+    }
+
+    .card-pink {
+      background: linear-gradient(145deg, #ffe4ed, #fff3f7);
+    }
+
+    .card-purple {
+      background: linear-gradient(145deg, #e9e0ff, #f7f2ff);
+    }
+
+    .card-mint {
+      background: linear-gradient(145deg, #dff6ec, #f1fcf7);
+    }
+
+    .card-yellow {
+      background: linear-gradient(145deg, #fff0bf, #fff9e8);
+    }
+
+    .card-blue {
+      background: linear-gradient(145deg, #dfefff, #f2f8ff);
+    }
+
+    .card-mix {
+      background: linear-gradient(145deg, #ffe5f0, #e8e0ff);
     }
 
     .tool-icon {
-      width: 62px;
-      height: 62px;
+      width: 68px;
+      height: 68px;
       display: grid;
       place-items: center;
-      border-radius: 20px;
-      background: white;
-      font-size: 31px;
+      border-radius: 21px;
+      background: rgba(255, 255, 255, 0.85);
+      font-size: 33px;
+      box-shadow: 0 10px 25px rgba(82, 57, 82, 0.08);
     }
 
     .tool-card h3 {
-      margin-top: 20px;
-      font-size: 21px;
+      margin-top: 22px;
+      font-size: 22px;
+      color: #504650;
     }
 
     .tool-card p {
       margin-top: 8px;
-      color: #817477;
+      color: #746a75;
       font-size: 15px;
     }
 
     .tool-status {
       margin-top: auto;
-      padding-top: 20px;
-      color: #c05f6d;
+      padding-top: 22px;
+      color: #b65e86;
       font-size: 14px;
-      font-weight: 800;
-    }
-
-    .featured {
-      background: #fce8eb;
-      border-color: #f1cbd1;
+      font-weight: 900;
     }
 
     .print-info {
-      padding: 80px 0;
+      padding: 90px 0;
+      background:
+        radial-gradient(circle at 10% 30%, #ffe1ec 0 55px, transparent 56px),
+        radial-gradient(circle at 92% 70%, #ded4ff 0 70px, transparent 71px),
+        #f4fcf8;
     }
 
     .print-box {
-      padding: 48px;
+      padding: 50px;
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       align-items: center;
-      gap: 45px;
-      border-radius: 30px;
-      background: #e9f5f0;
+      gap: 46px;
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.83);
+      border: 1px solid #dceee6;
+      box-shadow: 0 18px 45px rgba(71, 105, 91, 0.09);
     }
 
     .print-box h2 {
-      font-size: clamp(28px, 4vw, 42px);
-      color: #405b52;
+      font-size: clamp(30px, 4vw, 44px);
+      color: #496159;
     }
 
     .print-box p {
       margin-top: 15px;
-      color: #61756e;
+      color: #667b73;
     }
 
     .print-list {
@@ -321,18 +383,18 @@
     }
 
     .print-item {
-      padding: 15px 18px;
-      background: rgba(255, 255, 255, 0.72);
-      border-radius: 15px;
-      font-weight: 700;
-      color: #4d695f;
+      padding: 16px 19px;
+      border-radius: 16px;
+      background: linear-gradient(90deg, #ffffff, #fff4fa);
+      font-weight: 800;
+      color: #5d6460;
     }
 
     footer {
-      padding: 35px 0;
+      padding: 40px 0;
       text-align: center;
-      color: #8a7c7f;
-      border-top: 1px solid #f0dfdf;
+      background: linear-gradient(90deg, #fff0f5, #f3eeff);
+      color: #807381;
       font-size: 14px;
     }
 
@@ -348,7 +410,7 @@
       }
 
       .hero {
-        padding-top: 70px;
+        padding: 80px 0;
       }
 
       .print-box {
@@ -370,7 +432,7 @@
       }
 
       .tool-card {
-        min-height: 220px;
+        min-height: 240px;
       }
     }
   </style>
@@ -395,7 +457,7 @@
     <section class="hero">
       <div class="container">
         <div class="hero-badge">
-          免費親子設計工具
+          ✦ 免費親子設計工具 ✦
         </div>
 
         <h1>
@@ -404,8 +466,8 @@
         </h1>
 
         <p>
-          選擇工具、完成設計、下載檔案，
-          再到 7-ELEVEN ibon、影印店或家用印表機列印。
+          選擇喜歡的工具，加入照片、姓名與文字，
+          完成後下載檔案，再到便利商店或家中列印。
         </p>
 
         <div class="hero-buttons">
@@ -426,19 +488,19 @@
           <div class="step">
             <div class="step-number">1</div>
             <h3>選擇工具</h3>
-            <p>挑選姓名貼、名牌卡或其他設計。</p>
+            <p>挑選想製作的姓名貼、名牌卡或卡片。</p>
           </div>
 
           <div class="step">
             <div class="step-number">2</div>
             <h3>完成設計</h3>
-            <p>加入照片、姓名、文字與喜歡的樣式。</p>
+            <p>加入照片、文字、顏色與喜歡的樣式。</p>
           </div>
 
           <div class="step">
             <div class="step-number">3</div>
             <h3>下載列印</h3>
-            <p>下載 PNG 或 PDF，再自行列印使用。</p>
+            <p>下載圖片或 PDF，再自行完成列印。</p>
           </div>
         </div>
       </div>
@@ -448,64 +510,49 @@
       <div class="container">
         <div class="section-title">
           <span>DESIGN TOOLS</span>
-          <h2>想製作什麼呢？</h2>
-          <p>
-            第一階段將推出五種最常用的親子設計工具。
-          </p>
+          <h2>今天想製作什麼呢？</h2>
         </div>
 
         <div class="tool-grid">
-          <article class="tool-card featured">
+          <article class="tool-card card-pink">
             <div class="tool-icon">📷</div>
             <h3>大頭照姓名貼</h3>
-            <p>
-              上傳照片、輸入姓名，製作孩子專屬的可愛姓名貼。
-            </p>
+            <p>上傳照片、輸入姓名，製作孩子專屬的可愛姓名貼。</p>
             <div class="tool-status">即將開放</div>
           </article>
 
-          <article class="tool-card">
+          <article class="tool-card card-purple">
             <div class="tool-icon">🎒</div>
             <h3>書包名牌卡</h3>
-            <p>
-              可加入姓名、班級與聯絡資料，放入透明卡套即可使用。
-            </p>
+            <p>加入姓名、班級與聯絡資料，放入透明卡套即可使用。</p>
             <div class="tool-status">即將開放</div>
           </article>
 
-          <article class="tool-card">
+          <article class="tool-card card-mint">
             <div class="tool-icon">📚</div>
             <h3>課表設計器</h3>
-            <p>
-              自訂科目、配色與圖案，快速完成專屬課表。
-            </p>
+            <p>自訂科目、配色與圖案，快速製作孩子的專屬課表。</p>
             <div class="tool-status">即將開放</div>
           </article>
 
-          <article class="tool-card">
+          <article class="tool-card card-yellow">
             <div class="tool-icon">🎂</div>
             <h3>生日邀請卡</h3>
-            <p>
-              輸入日期、地點與邀請內容，製作生日派對卡片。
-            </p>
+            <p>輸入生日日期、地點與邀請內容，完成可愛派對卡片。</p>
             <div class="tool-status">即將開放</div>
           </article>
 
-          <article class="tool-card">
+          <article class="tool-card card-blue">
             <div class="tool-icon">💌</div>
             <h3>謝師卡</h3>
-            <p>
-              選擇卡片樣式，寫下想對老師說的感謝話語。
-            </p>
+            <p>選擇卡片樣式，寫下孩子想對老師說的感謝話語。</p>
             <div class="tool-status">即將開放</div>
           </article>
 
-          <article class="tool-card">
+          <article class="tool-card card-mix">
             <div class="tool-icon">✨</div>
             <h3>更多親子工具</h3>
-            <p>
-              未來將加入月曆、獎勵表、收納標籤與更多內容。
-            </p>
+            <p>未來將加入月曆、獎勵表、收納標籤與更多內容。</p>
             <div class="tool-status">持續新增中</div>
           </article>
         </div>
@@ -519,27 +566,16 @@
             <h2>設計完成後，去哪裡列印？</h2>
 
             <p>
-              Feixin Kids 提供可下載的圖片或 PDF。
-              使用者可依需求選擇便利商店、影印店或家用印表機。
+              Feixin Kids 提供可下載的圖片或 PDF，
+              可使用便利商店、影印店或家用印表機完成列印。
             </p>
           </div>
 
           <div class="print-list">
-            <div class="print-item">
-              🏪 7-ELEVEN ibon
-            </div>
-
-            <div class="print-item">
-              🖨 家用印表機
-            </div>
-
-            <div class="print-item">
-              📄 影印店或文具店
-            </div>
-
-            <div class="print-item">
-              📱 手機下載後列印
-            </div>
+            <div class="print-item">🏪 7-ELEVEN ibon</div>
+            <div class="print-item">🖨 家用印表機</div>
+            <div class="print-item">📄 影印店或文具店</div>
+            <div class="print-item">📱 手機下載後列印</div>
           </div>
         </div>
       </div>
@@ -548,9 +584,7 @@
 
   <footer id="about">
     <div class="container">
-      <p>
-        © 2026 Feixin Kids · Design · Download · Print
-      </p>
+      © 2026 Feixin Kids · Design · Download · Print
     </div>
   </footer>
 </body>
