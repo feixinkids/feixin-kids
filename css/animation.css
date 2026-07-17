@@ -1,0 +1,367 @@
+/* =========================================================
+   Feixin Kids - Hero Animation & Decorations
+   檔案：css/animation.css
+========================================================= */
+
+/* =========================
+   1. Layers
+========================= */
+
+.hero-scene,
+.hero-decorations {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-scene {
+  z-index: 1;
+}
+
+.hero-decorations {
+  z-index: 2;
+}
+
+.scene-item,
+.decor,
+.bubble {
+  position: absolute;
+  display: block;
+}
+
+/* =========================
+   2. Rainbow / Castle / Cloud
+========================= */
+
+/* 彩虹：放大、往上，持續輕輕漂浮 */
+.scene-rainbow {
+  width: clamp(300px, 31vw, 500px);
+  left: -20px;
+  bottom: 100px;
+  opacity: 0.96;
+  animation: rainbow-float 8s ease-in-out infinite;
+}
+
+/* 城堡：放大、往上，持續輕輕漂浮 */
+.scene-castle {
+  width: clamp(245px, 25vw, 390px);
+  right: 1.5%;
+  bottom: 92px;
+  opacity: 0.97;
+  filter: drop-shadow(
+    0 12px 20px rgba(158, 111, 186, 0.15)
+  );
+  animation: castle-float 7s ease-in-out infinite;
+}
+
+/* 雲朵共用設定 */
+.scene-cloud {
+  width: clamp(300px, 34vw, 520px);
+  bottom: -35px;
+  opacity: 0.98;
+}
+
+/* 左側雲朵 */
+.scene-cloud-left {
+  left: -130px;
+  animation: cloud-left-float 10s ease-in-out infinite;
+}
+
+/* 右側雲朵 */
+.scene-cloud-right {
+  right: -135px;
+  transform: scaleX(-1);
+  animation: cloud-right-float 11s ease-in-out infinite;
+}
+
+/* =========================
+   3. Hearts
+========================= */
+
+.decor-heart {
+  width: 48px;
+  animation: heart-float 7s ease-in-out infinite;
+}
+
+.heart-1 {
+  top: 29%;
+  left: 17%;
+}
+
+.heart-2 {
+  right: 15%;
+  bottom: 27%;
+  width: 38px;
+  animation-delay: -3s;
+}
+
+/* =========================
+   4. Bows
+========================= */
+
+.decor-bow {
+  width: 82px;
+  animation: bow-float 8s ease-in-out infinite;
+}
+
+.bow-1 {
+  top: 18%;
+  left: 7%;
+}
+
+/* 右側蝴蝶結：放在「物」字旁邊 */
+.bow-2 {
+  width: 64px;
+  left: calc(50% + 245px);
+  top: 47%;
+  right: auto;
+  bottom: auto;
+  animation-delay: -4s;
+}
+
+/* =========================
+   5. Stars
+========================= */
+
+.decor-star {
+  width: 40px;
+  animation: star-sparkle 4.5s ease-in-out infinite;
+}
+
+.star-1 {
+  top: 17%;
+  left: 25%;
+}
+
+.star-2 {
+  top: 20%;
+  right: 25%;
+  width: 32px;
+  animation-delay: -2s;
+}
+
+/* =========================
+   6. Bubbles
+========================= */
+
+.bubble {
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(255, 255, 255, 0.95),
+      rgba(226, 206, 255, 0.25) 40%,
+      rgba(255, 178, 215, 0.13) 75%
+    );
+  box-shadow:
+    inset 4px 4px 8px rgba(255, 255, 255, 0.75),
+    0 6px 15px rgba(184, 146, 205, 0.12);
+  animation: bubble-rise 9s ease-in-out infinite;
+}
+
+.bubble-1 {
+  width: 48px;
+  height: 48px;
+  left: 22%;
+  bottom: 16%;
+}
+
+.bubble-2 {
+  width: 34px;
+  height: 34px;
+  right: 23%;
+  top: 31%;
+  animation-delay: -3s;
+}
+
+.bubble-3 {
+  width: 66px;
+  height: 66px;
+  right: 6%;
+  top: 11%;
+  animation-delay: -6s;
+}
+
+/* =========================
+   7. Keyframes
+========================= */
+
+@keyframes heart-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-16px) rotate(4deg);
+  }
+}
+
+@keyframes bow-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(5deg);
+  }
+}
+
+@keyframes star-sparkle {
+  0%,
+  100% {
+    transform: scale(0.82) rotate(0deg);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.15) rotate(12deg);
+    opacity: 1;
+  }
+}
+
+@keyframes bubble-rise {
+  0%,
+  100% {
+    transform: translateY(8px) translateX(0);
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: translateY(-22px) translateX(8px);
+    opacity: 0.9;
+  }
+}
+
+@keyframes rainbow-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes castle-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes cloud-left-float {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+
+  50% {
+    transform: translateX(8px) translateY(-3px);
+  }
+}
+
+@keyframes cloud-right-float {
+  0%,
+  100% {
+    transform: scaleX(-1) translateX(0) translateY(0);
+  }
+
+  50% {
+    transform: scaleX(-1) translateX(8px) translateY(-3px);
+  }
+}
+
+/* =========================
+   8. Tablet
+========================= */
+
+@media (max-width: 900px) {
+  .scene-rainbow {
+    width: 300px;
+    left: -85px;
+    bottom: 85px;
+  }
+
+  .scene-castle {
+    width: 230px;
+    right: -30px;
+    bottom: 80px;
+  }
+
+  .scene-cloud {
+    width: 360px;
+    bottom: -30px;
+  }
+
+  .bow-2 {
+    width: 54px;
+    left: calc(50% + 180px);
+    top: 48%;
+  }
+}
+
+/* =========================
+   9. Mobile
+========================= */
+
+@media (max-width: 700px) {
+  .scene-rainbow {
+    width: 245px;
+    left: -115px;
+    bottom: 70px;
+  }
+
+  .scene-castle {
+    width: 175px;
+    right: -55px;
+    bottom: 70px;
+  }
+
+  .scene-cloud {
+    width: 290px;
+    bottom: -25px;
+  }
+
+  .bow-2,
+  .heart-2,
+  .star-2,
+  .bubble-2,
+  .bubble-3 {
+    display: none;
+  }
+
+  .bow-1 {
+    top: 14%;
+    left: 3%;
+    width: 60px;
+  }
+
+  .heart-1 {
+    left: 4%;
+    top: 35%;
+    width: 34px;
+  }
+}
+
+/* =========================
+   10. Reduced Motion
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
