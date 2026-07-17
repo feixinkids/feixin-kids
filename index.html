@@ -222,22 +222,46 @@
     }
 
     .button {
-      min-height: 52px;
-      padding: 13px 27px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 16px;
-      font-weight: 800;
-      transition: 0.25s ease;
-    }
+    min-height: 56px;
+    padding: 15px 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+
+    transition: all .3s ease;
+}
 
     .button-primary {
-      color: white;
-      background: linear-gradient(135deg, #e87599, #a181dd);
-      box-shadow: 0 12px 28px rgba(185, 111, 157, 0.25);
-    }
+    color: #fff;
 
+    background: linear-gradient(
+        135deg,
+        #F36FA2 0%,
+        #E77CC2 45%,
+        #B98AF3 100%
+    );
+
+    box-shadow:
+        0 12px 28px rgba(227,118,173,.28);
+
+    transition:.3s;
+}
+    .button-primary:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 18px 36px rgba(227,118,173,.35);
+
+}
     .button-secondary {
       background: rgba(255, 255, 255, 0.85);
       border: 1px solid #e6d2e3;
