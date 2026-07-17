@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,6 +11,8 @@
     name="description"
     content="免費製作大頭照姓名貼、書包名牌卡、課表、生日邀請卡與謝師卡。完成後可下載並自行列印。"
   >
+  
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -23,7 +26,8 @@
     }
 
     body {
-      font-family: "Microsoft JhengHei", "Noto Sans TC", Arial, sans-serif;
+      font-family: "M PLUS Rounded 1c", "Noto Sans TC", sans-serif;
+  font-weight: 500;
       color: #514754;
       line-height: 1.7;
       background: #fffafd;
@@ -56,27 +60,46 @@
       gap: 24px;
     }
 
-    .logo {
-      font-size: 27px;
-      font-weight: 900;
-      color: #e06f91;
-      letter-spacing: 0.5px;
-    }
+   .logo {
+    font-family: "M PLUS Rounded 1c", "Noto Sans TC", sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 
-    .logo span {
-      color: #9b7bd5;
-    }
+    background: linear-gradient(90deg,#F06E9C,#C184F4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    transition: .3s;
+}
+
+.logo:hover{
+    transform: scale(1.03);
+}
+
+.logo span{
+    background: linear-gradient(90deg,#C184F4,#8E74E8);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
 
     .nav-links {
-      display: flex;
-      gap: 28px;
-      font-weight: 700;
-      font-size: 15px;
-    }
+    display:flex;
+    gap:32px;
 
-    .nav-links a:hover {
-      color: #d66c95;
-    }
+    font-family:"M PLUS Rounded 1c","Noto Sans TC",sans-serif;
+    font-size:16px;
+    font-weight:700;
+}
+
+    .nav-links a{
+    transition:.25s;
+}
+
+.nav-links a:hover{
+    color:#e56795;
+    transform:translateY(-2px);
+}
 
     .hero {
       position: relative;
