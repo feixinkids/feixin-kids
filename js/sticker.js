@@ -14,9 +14,23 @@ const S={name:"林小可",font:0,fontScale:1,color:"#4b3b52",outline:true,theme:
 
 const cc=$("#cropCanvas"),cx=cc.getContext("2d"),sc=$("#sheetCanvas"),ctx=sc.getContext("2d");
 function fontButton(f,i){return `<button class="font-btn ${i===S.font?"active":""}" data-i="${i}" type="button"><span style="font-family:${f[1]}">${f[0]}</span></button>`}
+function selectedFontFamily(index=S.font){
+  return fonts[index][1].split(",")[0].replace(/["']/g,"");
+}
+async function ensureFontLoaded(index=S.font){
+  const family=selectedFontFamily(index);
+  try{
+    await document.fonts.load(`800 32px "${family}"`,"林小可");
+  }catch(error){
+    console.warn(`字體載入失敗：${family}`,error);
+  }
+}
 function bindFontButtons(container){
-  container.querySelectorAll(".font-btn").forEach(b=>b.onclick=()=>{
-    S.font=+b.dataset.i;renderFonts();drawSheet()
+  container.querySelectorAll(".font-btn").forEach(b=>b.onclick=async()=>{
+    S.font=+b.dataset.i;
+    renderFonts();
+    await ensureFontLoaded(S.font);
+    drawSheet();
   })
 }
 function renderFonts(){
@@ -24,9 +38,8 @@ function renderFonts(){
   $("#fontGrid").innerHTML=fonts.map((f,i)=>fontButton(f,i)).join("");
   bindFontButtons($("#fontGrid"));
 }
-let filter="全部";
-function renderFilters(){$("#filters").innerHTML=["全部","男孩","女孩","中性"].map(x=>`<button class="${x===filter?"active":""}" data-c="${x}">${x}</button>`).join("");$$("#filters button").forEach(b=>b.onclick=()=>{filter=b.dataset.c;renderFilters();renderThemes()})}
-function renderThemes(){let list=themes.filter(t=>filter==="全部"||t[2]===filter);$("#backgroundGrid").innerHTML=list.map(t=>`<button class="bg-btn ${t[0]===S.theme?"active":""}" data-t="${t[0]}" type="button"><span class="swatch" style="background:${t[3]}">${t[5]}</span><span>${t[1]}</span></button>`).join("");$$(".bg-btn").forEach(b=>b.onclick=()=>{S.theme=b.dataset.t;renderThemes();drawSheet()})}
+function renderFilters(){$("#filters").innerHTML=`<button class="active" type="button" disabled>全部</button>`}
+function renderThemes(){let list=themes;$("#backgroundGrid").innerHTML=list.map(t=>`<button class="bg-btn ${t[0]===S.theme?"active":""}" data-t="${t[0]}" type="button"><span class="swatch" style="background:${t[3]}">${t[5]}</span><span>${t[1]}</span></button>`).join("");$$(".bg-btn").forEach(b=>b.onclick=()=>{S.theme=b.dataset.t;renderThemes();drawSheet()})}
 function stickerSizeLabel(paper,qty){
   const sizes={
     a4:{24:"約 6.3 × 3.2 cm",30:"約 6.3 × 2.5 cm",48:"約 4.6 × 2.0 cm"},
@@ -114,13 +127,17 @@ $("#nameInput").oninput=e=>{S.name=e.target.value||" ";drawSheet()};$("#textColo
 $("#resetBtn").onclick=()=>{Object.assign(S,{name:"林小可",font:0,fontScale:1,color:"#4b3b52",outline:true,theme:"car",paper:"a4",qty:24,file:null});$("#nameInput").value=S.name;$("#textColor").value=S.color;$("#fontSizeRange").value=100;$("#fontSizeValue").textContent="100%";$("#textOutline").checked=true;setPaper("a4");renderFonts();renderThemes();drawSheet()};
 
 
-renderFonts();renderFilters();renderThemes();renderQty();drawSheet();
-document.fonts.ready.then(()=>{
+async function preloadFonts(){
+  await Promise.all(fonts.map((_,i)=>ensureFontLoaded(i)));
+  await document.fonts.ready;
   drawSheet();
   $$(".font-btn").forEach((btn,i)=>{
-    const family=fonts[i][1].split(",")[0].replaceAll("'","");
-    const loaded=document.fonts.check(`24px ${family}`);
+    const family=selectedFontFamily(i);
+    const loaded=document.fonts.check(`800 24px "${family}"`,"林小可");
     btn.title=loaded?"字體已載入":"尚未找到此字型檔，正使用替代字體";
     btn.classList.toggle("font-missing",!loaded);
   });
-});
+}
+
+renderFonts();renderFilters();renderThemes();renderQty();drawSheet();
+preloadFonts();

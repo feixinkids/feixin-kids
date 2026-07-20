@@ -10,16 +10,7 @@
 body{margin:0;color:#4b3b52;background:linear-gradient(#fff8fc,#fffdf7);font-family:"Noto Sans TC",sans-serif}
 button,input{font:inherit}button{cursor:pointer}
 header{height:68px;display:flex;align-items:center;gap:18px;padding:0 30px;position:sticky;top:0;z-index:5;background:#fffffff2;border-bottom:1px solid #eee2e9;backdrop-filter:blur(10px)}
-/* 新增這段 ↓↓↓ */
-.logo{
-    text-decoration:none;
-    color:inherit;
-}
-
-.logo:hover{
-    opacity:.85;
-}
-header b{font:800 23px "M PLUS Rounded 1c";color:#ef5f8e}header span{font-size:13px;color:#8e8089}
+header .brand-link{display:flex;align-items:center;gap:18px;color:inherit;text-decoration:none}header .brand-link:hover{opacity:.85}header b{font:800 23px "M PLUS Rounded 1c";color:#ef5f8e}header span{font-size:13px;color:#8e8089}
 main{max-width:1450px;margin:auto;padding:26px;display:grid;grid-template-columns:minmax(390px,530px) 1fr;gap:24px;align-items:start}
 .controls{display:grid;gap:15px}
 article,.exports,.preview{background:#fff;border:1px solid #eee2e9;border-radius:22px;box-shadow:0 16px 45px #5a354914}
