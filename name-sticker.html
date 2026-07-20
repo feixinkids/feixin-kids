@@ -1,309 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>大頭照姓名貼｜Feixin Kids</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  >
-
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/sticker.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Feixin Kids｜大頭照姓名貼 </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/sticker.css">
 </head>
-
 <body>
+<header><b>Feixin Kids</b><span>大頭照姓名貼</span></header>
+<main>
+<section class="controls">
+<div class="title-row"><div><small>STEP 1–5</small><h1>製作專屬姓名貼</h1></div><button id="resetBtn">重新開始</button></div>
 
-  <header>
-    <div class="container navbar">
-      <a href="index.html" class="logo">
-        Feixin <span>Kids</span>
-      </a>
+<article><h2>1. 上傳照片</h2>
+<label class="upload" for="photoInput"><strong>＋ 選擇小朋友照片</strong><em>JPG、PNG、WebP</em></label>
+<input id="photoInput" type="file" accept="image/*" hidden>
+<div id="photoTools" hidden>
+<div class="crop-wrap"><canvas id="cropCanvas" width="520" height="360"></canvas><i></i></div>
+<label class="range"><span>照片縮放</span><input id="zoomRange" type="range" min=".5" max="4" step=".01" value="1"></label>
+<div class="buttons"><button id="centerBtn">重新置中</button></div>
+</div></article>
 
-      <nav class="nav-links">
-        <a href="index.html#tools">設計工具</a>
-        <a href="index.html#print">列印方式</a>
-        <a href="index.html#about">關於我們</a>
-      </nav>
-    </div>
-  </header>
+<article><h2>2. 輸入姓名</h2>
+<input id="nameInput" class="name-input" maxlength="8" value="林小可">
+<div class="two"><label>文字顏色<input id="textColor" type="color" value="#4b3b52"></label>
+<label>字體大小 <b id="fontSizeValue">100%</b><input id="fontSizeRange" type="range" min="70" max="180" step="2" value="100"></label></div>
+<label class="check"><input id="textOutline" type="checkbox" checked> 白色文字外框</label>
+</article>
 
-  <main class="sticker-page">
-    <div class="sticker-container">
+<article>
+<div class="title-row"><h2>3. 選擇字體</h2><span id="fontCount" class="font-count"></span></div>
+<div id="fontGrid" class="font-grid"></div>
 
-      <div class="sticker-heading">
-        <span class="eyebrow">PHOTO NAME STICKER</span>
-        <h1>大頭照姓名貼</h1>
-        <p>上傳照片、輸入姓名，快速製作孩子的專屬姓名貼。</p>
-      </div>
+</article>
+<article>
+<div class="title-row"><h2>4. 選擇背景</h2><div id="filters" class="filters"></div></div>
+<div id="backgroundGrid" class="bg-grid"></div>
 
-      <div class="sticker-workspace">
+</article>
+<article><h2>5. 選擇列印版型</h2>
+<div id="paperTabs" class="tabs"><button class="active" data-paper="a4">A4</button><button data-paper="4x6">4×6 相片</button></div>
+<div id="quantities" class="quantities"></div><p id="layoutHint"></p></article>
+<div class="exports"><button id="pngBtn">下載 PNG</button><button id="pdfBtn">下載 PDF</button><p id="exportStatus"></p></div>
+</section>
 
-        <!-- 左側控制面板 -->
-        <section class="sticker-panel">
-
-          <div class="panel-title">
-            <h2>編輯姓名貼</h2>
-            <p>選擇照片與喜歡的樣式。</p>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">1. 上傳照片</span>
-
-            <label class="upload-box" for="photoInput">
-              <span class="upload-icon">📷</span>
-              <strong>點擊上傳照片</strong>
-              <span>支援 JPG、PNG 圖片</span>
-
-              <input
-                type="file"
-                id="photoInput"
-                accept="image/jpeg,image/png,image/webp"
-              >
-            </label>
-
-            <small class="control-note">
-              下一步會加入照片拖曳、縮放與圓形裁切。
-            </small>
-          </div>
-
-          <div class="control-group">
-            <label class="control-label" for="nameInput">
-              2. 輸入姓名
-            </label>
-
-            <input
-              class="name-input"
-              type="text"
-              id="nameInput"
-              value="林小可"
-              maxlength="8"
-              placeholder="請輸入姓名"
-            >
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">3. 選擇字體</span>
-
-            <div class="option-list">
-              <button class="option-button active" type="button">
-                圓體
-              </button>
-
-              <button class="option-button" type="button">
-                黑體
-              </button>
-
-              <button class="option-button" type="button">
-                手寫體
-              </button>
-
-              <button class="option-button" type="button">
-                可愛體
-              </button>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">4. 文字顏色</span>
-
-            <div class="color-list">
-              <button
-                class="color-button color-white active"
-                type="button"
-                aria-label="白色"
-                title="白色"
-              ></button>
-
-              <button
-                class="color-button color-black"
-                type="button"
-                aria-label="黑色"
-                title="黑色"
-              ></button>
-
-              <button
-                class="color-button color-gray"
-                type="button"
-                aria-label="深灰色"
-                title="深灰色"
-              ></button>
-
-              <button
-                class="color-button color-brown"
-                type="button"
-                aria-label="咖啡色"
-                title="咖啡色"
-              ></button>
-
-              <button
-                class="color-button color-navy"
-                type="button"
-                aria-label="深藍色"
-                title="深藍色"
-              ></button>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">5. 姓名貼背景</span>
-
-            <div class="color-list">
-              <button
-                class="background-button bg-pink active"
-                type="button"
-                aria-label="粉色"
-                title="粉色"
-              ></button>
-
-              <button
-                class="background-button bg-blue"
-                type="button"
-                aria-label="藍色"
-                title="藍色"
-              ></button>
-
-              <button
-                class="background-button bg-purple"
-                type="button"
-                aria-label="紫色"
-                title="紫色"
-              ></button>
-
-              <button
-                class="background-button bg-green"
-                type="button"
-                aria-label="綠色"
-                title="綠色"
-              ></button>
-
-              <button
-                class="background-button bg-yellow"
-                type="button"
-                aria-label="黃色"
-                title="黃色"
-              ></button>
-
-              <button
-                class="background-button bg-rainbow"
-                type="button"
-                aria-label="彩虹色"
-                title="彩虹色"
-              ></button>
-            </div>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">6. 列印方式</span>
-
-            <div class="print-options">
-
-              <label class="print-card active">
-                <input
-                  type="radio"
-                  name="printType"
-                  value="a4"
-                  checked
-                >
-
-                <span>
-                  <strong>家用印表機 A4</strong>
-                  <span>適合使用 A4 貼紙紙張自行列印。</span>
-                </span>
-              </label>
-
-              <label class="print-card">
-                <input
-                  type="radio"
-                  name="printType"
-                  value="4x6"
-                >
-
-                <span>
-                  <strong>超商列印 4×6</strong>
-                  <span>適合 7-ELEVEN、全家 10×15 公分相片尺寸。</span>
-                </span>
-              </label>
-
-            </div>
-          </div>
-
-          <div class="control-group">
-            <span class="control-label">7. 姓名貼數量</span>
-
-            <div class="option-list">
-              <button class="option-button active" type="button">
-                24 張
-              </button>
-
-              <button class="option-button" type="button">
-                30 張
-              </button>
-
-              <button class="option-button" type="button">
-                48 張
-              </button>
-            </div>
-
-            <small class="control-note">
-              姓名貼大小與文字會依照選擇的數量自動調整。
-            </small>
-          </div>
-
-          <button class="generate-button" type="button">
-            產生姓名貼
-          </button>
-
-        </section>
-
-        <!-- 右側即時預覽 -->
-        <section class="sticker-preview">
-
-          <div class="preview-header">
-            <h2>即時預覽</h2>
-            <span>目前預覽：粉色・A4 24 張</span>
-          </div>
-
-          <div class="preview-area">
-
-            <div class="sticker-sample">
-
-              <div class="sticker-photo-wrap">
-                <div class="sticker-photo">
-                  👧🏻
-                </div>
-              </div>
-
-              <strong class="sticker-name">
-                林小可
-              </strong>
-
-            </div>
-
-          </div>
-
-          <p class="preview-tip">
-            上傳照片後，可拖曳及縮放照片，將臉部調整到圓形範圍內。
-          </p>
-
-        </section>
-
-      </div>
-
-    </div>
-  </main>
-
-  <footer>
-    <div class="container">
-      © 2026 Feixin Kids · Design · Download · Print
-    </div>
-  </footer>
-
-</body>
-</html>
+<section class="preview"><div class="title-row"><div><small>即時預覽</small><h2>列印成品</h2></div><span id="meta"></span></div>
+<div class="canvas-wrap"><canvas id="sheetCanvas"></canvas></div><p>畫面預覽會縮小；下載檔維持高解析度。</p></section>
+</main>
+<footer>© 2026 Feixin Kids · Design · Download · Print</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+<script type="module" src="js/sticker.js"></script>
+</body></html>
