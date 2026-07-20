@@ -15,6 +15,7 @@
   >
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/sticker.css">
 </head>
 
 <body>
@@ -33,75 +34,269 @@
     </div>
   </header>
 
-  <main>
-    <section class="sticker-page">
-      <div class="container">
+  <main class="sticker-page">
+    <div class="sticker-container">
 
-        <div class="sticker-heading">
-          <span class="eyebrow">PHOTO NAME STICKER</span>
-          <h1>大頭照姓名貼</h1>
-          <p>上傳孩子的照片，製作專屬姓名貼。</p>
-        </div>
-
-<div class="sticker-workspace">
-
-  <section class="sticker-panel">
-
-    <h2>編輯姓名貼</h2>
-
-    <button>📷 上傳照片</button>
-
-    <label>姓名</label>
-    <input type="text" placeholder="例如：王小明">
-
-    <label>字體</label>
-    <select>
-      <option>圓體</option>
-      <option>黑體</option>
-    </select>
-
-    <label>文字顏色</label>
-    <input type="color" value="#ffffff">
-
-    <label>姓名貼樣式</label>
-    <select>
-      <option>粉色</option>
-      <option>藍色</option>
-      <option>紫色</option>
-      <option>綠色</option>
-      <option>黃色</option>
-    </select>
-
-    <label>輸出尺寸</label>
-    <select>
-      <option>A4－24張</option>
-      <option>A4－30張</option>
-      <option>A4－48張</option>
-      <option>4×6 超商列印</option>
-    </select>
-
-  </section>
-
-  <section class="sticker-preview">
-
-    <h2>即時預覽</h2>
-
-    <div class="sticker-sample">
-
-      <div class="sticker-photo">
-        😊
+      <div class="sticker-heading">
+        <span class="eyebrow">PHOTO NAME STICKER</span>
+        <h1>大頭照姓名貼</h1>
+        <p>上傳照片、輸入姓名，快速製作孩子的專屬姓名貼。</p>
       </div>
 
-      <strong>林小可</strong>
+      <div class="sticker-workspace">
+
+        <!-- 左側控制面板 -->
+        <section class="sticker-panel">
+
+          <div class="panel-title">
+            <h2>編輯姓名貼</h2>
+            <p>選擇照片與喜歡的樣式。</p>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">1. 上傳照片</span>
+
+            <label class="upload-box" for="photoInput">
+              <span class="upload-icon">📷</span>
+              <strong>點擊上傳照片</strong>
+              <span>支援 JPG、PNG 圖片</span>
+
+              <input
+                type="file"
+                id="photoInput"
+                accept="image/jpeg,image/png,image/webp"
+              >
+            </label>
+
+            <small class="control-note">
+              下一步會加入照片拖曳、縮放與圓形裁切。
+            </small>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label" for="nameInput">
+              2. 輸入姓名
+            </label>
+
+            <input
+              class="name-input"
+              type="text"
+              id="nameInput"
+              value="林小可"
+              maxlength="8"
+              placeholder="請輸入姓名"
+            >
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">3. 選擇字體</span>
+
+            <div class="option-list">
+              <button class="option-button active" type="button">
+                圓體
+              </button>
+
+              <button class="option-button" type="button">
+                黑體
+              </button>
+
+              <button class="option-button" type="button">
+                手寫體
+              </button>
+
+              <button class="option-button" type="button">
+                可愛體
+              </button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">4. 文字顏色</span>
+
+            <div class="color-list">
+              <button
+                class="color-button color-white active"
+                type="button"
+                aria-label="白色"
+                title="白色"
+              ></button>
+
+              <button
+                class="color-button color-black"
+                type="button"
+                aria-label="黑色"
+                title="黑色"
+              ></button>
+
+              <button
+                class="color-button color-gray"
+                type="button"
+                aria-label="深灰色"
+                title="深灰色"
+              ></button>
+
+              <button
+                class="color-button color-brown"
+                type="button"
+                aria-label="咖啡色"
+                title="咖啡色"
+              ></button>
+
+              <button
+                class="color-button color-navy"
+                type="button"
+                aria-label="深藍色"
+                title="深藍色"
+              ></button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">5. 姓名貼背景</span>
+
+            <div class="color-list">
+              <button
+                class="background-button bg-pink active"
+                type="button"
+                aria-label="粉色"
+                title="粉色"
+              ></button>
+
+              <button
+                class="background-button bg-blue"
+                type="button"
+                aria-label="藍色"
+                title="藍色"
+              ></button>
+
+              <button
+                class="background-button bg-purple"
+                type="button"
+                aria-label="紫色"
+                title="紫色"
+              ></button>
+
+              <button
+                class="background-button bg-green"
+                type="button"
+                aria-label="綠色"
+                title="綠色"
+              ></button>
+
+              <button
+                class="background-button bg-yellow"
+                type="button"
+                aria-label="黃色"
+                title="黃色"
+              ></button>
+
+              <button
+                class="background-button bg-rainbow"
+                type="button"
+                aria-label="彩虹色"
+                title="彩虹色"
+              ></button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">6. 列印方式</span>
+
+            <div class="print-options">
+
+              <label class="print-card active">
+                <input
+                  type="radio"
+                  name="printType"
+                  value="a4"
+                  checked
+                >
+
+                <span>
+                  <strong>家用印表機 A4</strong>
+                  <span>適合使用 A4 貼紙紙張自行列印。</span>
+                </span>
+              </label>
+
+              <label class="print-card">
+                <input
+                  type="radio"
+                  name="printType"
+                  value="4x6"
+                >
+
+                <span>
+                  <strong>超商列印 4×6</strong>
+                  <span>適合 7-ELEVEN、全家 10×15 公分相片尺寸。</span>
+                </span>
+              </label>
+
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">7. 姓名貼數量</span>
+
+            <div class="option-list">
+              <button class="option-button active" type="button">
+                24 張
+              </button>
+
+              <button class="option-button" type="button">
+                30 張
+              </button>
+
+              <button class="option-button" type="button">
+                48 張
+              </button>
+            </div>
+
+            <small class="control-note">
+              姓名貼大小與文字會依照選擇的數量自動調整。
+            </small>
+          </div>
+
+          <button class="generate-button" type="button">
+            產生姓名貼
+          </button>
+
+        </section>
+
+        <!-- 右側即時預覽 -->
+        <section class="sticker-preview">
+
+          <div class="preview-header">
+            <h2>即時預覽</h2>
+            <span>目前預覽：粉色・A4 24 張</span>
+          </div>
+
+          <div class="preview-area">
+
+            <div class="sticker-sample">
+
+              <div class="sticker-photo-wrap">
+                <div class="sticker-photo">
+                  👧🏻
+                </div>
+              </div>
+
+              <strong class="sticker-name">
+                林小可
+              </strong>
+
+            </div>
+
+          </div>
+
+          <p class="preview-tip">
+            上傳照片後，可拖曳及縮放照片，將臉部調整到圓形範圍內。
+          </p>
+
+        </section>
+
+      </div>
 
     </div>
-
-  </section>
-
-</div>
-
-      </div>
-    </section>
   </main>
 
   <footer>
