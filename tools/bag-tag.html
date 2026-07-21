@@ -367,7 +367,7 @@
     .print-sheet.layout-12 .tag-name { font-size: clamp(12px, 2.2vw, 20px); }
     .print-sheet.layout-12 .tag-class { font-size: clamp(8px, 1.35vw, 12px); }
     .print-sheet.layout-12 .tag-phone { font-size: clamp(7px, 1.1vw, 10px); }
-    .print-sheet.layout-12 .deco-svg { width: clamp(18px, 18%, 34px); }
+    .print-sheet.layout-12 .deco-svg { width: clamp(36px, 36%, 68px); opacity: .3; }
     .print-sheet.layout-12 .hole-mark { width: clamp(7px, 5%, 11px); border-width: 1px; }
 
     .print-item {
@@ -458,8 +458,9 @@
 
     .deco-svg {
       position: absolute;
-      width: clamp(30px, 20%, 58px);
+      width: clamp(60px, 40%, 116px);
       aspect-ratio: 1;
+      opacity: .3;
     }
 
     .deco-svg.a { top: 5%; left: 5%; transform: rotate(-8deg) scale(.82); }
@@ -491,6 +492,68 @@
       height: 100%;
       display: block;
       object-fit: cover;
+      transform:
+        translate(calc(var(--photo-x, 0) * 1%), calc(var(--photo-y, 0) * 1%))
+        scale(var(--photo-scale, 1));
+      transform-origin: center;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .photo-frame.has-photo {
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .photo-frame.has-photo:active {
+      cursor: grabbing;
+    }
+
+    .edit-control {
+      margin-top: 14px;
+    }
+
+    .edit-control-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .edit-control-row input[type="range"] {
+      flex: 1;
+      accent-color: var(--pink-dark);
+    }
+
+    .edit-value {
+      min-width: 48px;
+      color: var(--pink-dark);
+      font-size: 13px;
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .photo-edit-hint {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .text-color-control {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .text-color-control input[type="color"] {
+      width: 54px;
+      height: 42px;
+      padding: 3px;
+      border: 1px solid #ead6df;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
     }
 
     .photo-frame.square { border-radius: 22%; }
@@ -517,14 +580,14 @@
       font-size: clamp(17px, 4.4vw, 34px);
       font-weight: 800;
       line-height: 1.2;
-      color: #57424d;
+      color: var(--tag-text-color, #57424d);
       text-shadow: 0 1px 0 rgba(255,255,255,.55);
     }
 
     .tag-class,
     .tag-phone {
       margin-top: 4%;
-      color: #725d69;
+      color: var(--tag-text-color, #725d69);
       font-weight: 700;
       line-height: 1.35;
     }
@@ -773,7 +836,7 @@
       .mobile-tag-mini .tag-name { font-size: 17px; }
       .mobile-tag-mini .tag-class { font-size: 10px; }
       .mobile-tag-mini .tag-phone { font-size: 8px; }
-      .mobile-tag-mini .deco-svg { width: 24%; }
+      .mobile-tag-mini .deco-svg { width: 48%; opacity: .3; }
       .mobile-tag-mini .hole-mark { width: 8px; border-width: 1px; }
 
       .mobile-tag-preview-label {
@@ -882,6 +945,15 @@
                   <button class="option-button" type="button" data-value="square">圓角方形</button>
                 </div>
               </div>
+
+              <div class="edit-control">
+                <p class="subsection-label">照片大小與位置</p>
+                <div class="edit-control-row">
+                  <input id="photoZoom" type="range" min="100" max="250" step="1" value="100" aria-label="照片縮放" />
+                  <span id="photoZoomValue" class="edit-value">100%</span>
+                </div>
+                <p class="photo-edit-hint">上傳後可直接在右側預覽中拖曳照片調整位置。</p>
+              </div>
             </div>
           </div>
         </section>
@@ -892,6 +964,11 @@
             <label class="field"><span class="field-label"><span>姓名</span><span class="optional">可留白</span></span><input id="nameInput" class="text-input" type="text" maxlength="12" placeholder="例如：林小可" value="林小可" /></label>
             <label class="field"><span class="field-label"><span>班級</span><span class="optional">選填</span></span><input id="classInput" class="text-input" type="text" maxlength="18" placeholder="例如：維也納班" value="維也納班" /></label>
             <label class="field"><span class="field-label"><span>電話</span><span class="optional">選填</span></span><input id="phoneInput" class="text-input" type="text" maxlength="20" placeholder="例如：0912-345-678" /></label>
+
+            <label class="text-color-control">
+              <span class="field-label" style="margin:0;flex:1">文字顏色</span>
+              <input id="textColor" type="color" value="#57424d" aria-label="選擇文字顏色" />
+            </label>
           </div>
         </section>
 
@@ -986,7 +1063,11 @@
       holePosition: "center",
       showHoleMark: true,
       printLayout: "4",
-      photoData: ""
+      photoData: "",
+      photoScale: 1,
+      photoX: 0,
+      photoY: 0,
+      textColor: "#57424d"
     };
 
     const colorMap = {
@@ -1016,6 +1097,9 @@
     const photoControls = document.getElementById("photoControls");
     const photoInput = document.getElementById("photoInput");
     const uploadPhoto = document.getElementById("uploadPhoto");
+    const photoZoom = document.getElementById("photoZoom");
+    const photoZoomValue = document.getElementById("photoZoomValue");
+    const textColor = document.getElementById("textColor");
     const themeArea = document.getElementById("themeArea");
     const printSheet = document.getElementById("printSheet");
     const layoutNote = document.getElementById("layoutNote");
@@ -1050,10 +1134,10 @@
       const simple = state.backgroundStyle === "simple";
       const showHole = state.showHoleMark && state.holePosition !== "none";
       const decos = [0,1,2,3].map((i)=>`<span class="deco-svg ${['a','b','c','d'][i]}">${svgIcon(state.theme,i)}</span>`).join('');
-      return `<div class="print-item"><div class="tag-shell"><article class="tag-card ${simple?'simple':''} ${noPhoto?'no-photo':''} ${nameOnly?'name-only':''}" style="--tag-main:${colorMap[state.color]}">
+      return `<div class="print-item"><div class="tag-shell"><article class="tag-card ${simple?'simple':''} ${noPhoto?'no-photo':''} ${nameOnly?'name-only':''}" style="--tag-main:${colorMap[state.color]};--tag-text-color:${state.textColor};--photo-scale:${state.photoScale};--photo-x:${state.photoX};--photo-y:${state.photoY}">
         ${showHole?`<span class="hole-mark ${state.holePosition}"></span>`:''}
         <div class="illustrations">${decos}</div>
-        ${state.usePhoto?`<div class="photo-frame ${state.photoShape==='square'?'square':''}">${state.photoData?`<img src="${state.photoData}" alt="上傳照片">`:'☺'}</div>`:''}
+        ${state.usePhoto?`<div class="photo-frame ${state.photoShape==='square'?'square':''} ${state.photoData?'has-photo':''}">${state.photoData?`<img src="${state.photoData}" alt="上傳照片" draggable="false">`:'☺'}</div>`:''}
         <div class="tag-text"><div class="tag-name">${escapeHtml(name)}</div><div class="tag-class">${escapeHtml(className)}</div><div class="tag-phone">${escapeHtml(phone)}</div></div>
       </article></div></div>`;
     }
@@ -1177,6 +1261,11 @@
       const reader = new FileReader();
       reader.onload = () => {
         state.photoData = reader.result;
+        state.photoScale = 1;
+        state.photoX = 0;
+        state.photoY = 0;
+        photoZoom.value = "100";
+        photoZoomValue.textContent = "100%";
         renderPreview();
       };
       reader.readAsDataURL(file);
@@ -1186,6 +1275,61 @@
     [nameInput, classInput, phoneInput].forEach(input => input.addEventListener("input", renderPreview));
     usePhoto.addEventListener("change", () => { state.usePhoto = usePhoto.checked; renderPreview(); });
     showHoleMark.addEventListener("change", () => { state.showHoleMark = showHoleMark.checked; renderPreview(); });
+
+    photoZoom.addEventListener("input", () => {
+      state.photoScale = Number(photoZoom.value) / 100;
+      photoZoomValue.textContent = `${photoZoom.value}%`;
+      renderPreview();
+    });
+
+    textColor.addEventListener("input", () => {
+      state.textColor = textColor.value;
+      renderPreview();
+    });
+
+    let dragState = null;
+
+    printSheet.addEventListener("pointerdown", (event) => {
+      const frame = event.target.closest(".photo-frame.has-photo");
+      if (!frame || !state.photoData) return;
+
+      dragState = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        photoX: state.photoX,
+        photoY: state.photoY,
+        width: frame.clientWidth || 1,
+        height: frame.clientHeight || 1
+      };
+
+      frame.setPointerCapture?.(event.pointerId);
+      event.preventDefault();
+    });
+
+    printSheet.addEventListener("pointermove", (event) => {
+      if (!dragState || event.pointerId !== dragState.pointerId) return;
+
+      const dx = ((event.clientX - dragState.startX) / dragState.width) * 100;
+      const dy = ((event.clientY - dragState.startY) / dragState.height) * 100;
+
+      state.photoX = Math.max(-60, Math.min(60, dragState.photoX + dx));
+      state.photoY = Math.max(-60, Math.min(60, dragState.photoY + dy));
+
+      printSheet.querySelectorAll(".tag-card").forEach((card) => {
+        card.style.setProperty("--photo-x", state.photoX);
+        card.style.setProperty("--photo-y", state.photoY);
+      });
+    });
+
+    const finishPhotoDrag = (event) => {
+      if (!dragState || (event && event.pointerId !== dragState.pointerId)) return;
+      dragState = null;
+      updateMobileTagMini();
+    };
+
+    printSheet.addEventListener("pointerup", finishPhotoDrag);
+    printSheet.addEventListener("pointercancel", finishPhotoDrag);
 
     mobileTagPreviewBtn?.addEventListener("click", openMobileTagPreview);
     closeMobileTagPreview?.addEventListener("click", closeMobileTagPreviewModal);
