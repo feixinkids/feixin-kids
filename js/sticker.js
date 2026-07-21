@@ -1229,8 +1229,6 @@ async function initializeStickerTool() {
   updateFontButtonStatus();
 }
 
-initializeStickerTool();
-drawMobileStickerPreview();
 
 const mobilePreviewButton =
   document.querySelector("#mobilePreviewBtn");
@@ -1391,3 +1389,5 @@ window.addEventListener(
     }
   }
 );
+
+initializeStickerTool();
