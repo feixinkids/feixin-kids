@@ -264,6 +264,41 @@
     </section>
   </main>
 
+  <!-- 手機版固定預覽按鈕 -->
+<button
+  id="mobilePreviewBtn"
+  class="mobile-preview-btn"
+  type="button"
+  aria-label="開啟即時預覽"
+>
+  <span aria-hidden="true">👁</span>
+  即時預覽
+</button>
+
+<!-- 手機版全螢幕預覽 -->
+<div
+  id="mobilePreviewModal"
+  class="mobile-preview-modal"
+  hidden
+>
+  <div class="mobile-preview-header">
+    <button
+      id="closeMobilePreviewBtn"
+      class="mobile-preview-close"
+      type="button"
+    >
+      ← 返回編輯
+    </button>
+
+    <strong>即時預覽</strong>
+  </div>
+
+  <div
+    id="mobilePreviewContent"
+    class="mobile-preview-content"
+  ></div>
+</div>
+  
   <footer>
     © 2026 Feixin Kids · Design · Download · Print
   </footer>
