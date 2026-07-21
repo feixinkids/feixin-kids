@@ -667,14 +667,30 @@ footer {
   }
 }
 .tool-card-link {
-  display: block;
   color: inherit;
   text-decoration: none;
   cursor: pointer;
 }
 
-.tool-card-link:hover {
-  transform: translateY(-4px);
+.tool-card-link:focus-visible {
+  outline: 3px solid rgba(239, 95, 142, 0.42);
+  outline-offset: 5px;
+}
+
+.tool-card-link .tool-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tool-card-link .tool-link span {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
+.tool-card-link:hover .tool-link span,
+.tool-card-link:focus-visible .tool-link span {
+  transform: translateX(5px);
 }
 
 .tool-card-link * {
