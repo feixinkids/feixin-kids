@@ -269,10 +269,18 @@
   id="mobilePreviewBtn"
   class="mobile-preview-btn"
   type="button"
-  aria-label="開啟即時預覽"
+  aria-label="開啟完整即時預覽"
 >
-  <span aria-hidden="true">👁</span>
-  即時預覽
+  <canvas
+    id="mobileStickerCanvas"
+    width="320"
+    height="130"
+  ></canvas>
+
+  <span class="mobile-preview-label">
+    <span aria-hidden="true">👁</span>
+    查看整張
+  </span>
 </button>
 
 <!-- 手機版全螢幕預覽 -->
