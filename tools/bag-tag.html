@@ -17,6 +17,49 @@
   />
 
   <style>
+
+    @font-face {
+      font-family: "MaokenZhuyuan";
+      src: url("../assets/fonts/MaokenZhuyuan.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Yozai";
+      src: url("../assets/fonts/Yozai.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Chill";
+      src: url("../assets/fonts/Chill.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Smiley";
+      src: url("../assets/fonts/Smiley.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Maple";
+      src: url("../assets/fonts/Maple.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "ChenYu";
+      src: url("../assets/fonts/ChenYu.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Huninn";
+      src: url("../assets/fonts/Huninn.ttf") format("truetype");
+      font-display: swap;
+    }
+
     :root {
       --page-bg: #fff8fb;
       --panel-bg: rgba(255, 255, 255, 0.92);
@@ -556,6 +599,51 @@
       cursor: pointer;
     }
 
+    .font-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .font-button {
+      min-height: 58px;
+      padding: 8px 10px;
+      border: 1px solid #ead8e1;
+      border-radius: 14px;
+      background: #fff;
+      color: #604c57;
+      transition: .18s ease;
+    }
+
+    .font-button:hover {
+      transform: translateY(-1px);
+      border-color: #e5afc3;
+    }
+
+    .font-button.active {
+      border-color: #ef8fb1;
+      background: #fff0f6;
+      color: var(--pink-dark);
+      box-shadow: inset 0 0 0 1px #ef8fb1;
+    }
+
+    .font-preview {
+      display: block;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .font-label {
+      display: block;
+      margin-top: 4px;
+      color: #9a8590;
+      font-family: "Noto Sans TC", sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
     .photo-frame.square { border-radius: 22%; }
     .photo-frame.is-hidden { display: none; }
 
@@ -576,7 +664,7 @@
     }
 
     .tag-name {
-      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-family: var(--tag-font, "M PLUS Rounded 1c"), sans-serif;
       font-size: clamp(17px, 4.4vw, 34px);
       font-weight: 800;
       line-height: 1.2;
@@ -969,6 +1057,44 @@
               <span class="field-label" style="margin:0;flex:1">文字顏色</span>
               <input id="textColor" type="color" value="#57424d" aria-label="選擇文字顏色" />
             </label>
+
+            <div class="subsection">
+              <p class="subsection-label">選擇字型</p>
+              <div class="font-grid" data-group="fontFamily">
+                <button class="font-button active" type="button" data-value="M PLUS Rounded 1c">
+                  <span class="font-preview" style="font-family:'M PLUS Rounded 1c'">林小可</span>
+                  <span class="font-label">圓潤預設</span>
+                </button>
+                <button class="font-button" type="button" data-value="MaokenZhuyuan">
+                  <span class="font-preview" style="font-family:'MaokenZhuyuan'">林小可</span>
+                  <span class="font-label">貓啃珠圓</span>
+                </button>
+                <button class="font-button" type="button" data-value="Yozai">
+                  <span class="font-preview" style="font-family:'Yozai'">林小可</span>
+                  <span class="font-label">悠哉手寫</span>
+                </button>
+                <button class="font-button" type="button" data-value="Chill">
+                  <span class="font-preview" style="font-family:'Chill'">林小可</span>
+                  <span class="font-label">輕鬆圓體</span>
+                </button>
+                <button class="font-button" type="button" data-value="Smiley">
+                  <span class="font-preview" style="font-family:'Smiley'">林小可</span>
+                  <span class="font-label">微笑字體</span>
+                </button>
+                <button class="font-button" type="button" data-value="Maple">
+                  <span class="font-preview" style="font-family:'Maple'">林小可</span>
+                  <span class="font-label">楓糖圓體</span>
+                </button>
+                <button class="font-button" type="button" data-value="ChenYu">
+                  <span class="font-preview" style="font-family:'ChenYu'">林小可</span>
+                  <span class="font-label">辰宇手寫</span>
+                </button>
+                <button class="font-button" type="button" data-value="Huninn">
+                  <span class="font-preview" style="font-family:'Huninn'">林小可</span>
+                  <span class="font-label">粉圓字體</span>
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -1067,7 +1193,8 @@
       photoScale: 1,
       photoX: 0,
       photoY: 0,
-      textColor: "#57424d"
+      textColor: "#57424d",
+      fontFamily: "M PLUS Rounded 1c"
     };
 
     const colorMap = {
@@ -1120,7 +1247,30 @@
       if (theme === "heart") return `<svg viewBox="0 0 120 110" aria-hidden="true"><defs><linearGradient id="h${variant}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${variant%2?b:a}"/><stop offset="1" stop-color="${variant%2?a:b}"/></linearGradient></defs><path d="M59 96C24 72 10 54 15 33c5-20 31-25 44-6 13-19 39-14 44 6 5 21-9 39-44 63Z" fill="url(#h${variant})"/><path d="M31 36c5-10 16-11 23-4" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".72"/>${sparkle}</svg>`;
       if (theme === "star") return `<svg viewBox="0 0 120 110" aria-hidden="true"><defs><linearGradient id="s${variant}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><path d="m60 9 14 31 34 4-26 23 8 33-30-17-30 17 8-33-26-23 34-4Z" fill="url(#s${variant})"/><path d="m31 46 20-3" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".68"/>${sparkle}</svg>`;
       if (theme === "rainbow") return `<svg viewBox="0 0 130 105" aria-hidden="true"><path d="M18 82a47 47 0 0 1 94 0" fill="none" stroke="${a}" stroke-width="17" stroke-linecap="round"/><path d="M32 82a33 33 0 0 1 66 0" fill="none" stroke="${b}" stroke-width="15" stroke-linecap="round"/><path d="M46 82a19 19 0 0 1 38 0" fill="none" stroke="${c}" stroke-width="13" stroke-linecap="round"/><g fill="#fff"><circle cx="18" cy="82" r="16"/><circle cx="112" cy="82" r="16"/><circle cx="31" cy="78" r="13"/><circle cx="99" cy="78" r="13"/></g>${sparkle}</svg>`;
-      if (theme === "flower") return `<svg viewBox="0 0 120 110" aria-hidden="true"><g fill="${a}"><ellipse cx="60" cy="24" rx="18" ry="25"/><ellipse cx="92" cy="55" rx="25" ry="18"/><ellipse cx="60" cy="87" rx="18" ry="25"/><ellipse cx="28" cy="55" rx="25" ry="18"/></g><circle cx="60" cy="55" r="23" fill="${b}"/><circle cx="52" cy="47" r="7" fill="#fff" opacity=".72"/>${sparkle}</svg>`;
+      if (theme === "flower") return `<svg viewBox="0 0 140 130" aria-hidden="true">
+        <defs>
+          <linearGradient id="fp${variant}" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="${variant%2 ? b : a}"/>
+            <stop offset="1" stop-color="${variant%2 ? a : b}"/>
+          </linearGradient>
+          <radialGradient id="fc${variant}" cx=".35" cy=".3" r=".8">
+            <stop stop-color="#fff4bd"/>
+            <stop offset=".58" stop-color="${b}"/>
+            <stop offset="1" stop-color="#f2bd4e"/>
+          </radialGradient>
+        </defs>
+        <g transform="translate(70 64)">
+          <ellipse cx="0" cy="-35" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(-4)"/>
+          <ellipse cx="33" cy="-10" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(68)"/>
+          <ellipse cx="20" cy="30" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(142)"/>
+          <ellipse cx="-20" cy="30" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(-142)"/>
+          <ellipse cx="-33" cy="-10" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(-68)"/>
+          <circle r="22" fill="url(#fc${variant})" stroke="#fff" stroke-width="4"/>
+          <circle cx="-7" cy="-8" r="6" fill="#fff" opacity=".72"/>
+        </g>
+        <path d="M99 97c16-3 25 3 28 14-15 2-24-2-28-14Z" fill="#8bcf9c" opacity=".9"/>
+        <path d="M104 94c7-12 16-16 27-12-6 13-15 17-27 12Z" fill="#b8e29b" opacity=".95"/>
+      </svg>`;
       if (theme === "cloud") return `<svg viewBox="0 0 135 105" aria-hidden="true"><defs><linearGradient id="c${variant}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="${a}"/></linearGradient></defs><path d="M27 85C12 85 4 75 4 62s11-24 25-24c6-18 23-29 42-25 15 3 27 14 31 28 19-3 33 10 33 26 0 11-9 18-23 18Z" fill="url(#c${variant})"/><circle cx="52" cy="43" r="9" fill="#fff" opacity=".8"/>${sparkle}</svg>`;
       return `<svg viewBox="0 0 120 110" aria-hidden="true"><path d="M60 102V48" stroke="#8d6b53" stroke-width="9" stroke-linecap="round"/><path d="M60 10C34 22 23 45 34 63c8 14 25 15 26 15 1 0 18-1 26-15 11-18 0-41-26-53Z" fill="${variant%2?a:b}"/><path d="M60 31c-10 11-15 23-15 36M60 31c10 11 15 23 15 36" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".68"/>${sparkle}</svg>`;
     }
@@ -1134,7 +1284,7 @@
       const simple = state.backgroundStyle === "simple";
       const showHole = state.showHoleMark && state.holePosition !== "none";
       const decos = [0,1,2,3].map((i)=>`<span class="deco-svg ${['a','b','c','d'][i]}">${svgIcon(state.theme,i)}</span>`).join('');
-      return `<div class="print-item"><div class="tag-shell"><article class="tag-card ${simple?'simple':''} ${noPhoto?'no-photo':''} ${nameOnly?'name-only':''}" style="--tag-main:${colorMap[state.color]};--tag-text-color:${state.textColor};--photo-scale:${state.photoScale};--photo-x:${state.photoX};--photo-y:${state.photoY}">
+      return `<div class="print-item"><div class="tag-shell"><article class="tag-card ${simple?'simple':''} ${noPhoto?'no-photo':''} ${nameOnly?'name-only':''}" style="--tag-main:${colorMap[state.color]};--tag-text-color:${state.textColor};--tag-font:'${state.fontFamily}';--photo-scale:${state.photoScale};--photo-x:${state.photoX};--photo-y:${state.photoY}">
         ${showHole?`<span class="hole-mark ${state.holePosition}"></span>`:''}
         <div class="illustrations">${decos}</div>
         ${state.usePhoto?`<div class="photo-frame ${state.photoShape==='square'?'square':''} ${state.photoData?'has-photo':''}">${state.photoData?`<img src="${state.photoData}" alt="上傳照片" draggable="false">`:'☺'}</div>`:''}
@@ -1188,9 +1338,9 @@
 
     function handleOptionGroup(group) {
       group.addEventListener("click", (event) => {
-        const button = event.target.closest(".option-button");
+        const button = event.target.closest(".option-button, .font-button");
         if (!button) return;
-        group.querySelectorAll(".option-button").forEach((item) => item.classList.remove("active"));
+        group.querySelectorAll(".option-button, .font-button").forEach((item) => item.classList.remove("active"));
         button.classList.add("active");
         state[group.dataset.group] = button.dataset.value;
         renderPreview();
