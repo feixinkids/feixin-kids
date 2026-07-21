@@ -1228,3 +1228,118 @@ async function initializeStickerTool() {
 }
 
 initializeStickerTool();
+
+const mobilePreviewButton =
+  document.querySelector("#mobilePreviewBtn");
+
+const mobilePreviewModal =
+  document.querySelector("#mobilePreviewModal");
+
+const closeMobilePreviewButton =
+  document.querySelector("#closeMobilePreviewBtn");
+
+const mobilePreviewContent =
+  document.querySelector("#mobilePreviewContent");
+
+const previewSection =
+  document.querySelector(".preview");
+
+const previewPlaceholder =
+  document.createComment("preview-original-position");
+
+function openMobilePreview() {
+  if (
+    !mobilePreviewModal ||
+    !mobilePreviewContent ||
+    !previewSection
+  ) {
+    return;
+  }
+
+  previewSection.parentNode.insertBefore(
+    previewPlaceholder,
+    previewSection
+  );
+
+  mobilePreviewContent.appendChild(
+    previewSection
+  );
+
+  mobilePreviewModal.hidden = false;
+
+  document.body.classList.add(
+    "mobile-preview-open"
+  );
+
+  drawSheet();
+
+  mobilePreviewContent.scrollTop = 0;
+}
+
+function closeMobilePreview() {
+  if (
+    !mobilePreviewModal ||
+    !previewSection ||
+    !previewPlaceholder.parentNode
+  ) {
+    return;
+  }
+
+  previewPlaceholder.parentNode.insertBefore(
+    previewSection,
+    previewPlaceholder
+  );
+
+  previewPlaceholder.remove();
+
+  mobilePreviewModal.hidden = true;
+
+  document.body.classList.remove(
+    "mobile-preview-open"
+  );
+}
+
+mobilePreviewButton?.addEventListener(
+  "click",
+  openMobilePreview
+);
+
+closeMobilePreviewButton?.addEventListener(
+  "click",
+  closeMobilePreview
+);
+
+mobilePreviewModal?.addEventListener(
+  "click",
+  (event) => {
+    if (event.target === mobilePreviewModal) {
+      closeMobilePreview();
+    }
+  }
+);
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+    if (
+      event.key === "Escape" &&
+      mobilePreviewModal &&
+      !mobilePreviewModal.hidden
+    ) {
+      closeMobilePreview();
+    }
+  }
+);
+
+window.addEventListener(
+  "resize",
+  () => {
+    if (
+      window.innerWidth > 980 &&
+      mobilePreviewModal &&
+      !mobilePreviewModal.hidden
+    ) {
+      closeMobilePreview();
+    }
+  }
+);
