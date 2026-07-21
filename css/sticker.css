@@ -193,3 +193,48 @@ footer{text-align:center;padding:28px;color:#958792;font-size:12px}
     height: auto;
   }
 }
+
+/* 姓名貼頁面 Logo：改成首頁的粉紫漸層並移除連結底線 */
+.header-home {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+
+  color: inherit;
+  text-decoration: none;
+}
+
+.header-home:link,
+.header-home:visited,
+.header-home:hover,
+.header-home:active {
+  text-decoration: none;
+}
+
+.header-home b {
+  display: inline-block;
+
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.2;
+
+  background: linear-gradient(
+    90deg,
+    #f35f91 0%,
+    #ec6da4 42%,
+    #a878ef 100%
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-home span {
+  color: #8e8089;
+  font-size: 13px;
+  font-weight: 500;
+}
