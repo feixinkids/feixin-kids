@@ -172,11 +172,126 @@
 
     .settings-panel,
     .preview-panel {
-      position: sticky;
-      top: 94px;
-      min-height: 720px;
+      border: 1px solid rgba(240, 220, 229, 0.92);
+      border-radius: var(--radius-xl);
+      background: var(--panel-bg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .settings-panel {
+      display: grid;
+      gap: 15px;
       padding: 18px;
     }
+
+    .section-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--card-bg);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      padding: 16px 17px 13px;
+      border-bottom: 1px solid #f7eaf0;
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .section-icon {
+      display: grid;
+      place-items: center;
+      width: 33px;
+      height: 33px;
+      border-radius: 12px;
+      background: var(--pink-soft);
+      font-size: 17px;
+    }
+
+    .section-body { padding: 16px 17px 18px; }
+    .subsection + .subsection { margin-top: 20px; padding-top: 18px; border-top: 1px dashed #efdce5; }
+    .subsection-label { margin: 0 0 10px; color: #67535e; font-size: 14px; font-weight: 800; }
+    .field + .field { margin-top: 14px; }
+
+    .field-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-weight: 700;
+      color: #5f4c57;
+    }
+
+    .optional { color: #aa96a1; font-size: 12px; font-weight: 600; }
+
+    .text-input {
+      width: 100%;
+      min-height: 46px;
+      padding: 0 14px;
+      border: 1px solid #ead6df;
+      border-radius: 14px;
+      outline: none;
+      background: #fffafd;
+      color: var(--text);
+      transition: .2s ease;
+    }
+    .text-input::placeholder { color: #c1afb8; }
+    .text-input:focus { border-color: #e88aae; box-shadow: 0 0 0 4px rgba(242,132,168,.13); background: #fff; }
+
+    .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .switch-copy strong { display: block; margin-bottom: 3px; }
+    .switch-copy span { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .switch { position: relative; flex: 0 0 auto; width: 52px; height: 30px; }
+    .switch input { position: absolute; opacity: 0; pointer-events: none; }
+    .switch-track { position: absolute; inset: 0; border-radius: 999px; background: #ddd2d7; transition: .22s ease; }
+    .switch-track::after { content: ""; position: absolute; top: 4px; left: 4px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 3px 9px rgba(70,45,57,.18); transition: .22s ease; }
+    .switch input:checked + .switch-track { background: linear-gradient(135deg,#f7a1bc,var(--pink)); }
+    .switch input:checked + .switch-track::after { transform: translateX(22px); }
+
+    .upload-box {
+      width: 100%;
+      display: grid;
+      place-items: center;
+      min-height: 120px;
+      margin-top: 14px;
+      padding: 18px;
+      border: 2px dashed #efc3d4;
+      border-radius: 18px;
+      background: #fff9fc;
+      text-align: center;
+      color: #8b7180;
+    }
+    .upload-box:hover { border-color: #eb8fb1; background: #fff3f8; }
+    .upload-box b { display: block; margin-top: 7px; color: var(--pink-dark); }
+    .upload-box small { display: block; margin-top: 5px; line-height: 1.6; }
+
+    .option-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+    .option-grid.seven { grid-template-columns: repeat(4,minmax(0,1fr)); }
+    .option-button {
+      position: relative;
+      min-height: 44px;
+      padding: 9px 10px;
+      border: 1px solid #ead8e1;
+      border-radius: 14px;
+      background: #fff;
+      color: #6b5662;
+      font-weight: 700;
+      transition: .18s ease;
+    }
+    .option-button:hover { transform: translateY(-1px); border-color: #e5afc3; }
+    .option-button.active { border-color: #ef8fb1; background: #fff0f6; color: var(--pink-dark); box-shadow: inset 0 0 0 1px #ef8fb1; }
+    .color-button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 66px; padding: 8px 4px; font-size: 12px; }
+    .color-dot { width: 25px; height: 25px; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px rgba(95,76,87,.15); }
+    .theme-area.is-hidden, .photo-controls.is-hidden { display: none; }
+
+    .preview-panel { position: sticky; top: 94px; min-height: 720px; padding: 18px; }
 
     .preview-toolbar {
       display: flex;
@@ -434,6 +549,17 @@
       text-align: center;
     }
 
+    .site-footer {
+      width: min(1480px, calc(100% - 32px));
+      margin: 0 auto 28px;
+      padding: 20px 16px;
+      border-top: 1px solid rgba(234,220,228,.9);
+      color: #9b8993;
+      font-size: 12px;
+      text-align: center;
+      letter-spacing: .03em;
+    }
+
     @media (max-width: 1100px) {
       .workspace {
         grid-template-columns: 380px minmax(0, 1fr);
@@ -580,33 +706,18 @@
     <section class="workspace">
       <aside class="settings-panel fx-card" aria-label="吊牌設定">
         <section class="section-card">
-          <h2 class="section-title">
-            <span class="section-icon">📷</span>
-            照片
-          </h2>
-
+          <h2 class="section-title"><span class="section-icon">📷</span>1. 照片</h2>
           <div class="section-body">
             <div class="switch-row">
-              <div class="switch-copy">
-                <strong>使用照片</strong>
-                <span>不需要照片時可直接關閉。</span>
-              </div>
-
-              <label class="switch">
-                <input id="usePhoto" type="checkbox" checked />
-                <span class="switch-track"></span>
-              </label>
+              <div class="switch-copy"><strong>使用照片</strong><span>不需要照片時可直接關閉。</span></div>
+              <label class="switch"><input id="usePhoto" type="checkbox" checked /><span class="switch-track"></span></label>
             </div>
-
             <div id="photoControls" class="photo-controls">
               <button class="upload-box" type="button" aria-label="上傳照片">
-                <span style="font-size:32px">＋</span>
-                <b>上傳照片</b>
-                <small>第一版先完成介面，下一版加入實際上傳與裁切功能。</small>
+                <span style="font-size:32px">＋</span><b>上傳照片</b><small>下一版加入實際上傳、拖曳與裁切功能。</small>
               </button>
-
-              <div class="field">
-                <div class="field-label">照片形狀</div>
+              <div class="subsection">
+                <p class="subsection-label">照片形狀</p>
                 <div class="option-grid" data-group="photoShape">
                   <button class="option-button active" type="button" data-value="circle">圓形</button>
                   <button class="option-button" type="button" data-value="square">圓角方形</button>
@@ -617,173 +728,52 @@
         </section>
 
         <section class="section-card">
-          <h2 class="section-title">
-            <span class="section-icon">👤</span>
-            基本資料
-          </h2>
-
+          <h2 class="section-title"><span class="section-icon">👤</span>2. 基本資料</h2>
           <div class="section-body">
-            <label class="field">
-              <span class="field-label">
-                <span>姓名</span>
-                <span class="optional">可留白</span>
-              </span>
-              <input
-                id="nameInput"
-                class="text-input"
-                type="text"
-                maxlength="12"
-                placeholder="例如：林小可"
-                value="林小可"
-              />
-            </label>
-
-            <label class="field">
-              <span class="field-label">
-                <span>班級</span>
-                <span class="optional">選填</span>
-              </span>
-              <input
-                id="classInput"
-                class="text-input"
-                type="text"
-                maxlength="18"
-                placeholder="例如：維也納班"
-                value="維也納班"
-              />
-            </label>
-
-            <label class="field">
-              <span class="field-label">
-                <span>電話</span>
-                <span class="optional">選填</span>
-              </span>
-              <input
-                id="phoneInput"
-                class="text-input"
-                type="text"
-                maxlength="20"
-                placeholder="例如：0912-345-678"
-              />
-            </label>
+            <label class="field"><span class="field-label"><span>姓名</span><span class="optional">可留白</span></span><input id="nameInput" class="text-input" type="text" maxlength="12" placeholder="例如：林小可" value="林小可" /></label>
+            <label class="field"><span class="field-label"><span>班級</span><span class="optional">選填</span></span><input id="classInput" class="text-input" type="text" maxlength="18" placeholder="例如：維也納班" value="維也納班" /></label>
+            <label class="field"><span class="field-label"><span>電話</span><span class="optional">選填</span></span><input id="phoneInput" class="text-input" type="text" maxlength="20" placeholder="例如：0912-345-678" /></label>
           </div>
         </section>
 
         <section class="section-card">
-          <h2 class="section-title">
-            <span class="section-icon">🎨</span>
-            主色系
-          </h2>
-
+          <h2 class="section-title"><span class="section-icon">🎨</span>3. 外觀設定</h2>
           <div class="section-body">
-            <div class="option-grid seven" data-group="color">
-              <button class="option-button color-button active" type="button" data-value="pink">
-                <span class="color-dot" style="background:#ffdbe8"></span>
-                粉紅
-              </button>
-              <button class="option-button color-button" type="button" data-value="blue">
-                <span class="color-dot" style="background:#dceeff"></span>
-                天空藍
-              </button>
-              <button class="option-button color-button" type="button" data-value="purple">
-                <span class="color-dot" style="background:#e8ddff"></span>
-                薰衣草紫
-              </button>
-              <button class="option-button color-button" type="button" data-value="mint">
-                <span class="color-dot" style="background:#dff5ec"></span>
-                薄荷綠
-              </button>
-              <button class="option-button color-button" type="button" data-value="yellow">
-                <span class="color-dot" style="background:#fff0bd"></span>
-                奶油黃
-              </button>
-              <button class="option-button color-button" type="button" data-value="cream">
-                <span class="color-dot" style="background:#f7f0df"></span>
-                米白
-              </button>
-              <button class="option-button color-button" type="button" data-value="latte">
-                <span class="color-dot" style="background:#ead8c6"></span>
-                奶茶
-              </button>
-            </div>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h2 class="section-title">
-            <span class="section-icon">✨</span>
-            背景樣式
-          </h2>
-
-          <div class="section-body">
-            <div class="option-grid" data-group="backgroundStyle">
-              <button class="option-button active" type="button" data-value="cute">可愛插畫</button>
-              <button class="option-button" type="button" data-value="simple">簡約素色</button>
-            </div>
-
-            <div id="themeArea" class="theme-area">
-              <div class="field">
-                <div class="field-label">插畫主題</div>
-                <div class="option-grid" data-group="theme">
-                  <button class="option-button active" type="button" data-value="heart">愛心</button>
-                  <button class="option-button" type="button" data-value="star">星星</button>
-                  <button class="option-button" type="button" data-value="rainbow">彩虹</button>
-                  <button class="option-button" type="button" data-value="flower">小花</button>
-                  <button class="option-button" type="button" data-value="cloud">雲朵</button>
-                  <button class="option-button" type="button" data-value="forest">森林</button>
-                </div>
+            <div class="subsection" style="margin-top:0;padding-top:0;border-top:0">
+              <p class="subsection-label">主色系</p>
+              <div class="option-grid seven" data-group="color">
+                <button class="option-button color-button active" type="button" data-value="pink"><span class="color-dot" style="background:#ffdbe8"></span>粉紅</button>
+                <button class="option-button color-button" type="button" data-value="blue"><span class="color-dot" style="background:#dceeff"></span>天空藍</button>
+                <button class="option-button color-button" type="button" data-value="purple"><span class="color-dot" style="background:#e8ddff"></span>薰衣草紫</button>
+                <button class="option-button color-button" type="button" data-value="mint"><span class="color-dot" style="background:#dff5ec"></span>薄荷綠</button>
+                <button class="option-button color-button" type="button" data-value="yellow"><span class="color-dot" style="background:#fff0bd"></span>奶油黃</button>
+                <button class="option-button color-button" type="button" data-value="cream"><span class="color-dot" style="background:#f7f0df"></span>米白</button>
+                <button class="option-button color-button" type="button" data-value="latte"><span class="color-dot" style="background:#ead8c6"></span>奶茶</button>
               </div>
             </div>
-          </div>
-        </section>
-
-        <section class="section-card">
-          <h2 class="section-title">
-            <span class="section-icon">🔩</span>
-            吊掛方式
-          </h2>
-
-          <div class="section-body">
-            <div class="option-grid" data-group="holePosition">
-              <button class="option-button active" type="button" data-value="center">上方置中</button>
-              <button class="option-button" type="button" data-value="corner">左上角</button>
-              <button class="option-button" type="button" data-value="none">不預留打孔</button>
-            </div>
-
-            <div class="switch-row" style="margin-top:15px">
-              <div class="switch-copy">
-                <strong>顯示打孔定位記號</strong>
-                <span>列印後方便對準打孔位置。</span>
+            <div class="subsection">
+              <p class="subsection-label">背景樣式</p>
+              <div class="option-grid" data-group="backgroundStyle"><button class="option-button active" type="button" data-value="cute">可愛插畫</button><button class="option-button" type="button" data-value="simple">簡約素色</button></div>
+              <div id="themeArea" class="theme-area">
+                <div class="subsection"><p class="subsection-label">插畫主題</p><div class="option-grid" data-group="theme">
+                  <button class="option-button active" type="button" data-value="heart">愛心</button><button class="option-button" type="button" data-value="star">星星</button><button class="option-button" type="button" data-value="rainbow">彩虹</button><button class="option-button" type="button" data-value="flower">小花</button><button class="option-button" type="button" data-value="cloud">雲朵</button><button class="option-button" type="button" data-value="forest">森林</button>
+                </div></div>
               </div>
-
-              <label class="switch">
-                <input id="showHoleMark" type="checkbox" checked />
-                <span class="switch-track"></span>
-              </label>
+            </div>
+            <div class="subsection">
+              <p class="subsection-label">吊掛方式</p>
+              <div class="option-grid" data-group="holePosition"><button class="option-button active" type="button" data-value="center">上方置中</button><button class="option-button" type="button" data-value="corner">左上角</button><button class="option-button" type="button" data-value="none">不預留打孔</button></div>
+              <div class="switch-row" style="margin-top:15px"><div class="switch-copy"><strong>顯示打孔定位記號</strong><span>列印後方便對準打孔位置。</span></div><label class="switch"><input id="showHoleMark" type="checkbox" checked /><span class="switch-track"></span></label></div>
             </div>
           </div>
         </section>
 
         <section class="section-card">
-          <h2 class="section-title">
-            <span class="section-icon">🖨️</span>
-            列印版型
-          </h2>
-
+          <h2 class="section-title"><span class="section-icon">🖨️</span>4. 列印與下載</h2>
           <div class="section-body">
-            <div class="option-grid" data-group="printLayout">
-              <button class="option-button active" type="button" data-value="4">A4・4 張版</button>
-              <button class="option-button" type="button" data-value="6">A4・6 張版</button>
-            </div>
-
-            <div class="action-bar">
-              <button id="downloadPng" class="action-button secondary" type="button">下載 PNG</button>
-              <button id="downloadPdf" class="action-button primary" type="button">下載 PDF</button>
-            </div>
-
-            <p class="coming-note">
-              下載會依目前選擇輸出 A4・4 張或 A4・6 張版型。
-            </p>
+            <div class="option-grid" data-group="printLayout"><button class="option-button active" type="button" data-value="4">A4・4 張版</button><button class="option-button" type="button" data-value="6">A4・6 張版</button></div>
+            <div class="action-bar"><button id="downloadPng" class="action-button secondary" type="button">下載 PNG</button><button id="downloadPdf" class="action-button primary" type="button">下載 PDF</button></div>
+            <p class="coming-note">下載會依目前選擇輸出 A4・4 張或 A4・6 張版型。</p>
           </div>
         </section>
       </aside>
@@ -800,6 +790,7 @@
       </section>
     </section>
   </main>
+  <footer class="site-footer">© 2026 Feixin Kids · Design · Download · Print</footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
