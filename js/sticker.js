@@ -1319,7 +1319,10 @@ function openMobilePreview() {
 
   drawSheet();
 
-  mobilePreviewContent.scrollTop = 0;
+  requestAnimationFrame(() => {
+    mobilePreviewContent.scrollTo({ top: 0, behavior: "instant" });
+    previewSection.scrollIntoView({ block: "start", behavior: "instant" });
+  });
 }
 
 function closeMobilePreview() {

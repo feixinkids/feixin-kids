@@ -721,6 +721,121 @@
         grid-template-columns: 1fr;
       }
     }
+
+
+    /* 手機版固定迷你吊牌預覽 */
+    .mobile-tag-preview-btn,
+    .mobile-tag-preview-modal {
+      display: none;
+    }
+
+    @media (max-width: 880px) {
+      .mobile-tag-preview-btn {
+        position: fixed;
+        right: 12px;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+        z-index: 80;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 142px;
+        padding: 7px;
+        border: 1px solid rgba(234,220,228,.95);
+        border-radius: 18px;
+        background: rgba(255,255,255,.96);
+        box-shadow: 0 12px 30px rgba(92,61,79,.20);
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+      }
+
+      .mobile-tag-preview-btn:active { transform: scale(.98); }
+
+      .mobile-tag-mini {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 7 / 10;
+        overflow: hidden;
+        border-radius: 12px;
+        background: #fff;
+      }
+
+      .mobile-tag-mini .tag-card {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        padding: 18% 10% 9%;
+        border-width: 3px;
+        border-radius: 12px;
+      }
+
+      .mobile-tag-mini .photo-frame { border-width: 2px; }
+      .mobile-tag-mini .tag-name { font-size: 17px; }
+      .mobile-tag-mini .tag-class { font-size: 10px; }
+      .mobile-tag-mini .tag-phone { font-size: 8px; }
+      .mobile-tag-mini .deco-svg { width: 24%; }
+      .mobile-tag-mini .hole-mark { width: 8px; border-width: 1px; }
+
+      .mobile-tag-preview-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 29px;
+        border-radius: 10px;
+        color: #fff;
+        background: linear-gradient(135deg,#ff78a5,#ef5887);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .mobile-tag-preview-modal[hidden] { display: none !important; }
+      .mobile-tag-preview-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        background: #fff8fc;
+      }
+
+      .mobile-tag-preview-header {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        min-height: 62px;
+        padding: 10px 14px;
+        border-bottom: 1px solid #eadce4;
+        background: rgba(255,255,255,.97);
+      }
+
+      .mobile-tag-preview-header strong { grid-column: 2; }
+      .mobile-tag-preview-close { grid-column: 1; justify-self: start; padding: 9px 12px; border-radius: 999px; }
+
+      .mobile-tag-preview-content {
+        flex: 1;
+        min-height: 0;
+        overflow: auto;
+        padding: 14px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .mobile-tag-preview-content .preview-panel {
+        position: static !important;
+        top: auto !important;
+        width: 100%;
+        min-height: 0;
+        box-shadow: none;
+      }
+
+      .mobile-tag-preview-content .preview-stage {
+        min-height: 0;
+        padding: 12px;
+      }
+
+      body.mobile-tag-preview-open { overflow: hidden; }
+      body.mobile-tag-preview-open .mobile-tag-preview-btn { display: none; }
+    }
+
   </style>
   <link rel="stylesheet" href="../css/components.css" />
 </head>
@@ -840,6 +955,23 @@
       </section>
     </section>
   </main>
+
+
+  <!-- 手機版固定迷你預覽 -->
+  <button id="mobileTagPreviewBtn" class="mobile-tag-preview-btn" type="button" aria-label="查看整張吊牌預覽">
+    <span id="mobileTagMini" class="mobile-tag-mini"></span>
+    <span class="mobile-tag-preview-label">👁 查看整張</span>
+  </button>
+
+  <!-- 手機版全螢幕完整預覽 -->
+  <div id="mobileTagPreviewModal" class="mobile-tag-preview-modal" hidden>
+    <div class="mobile-tag-preview-header">
+      <button id="closeMobileTagPreview" class="mobile-tag-preview-close" type="button">← 返回編輯</button>
+      <strong>完整預覽</strong>
+    </div>
+    <div id="mobileTagPreviewContent" class="mobile-tag-preview-content"></div>
+  </div>
+
   <footer class="site-footer">© 2026 Feixin Kids · Design · Download · Print</footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -890,6 +1022,13 @@
     const downloadPng = document.getElementById("downloadPng");
     const downloadPdf = document.getElementById("downloadPdf");
     const sizeGuide = document.getElementById("sizeGuide");
+    const mobileTagPreviewBtn = document.getElementById("mobileTagPreviewBtn");
+    const mobileTagMini = document.getElementById("mobileTagMini");
+    const mobileTagPreviewModal = document.getElementById("mobileTagPreviewModal");
+    const closeMobileTagPreview = document.getElementById("closeMobileTagPreview");
+    const mobileTagPreviewContent = document.getElementById("mobileTagPreviewContent");
+    const previewPanel = document.querySelector(".preview-panel");
+
 
     function svgIcon(theme, variant = 0) {
       const [a,b,c] = palette[theme];
@@ -932,6 +1071,35 @@
       sizeGuide.textContent = `A4・${count} 張版｜單張${sizeMap[count]}`;
       photoControls.classList.toggle("is-hidden", !state.usePhoto);
       themeArea.classList.toggle("is-hidden", state.backgroundStyle === "simple");
+      updateMobileTagMini();
+    }
+
+
+
+    function updateMobileTagMini() {
+      if (!mobileTagMini) return;
+      const firstCard = printSheet.querySelector(".tag-card");
+      mobileTagMini.innerHTML = "";
+      if (!firstCard) return;
+      mobileTagMini.appendChild(firstCard.cloneNode(true));
+    }
+
+    function openMobileTagPreview() {
+      if (!mobileTagPreviewModal || !mobileTagPreviewContent || !previewPanel) return;
+      mobileTagPreviewContent.innerHTML = "";
+      const clone = previewPanel.cloneNode(true);
+      clone.removeAttribute("aria-label");
+      mobileTagPreviewContent.appendChild(clone);
+      mobileTagPreviewModal.hidden = false;
+      document.body.classList.add("mobile-tag-preview-open");
+      requestAnimationFrame(() => mobileTagPreviewContent.scrollTo({top: 0, behavior: "instant"}));
+    }
+
+    function closeMobileTagPreviewModal() {
+      if (!mobileTagPreviewModal) return;
+      mobileTagPreviewModal.hidden = true;
+      document.body.classList.remove("mobile-tag-preview-open");
+      if (mobileTagPreviewContent) mobileTagPreviewContent.innerHTML = "";
     }
 
     function handleOptionGroup(group) {
@@ -1018,6 +1186,15 @@
     [nameInput, classInput, phoneInput].forEach(input => input.addEventListener("input", renderPreview));
     usePhoto.addEventListener("change", () => { state.usePhoto = usePhoto.checked; renderPreview(); });
     showHoleMark.addEventListener("change", () => { state.showHoleMark = showHoleMark.checked; renderPreview(); });
+
+    mobileTagPreviewBtn?.addEventListener("click", openMobileTagPreview);
+    closeMobileTagPreview?.addEventListener("click", closeMobileTagPreviewModal);
+    mobileTagPreviewModal?.addEventListener("click", (event) => {
+      if (event.target === mobileTagPreviewModal) closeMobileTagPreviewModal();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && mobileTagPreviewModal && !mobileTagPreviewModal.hidden) closeMobileTagPreviewModal();
+    });
     renderPreview();
   </script>
 </body>

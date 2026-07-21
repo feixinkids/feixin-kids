@@ -183,3 +183,72 @@ footer{text-align:center;padding:28px;color:#958792;font-size:12px}
   font-size: 13px;
   font-weight: 500;
 }
+
+
+/* 手機版完整預覽：固定全螢幕顯示，不再跳回頁面頂端 */
+.mobile-preview-modal[hidden] {
+  display: none !important;
+}
+
+.mobile-preview-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: #fff8fc;
+  overscroll-behavior: contain;
+}
+
+.mobile-preview-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: 62px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #eadce4;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(12px);
+}
+
+.mobile-preview-header strong {
+  grid-column: 2;
+  font-size: 16px;
+}
+
+.mobile-preview-close {
+  grid-column: 1;
+  justify-self: start;
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: #fff;
+}
+
+.mobile-preview-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-preview-content .preview {
+  position: static !important;
+  top: auto !important;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: none;
+}
+
+.mobile-preview-content .canvas-wrap {
+  max-height: none;
+  overflow: auto;
+}
+
+body.mobile-preview-open {
+  overflow: hidden;
+}
