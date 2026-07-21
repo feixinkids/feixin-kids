@@ -1016,6 +1016,8 @@ function drawSheet() {
   $("#meta").textContent =
     `${S.paper === "a4" ? "A4" : "4×6"} · ` +
     `${S.qty} 張`;
+  
+  drawMobileStickerPreview();
 }
 
 function downloadFile(url, fileName) {
@@ -1228,9 +1230,15 @@ async function initializeStickerTool() {
 }
 
 initializeStickerTool();
+drawMobileStickerPreview();
 
 const mobilePreviewButton =
   document.querySelector("#mobilePreviewBtn");
+const mobileStickerCanvas =
+  document.querySelector("#mobileStickerCanvas");
+
+const mobileStickerContext =
+  mobileStickerCanvas?.getContext("2d");
 
 const mobilePreviewModal =
   document.querySelector("#mobilePreviewModal");
@@ -1246,6 +1254,46 @@ const previewSection =
 
 const previewPlaceholder =
   document.createComment("preview-original-position");
+function drawMobileStickerPreview() {
+  if (
+    !mobileStickerCanvas ||
+    !mobileStickerContext
+  ) {
+    return;
+  }
+
+  const width = 320;
+  const height = 130;
+  const padding = 8;
+
+  mobileStickerCanvas.width = width;
+  mobileStickerCanvas.height = height;
+
+  mobileStickerContext.clearRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+  mobileStickerContext.fillStyle = "#ffffff";
+
+  mobileStickerContext.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+  drawSticker(
+    mobileStickerContext,
+    padding,
+    padding,
+    width - padding * 2,
+    height - padding * 2,
+    false
+  );
+}
 
 function openMobilePreview() {
   if (
