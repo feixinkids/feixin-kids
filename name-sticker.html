@@ -67,6 +67,13 @@
 
   <link rel="stylesheet" href="css/sticker.css">
   <link rel="stylesheet" href="css/components.css">
+
+  <!-- Feixin Kids V2.2 Design System -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/animations-v2.css">
 </head>
 
 <body>
@@ -95,7 +102,25 @@
       </div>
 
       <article>
-        <h2>1. 上傳照片</h2>
+        <h2>1. 照片設定</h2>
+
+        <div class="photo-setting-row">
+          <div>
+            <strong>顯示照片</strong>
+            <p>關閉後模板會自動補滿背景，文字重新置中。</p>
+          </div>
+          <label class="switch-control">
+            <input id="usePhoto" type="checkbox" checked>
+            <span></span>
+          </label>
+        </div>
+
+        <div id="photoSettingPanel">
+          <p class="field-title">照片形狀</p>
+          <div id="photoShapeButtons" class="shape-buttons">
+            <button class="active" type="button" data-shape="circle">圓形</button>
+            <button type="button" data-shape="square">圓角方形</button>
+          </div>
 
         <label class="upload" for="photoInput">
           <strong>＋ 選擇小朋友照片</strong>
@@ -137,17 +162,15 @@
             </button>
           </div>
         </div>
+        </div>
       </article>
 
       <article>
-        <h2>2. 輸入姓名</h2>
+        <h2>2. 基本資料</h2>
 
-        <input
-          id="nameInput"
-          class="name-input"
-          maxlength="8"
-          value="林小可"
-        >
+        <label class="profile-field"><span>中文姓名 <b>必填</b></span><input id="nameInput" class="name-input" maxlength="8" value="林小可" placeholder="例如：林小可"></label>
+        <label class="profile-field"><span>英文名字 <em>選填</em></span><input id="englishInput" class="name-input" maxlength="16" value="Cathy" placeholder="例如：Cathy"></label>
+        <label class="profile-field"><span>班級 <em>選填</em></span><input id="classInput" class="name-input" maxlength="10" value="維也納班" placeholder="例如：維也納班"></label>
 
         <div class="two">
           <label>
@@ -219,14 +242,14 @@
             type="button"
             data-paper="a4"
           >
-            A4
+            🏠 彩之舞（免裁切）
           </button>
 
           <button
             type="button"
             data-paper="4x6"
           >
-            4×6 相片
+            🏪 4×6 貼紙
           </button>
         </div>
 

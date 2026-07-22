@@ -334,7 +334,11 @@
     .color-dot { width: 25px; height: 25px; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px rgba(95,76,87,.15); }
     .theme-area.is-hidden, .photo-controls.is-hidden { display: none; }
 
-    .preview-panel { position: sticky; top: 94px; min-height: 720px; padding: 18px; }
+    .preview-panel {
+      position: sticky;
+      top: 94px;
+      padding: 22px;
+    }
 
     .preview-toolbar {
       display: flex;
@@ -342,7 +346,14 @@
       justify-content: space-between;
       gap: 12px;
       margin-bottom: 16px;
-      padding: 3px 4px;
+    }
+
+    .preview-heading small {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--pink-dark);
+      font-size: 12px;
+      font-weight: 800;
     }
 
     .preview-toolbar h2 {
@@ -352,38 +363,77 @@
     }
 
     .preview-note {
+      flex: 0 0 auto;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f6f1f4;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .preview-stage {
       position: relative;
       display: grid;
-      place-items: center;
-      min-height: 610px;
+      place-items: start center;
+      max-height: calc(100vh - 190px);
+      min-height: 420px;
       overflow: auto;
-      padding: 24px;
-      border: 1px solid #f1dce5;
-      border-radius: 23px;
-      background:
-        linear-gradient(45deg, #f8edf2 25%, transparent 25%),
-        linear-gradient(-45deg, #f8edf2 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #f8edf2 75%),
-        linear-gradient(-45deg, transparent 75%, #f8edf2 75%),
-        #fff;
-      background-position: 0 0, 0 12px, 12px -12px, -12px 0;
-      background-size: 24px 24px;
+      padding: 22px;
+      border-radius: 17px;
+      background: #eee9ed;
+      scrollbar-gutter: stable;
+      scrollbar-color: #aaa4a8 #f3eef1;
+    }
+
+    .preview-stage::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    .preview-stage::-webkit-scrollbar-track {
+      border-radius: 999px;
+      background: #f3eef1;
+    }
+
+    .preview-stage::-webkit-scrollbar-thumb {
+      border: 3px solid #f3eef1;
+      border-radius: 999px;
+      background: #aaa4a8;
     }
 
     .print-sheet {
-      width: min(640px, 100%);
+      position: relative;
+      flex: 0 0 auto;
+      width: 640px;
       aspect-ratio: 210 / 297;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 18px;
-      padding: 26px;
+      padding: 26px 26px 60px;
       background: #fff;
+      box-shadow: 0 8px 25px rgba(52, 36, 47, .21);
       transform-origin: top center;
+    }
+
+    .sheet-brandline {
+      position: absolute;
+      right: 20px;
+      bottom: 14px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      color: #9b8993;
+      font-size: 10px;
+      letter-spacing: .035em;
+      pointer-events: none;
+    }
+
+    .sheet-brand-logo {
+      font-family: "M PLUS Rounded 1c", sans-serif;
+      font-weight: 700;
+      color: #9b8993;
     }
 
     .print-sheet.layout-4 { grid-template-rows: repeat(2, 1fr); }
@@ -392,7 +442,7 @@
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(4, 1fr);
       gap: 8px;
-      padding: 18px;
+      padding: 18px 18px 54px;
     }
 
     .print-sheet.layout-12 .tag-card {
@@ -608,7 +658,7 @@
 
     .font-button {
       min-height: 58px;
-      padding: 8px 10px;
+      padding: 10px 8px;
       border: 1px solid #ead8e1;
       border-radius: 14px;
       background: #fff;
@@ -630,18 +680,10 @@
 
     .font-preview {
       display: block;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .font-label {
-      display: block;
-      margin-top: 4px;
-      color: #9a8590;
-      font-family: "Noto Sans TC", sans-serif;
-      font-size: 11px;
-      font-weight: 600;
+      line-height: 1.35;
+      white-space: nowrap;
     }
 
     .photo-frame.square { border-radius: 22%; }
@@ -727,12 +769,10 @@
       text-align: center;
     }
 
-    .preview-brandline {
-      margin: 14px 0 2px;
-      color: #9b8993;
+    .preview-help {
+      margin: 12px 2px 0;
+      color: #8f818b;
       font-size: 12px;
-      text-align: center;
-      letter-spacing: .035em;
     }
 
     .size-guide {
@@ -989,6 +1029,13 @@
 
   </style>
   <link rel="stylesheet" href="../css/components.css" />
+
+  <!-- Feixin Kids V2.2 Design System -->
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/animations-v2.css">
 </head>
 
 <body>
@@ -1005,7 +1052,6 @@
 
   <main class="page">
     <section class="page-heading">
-      <div class="eyebrow">🎒 第二個親子設計工具</div>
       <h1>書包／行李吊牌製作器</h1>
       <p class="lead">
         自由選擇照片、色系與插畫主題，快速製作適合書包、行李箱與生活用品的專屬吊牌。
@@ -1049,8 +1095,9 @@
         <section class="section-card">
           <h2 class="section-title"><span class="section-icon">👤</span>2. 基本資料</h2>
           <div class="section-body">
-            <label class="field"><span class="field-label"><span>姓名</span><span class="optional">可留白</span></span><input id="nameInput" class="text-input" type="text" maxlength="12" placeholder="例如：林小可" value="林小可" /></label>
-            <label class="field"><span class="field-label"><span>班級</span><span class="optional">選填</span></span><input id="classInput" class="text-input" type="text" maxlength="18" placeholder="例如：維也納班" value="維也納班" /></label>
+            <label class="field"><span class="field-label"><span>中文姓名</span><span class="optional">必填</span></span><input id="nameInput" class="text-input" type="text" maxlength="8" placeholder="例如：林小可" value="林小可" /></label>
+            <label class="field"><span class="field-label"><span>英文名字</span><span class="optional">選填</span></span><input id="englishInput" class="text-input" type="text" maxlength="16" placeholder="例如：Cathy" value="Cathy" /></label>
+            <label class="field"><span class="field-label"><span>班級</span><span class="optional">選填</span></span><input id="classInput" class="text-input" type="text" maxlength="10" placeholder="例如：維也納班" value="維也納班" /></label>
             <label class="field"><span class="field-label"><span>電話</span><span class="optional">選填</span></span><input id="phoneInput" class="text-input" type="text" maxlength="20" placeholder="例如：0912-345-678" /></label>
 
             <label class="text-color-control">
@@ -1062,36 +1109,28 @@
               <p class="subsection-label">選擇字型</p>
               <div class="font-grid" data-group="fontFamily">
                 <button class="font-button active" type="button" data-value="M PLUS Rounded 1c">
-                  <span class="font-preview" style="font-family:'M PLUS Rounded 1c'">林小可</span>
-                  <span class="font-label">圓潤預設</span>
+                  <span class="font-preview" style="font-family:'M PLUS Rounded 1c'">圓潤預設</span>
                 </button>
                 <button class="font-button" type="button" data-value="MaokenZhuyuan">
-                  <span class="font-preview" style="font-family:'MaokenZhuyuan'">林小可</span>
-                  <span class="font-label">貓啃珠圓</span>
+                  <span class="font-preview" style="font-family:'MaokenZhuyuan'">貓啃珠圓</span>
                 </button>
                 <button class="font-button" type="button" data-value="Yozai">
-                  <span class="font-preview" style="font-family:'Yozai'">林小可</span>
-                  <span class="font-label">悠哉手寫</span>
+                  <span class="font-preview" style="font-family:'Yozai'">悠哉手寫</span>
                 </button>
                 <button class="font-button" type="button" data-value="Chill">
-                  <span class="font-preview" style="font-family:'Chill'">林小可</span>
-                  <span class="font-label">輕鬆圓體</span>
+                  <span class="font-preview" style="font-family:'Chill'">輕鬆圓體</span>
                 </button>
                 <button class="font-button" type="button" data-value="Smiley">
-                  <span class="font-preview" style="font-family:'Smiley'">林小可</span>
-                  <span class="font-label">微笑字體</span>
+                  <span class="font-preview" style="font-family:'Smiley'">微笑字體</span>
                 </button>
                 <button class="font-button" type="button" data-value="Maple">
-                  <span class="font-preview" style="font-family:'Maple'">林小可</span>
-                  <span class="font-label">楓糖圓體</span>
+                  <span class="font-preview" style="font-family:'Maple'">楓糖圓體</span>
                 </button>
                 <button class="font-button" type="button" data-value="ChenYu">
-                  <span class="font-preview" style="font-family:'ChenYu'">林小可</span>
-                  <span class="font-label">辰宇手寫</span>
+                  <span class="font-preview" style="font-family:'ChenYu'">辰宇手寫</span>
                 </button>
                 <button class="font-button" type="button" data-value="Huninn">
-                  <span class="font-preview" style="font-family:'Huninn'">林小可</span>
-                  <span class="font-label">粉圓字體</span>
+                  <span class="font-preview" style="font-family:'Huninn'">粉圓字體</span>
                 </button>
               </div>
             </div>
@@ -1147,14 +1186,17 @@
 
       <section class="preview-panel fx-card" aria-label="吊牌預覽">
         <div class="preview-toolbar">
-          <h2>即時預覽</h2>
+          <div class="preview-heading">
+            <small>即時預覽</small>
+            <h2>列印成品</h2>
+          </div>
           <div id="layoutNote" class="preview-note">A4・4 張版</div>
         </div>
 
         <div class="preview-stage">
           <div id="printSheet" class="print-sheet layout-4" aria-label="A4 吊牌排版預覽"></div>
         </div>
-        <div class="preview-brandline">© 2026 Feixin Kids · Design · Download · Print</div>
+        <p class="preview-help">畫面預覽會縮小；下載檔維持高解析度。</p>
       </section>
     </section>
   </main>
@@ -1177,6 +1219,7 @@
 
   <footer class="site-footer">© 2026 Feixin Kids · Design · Download · Print</footer>
 
+  <script src="../js/shared-data.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
@@ -1217,6 +1260,7 @@
     };
 
     const nameInput = document.getElementById("nameInput");
+    const englishInput = document.getElementById("englishInput");
     const classInput = document.getElementById("classInput");
     const phoneInput = document.getElementById("phoneInput");
     const usePhoto = document.getElementById("usePhoto");
@@ -1247,29 +1291,29 @@
       if (theme === "heart") return `<svg viewBox="0 0 120 110" aria-hidden="true"><defs><linearGradient id="h${variant}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${variant%2?b:a}"/><stop offset="1" stop-color="${variant%2?a:b}"/></linearGradient></defs><path d="M59 96C24 72 10 54 15 33c5-20 31-25 44-6 13-19 39-14 44 6 5 21-9 39-44 63Z" fill="url(#h${variant})"/><path d="M31 36c5-10 16-11 23-4" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".72"/>${sparkle}</svg>`;
       if (theme === "star") return `<svg viewBox="0 0 120 110" aria-hidden="true"><defs><linearGradient id="s${variant}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><path d="m60 9 14 31 34 4-26 23 8 33-30-17-30 17 8-33-26-23 34-4Z" fill="url(#s${variant})"/><path d="m31 46 20-3" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".68"/>${sparkle}</svg>`;
       if (theme === "rainbow") return `<svg viewBox="0 0 130 105" aria-hidden="true"><path d="M18 82a47 47 0 0 1 94 0" fill="none" stroke="${a}" stroke-width="17" stroke-linecap="round"/><path d="M32 82a33 33 0 0 1 66 0" fill="none" stroke="${b}" stroke-width="15" stroke-linecap="round"/><path d="M46 82a19 19 0 0 1 38 0" fill="none" stroke="${c}" stroke-width="13" stroke-linecap="round"/><g fill="#fff"><circle cx="18" cy="82" r="16"/><circle cx="112" cy="82" r="16"/><circle cx="31" cy="78" r="13"/><circle cx="99" cy="78" r="13"/></g>${sparkle}</svg>`;
-      if (theme === "flower") return `<svg viewBox="0 0 140 130" aria-hidden="true">
+      if (theme === "flower") return `<svg viewBox="0 0 140 120" aria-hidden="true">
         <defs>
-          <linearGradient id="fp${variant}" x1="0" y1="0" x2="1" y2="1">
-            <stop stop-color="${variant%2 ? b : a}"/>
-            <stop offset="1" stop-color="${variant%2 ? a : b}"/>
+          <linearGradient id="flowerPetal${variant}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="${variant % 2 ? '#ffd9e6' : '#ffc9dc'}"/>
+            <stop offset="1" stop-color="${variant % 2 ? '#ffb7ce' : '#ffe3ec'}"/>
           </linearGradient>
-          <radialGradient id="fc${variant}" cx=".35" cy=".3" r=".8">
-            <stop stop-color="#fff4bd"/>
-            <stop offset=".58" stop-color="${b}"/>
-            <stop offset="1" stop-color="#f2bd4e"/>
+          <radialGradient id="flowerCenter${variant}" cx="35%" cy="30%" r="70%">
+            <stop offset="0" stop-color="#fff8d8"/>
+            <stop offset=".65" stop-color="#ffd982"/>
+            <stop offset="1" stop-color="#f4bd58"/>
           </radialGradient>
         </defs>
-        <g transform="translate(70 64)">
-          <ellipse cx="0" cy="-35" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(-4)"/>
-          <ellipse cx="33" cy="-10" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(68)"/>
-          <ellipse cx="20" cy="30" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(142)"/>
-          <ellipse cx="-20" cy="30" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(-142)"/>
-          <ellipse cx="-33" cy="-10" rx="20" ry="31" fill="url(#fp${variant})" stroke="#fff" stroke-width="4" transform="rotate(-68)"/>
-          <circle r="22" fill="url(#fc${variant})" stroke="#fff" stroke-width="4"/>
-          <circle cx="-7" cy="-8" r="6" fill="#fff" opacity=".72"/>
+        <g transform="translate(68 56)">
+          <ellipse cx="0" cy="-29" rx="15" ry="25" fill="url(#flowerPetal${variant})" stroke="#fff" stroke-width="3"/>
+          <ellipse cx="27" cy="-9" rx="15" ry="25" fill="url(#flowerPetal${variant})" stroke="#fff" stroke-width="3" transform="rotate(72 27 -9)"/>
+          <ellipse cx="17" cy="23" rx="15" ry="25" fill="url(#flowerPetal${variant})" stroke="#fff" stroke-width="3" transform="rotate(144 17 23)"/>
+          <ellipse cx="-17" cy="23" rx="15" ry="25" fill="url(#flowerPetal${variant})" stroke="#fff" stroke-width="3" transform="rotate(-144 -17 23)"/>
+          <ellipse cx="-27" cy="-9" rx="15" ry="25" fill="url(#flowerPetal${variant})" stroke="#fff" stroke-width="3" transform="rotate(-72 -27 -9)"/>
+          <circle cx="0" cy="0" r="17" fill="url(#flowerCenter${variant})" stroke="#fff" stroke-width="3"/>
+          <circle cx="-5" cy="-6" r="4" fill="#fff" opacity=".7"/>
         </g>
-        <path d="M99 97c16-3 25 3 28 14-15 2-24-2-28-14Z" fill="#8bcf9c" opacity=".9"/>
-        <path d="M104 94c7-12 16-16 27-12-6 13-15 17-27 12Z" fill="#b8e29b" opacity=".95"/>
+        <path d="M94 88C108 83 121 89 124 101C110 103 100 99 94 88Z" fill="#a8d9b3"/>
+        <path d="M97 88C103 76 114 72 124 77C117 89 108 93 97 88Z" fill="#c5e8c8"/>
       </svg>`;
       if (theme === "cloud") return `<svg viewBox="0 0 135 105" aria-hidden="true"><defs><linearGradient id="c${variant}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="${a}"/></linearGradient></defs><path d="M27 85C12 85 4 75 4 62s11-24 25-24c6-18 23-29 42-25 15 3 27 14 31 28 19-3 33 10 33 26 0 11-9 18-23 18Z" fill="url(#c${variant})"/><circle cx="52" cy="43" r="9" fill="#fff" opacity=".8"/>${sparkle}</svg>`;
       return `<svg viewBox="0 0 120 110" aria-hidden="true"><path d="M60 102V48" stroke="#8d6b53" stroke-width="9" stroke-linecap="round"/><path d="M60 10C34 22 23 45 34 63c8 14 25 15 26 15 1 0 18-1 26-15 11-18 0-41-26-53Z" fill="${variant%2?a:b}"/><path d="M60 31c-10 11-15 23-15 36M60 31c10 11 15 23 15 36" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".68"/>${sparkle}</svg>`;
@@ -1277,7 +1321,9 @@
 
     function makeTag() {
       const name = nameInput.value.trim();
+      const englishName = englishInput.value.trim();
       const className = classInput.value.trim();
+      const secondaryLine = [englishName, className].filter(Boolean).join(" ・ ");
       const phone = phoneInput.value.trim();
       const noPhoto = !state.usePhoto;
       const nameOnly = Boolean(name) && !className && !phone && noPhoto;
@@ -1288,7 +1334,7 @@
         ${showHole?`<span class="hole-mark ${state.holePosition}"></span>`:''}
         <div class="illustrations">${decos}</div>
         ${state.usePhoto?`<div class="photo-frame ${state.photoShape==='square'?'square':''} ${state.photoData?'has-photo':''}">${state.photoData?`<img src="${state.photoData}" alt="上傳照片" draggable="false">`:'☺'}</div>`:''}
-        <div class="tag-text"><div class="tag-name">${escapeHtml(name)}</div><div class="tag-class">${escapeHtml(className)}</div><div class="tag-phone">${escapeHtml(phone)}</div></div>
+        <div class="tag-text"><div class="tag-name">${escapeHtml(name)}</div><div class="tag-class">${escapeHtml(secondaryLine)}</div><div class="tag-phone">${escapeHtml(phone)}</div></div>
       </article></div></div>`;
     }
 
@@ -1299,7 +1345,7 @@
     function renderPreview() {
       const count = Number(state.printLayout);
       printSheet.className = `print-sheet layout-${count}`;
-      printSheet.innerHTML = Array.from({length:count}, makeTag).join('');
+      printSheet.innerHTML = Array.from({length:count}, makeTag).join('') + `<div class="sheet-brandline"><span>© 2026 Feixin Kids · Design · Download · Print</span></div>`;
       const sizeMap = {4:"約 8.5 × 12 cm",6:"約 8.5 × 8 cm",12:"約 5.5 × 6.5 cm"};
       layoutNote.textContent = `A4・${count} 張版｜單張${sizeMap[count]}`;
       sizeGuide.textContent = `A4・${count} 張版｜單張${sizeMap[count]}`;
@@ -1422,7 +1468,13 @@
     });
 
     document.querySelectorAll("[data-group]").forEach(handleOptionGroup);
-    [nameInput, classInput, phoneInput].forEach(input => input.addEventListener("input", renderPreview));
+    const savedProfile = window.FeixinSharedData?.read() || {};
+    nameInput.value = savedProfile.chineseName || nameInput.value;
+    englishInput.value = savedProfile.englishName || englishInput.value;
+    classInput.value = savedProfile.className || classInput.value;
+    function saveProfileFromTag(){ window.FeixinSharedData?.write({chineseName:nameInput.value.trim(),englishName:englishInput.value.trim(),className:classInput.value.trim()}); }
+    [nameInput, englishInput, classInput].forEach(input => input.addEventListener("input", () => { saveProfileFromTag(); renderPreview(); }));
+    phoneInput.addEventListener("input", renderPreview);
     usePhoto.addEventListener("change", () => { state.usePhoto = usePhoto.checked; renderPreview(); });
     showHoleMark.addEventListener("change", () => { state.showHoleMark = showHoleMark.checked; renderPreview(); });
 

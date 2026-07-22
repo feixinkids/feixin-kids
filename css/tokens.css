@@ -1,0 +1,14 @@
+:root {
+  --fx-font-display: "M PLUS Rounded 1c", "Noto Sans TC", sans-serif;
+  --fx-font-body: "Noto Sans TC", "M PLUS Rounded 1c", sans-serif;
+  --fx-pink-50:#fff5f9; --fx-pink-100:#ffe4ef; --fx-pink-300:#ffafd0; --fx-pink-500:#f56f9f; --fx-pink-600:#e9588d;
+  --fx-purple-50:#faf7ff; --fx-purple-100:#eee5ff; --fx-purple-300:#cdb4ff; --fx-purple-500:#a982ee; --fx-purple-600:#8d6bd8;
+  --fx-mint-100:#dcf8eb; --fx-blue-100:#e4f5ff; --fx-yellow-100:#fff3bd;
+  --fx-bg:#fffafd; --fx-surface:#fff; --fx-ink:#514754; --fx-muted:#817582; --fx-line:#eee1e8;
+  --fx-gradient-brand:linear-gradient(90deg,#f35f91 0%,#ec6da4 42%,#a878ef 100%);
+  --fx-gradient-action:linear-gradient(135deg,#ff86ab 0%,#ef5887 52%,#a878ef 100%);
+  --fx-space-1:4px; --fx-space-2:8px; --fx-space-3:12px; --fx-space-4:16px; --fx-space-5:20px; --fx-space-6:24px; --fx-space-8:32px; --fx-space-10:40px; --fx-space-12:48px; --fx-space-16:64px; --fx-space-20:80px;
+  --fx-radius-xs:8px; --fx-radius-sm:12px; --fx-radius-md:18px; --fx-radius-lg:24px; --fx-radius-xl:32px; --fx-radius-pill:999px;
+  --fx-shadow-soft:0 8px 25px rgba(90,53,73,.06); --fx-shadow-card:0 16px 45px rgba(90,53,73,.08); --fx-shadow-hover:0 20px 48px rgba(90,53,73,.13);
+  --fx-container:1120px; --fx-transition:180ms ease;
+}

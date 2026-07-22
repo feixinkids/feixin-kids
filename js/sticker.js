@@ -2,14 +2,46 @@ const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const fonts = [
-  ["貓啃珠圓體", "\"MaokenZhuyuan\", \"Noto Sans TC\", sans-serif", "MaokenZhuyuan"],
-  ["悠哉字體", "\"Yozai\", \"Noto Sans TC\", sans-serif", "Yozai"],
-  ["寒蟬童圓體", "\"Chill\", \"Noto Sans TC\", sans-serif", "Chill"],
-  ["得意黑", "\"Smiley\", \"Noto Sans TC\", sans-serif", "Smiley"],
-  ["Maple Mono Rounded", "\"Maple\", \"Noto Sans TC\", sans-serif", "Maple"],
-  ["辰宇落雁體", "\"ChenYu\", \"Noto Sans TC\", sans-serif", "ChenYu"],
-  ["思源黑體", "\"Noto Sans TC\", sans-serif", "Noto Sans TC"],
-  ["jf open 粉圓", "\"Huninn\", \"Noto Sans TC\", sans-serif", "Huninn"]
+  {
+    name: "圓潤預設",
+    family: '"M PLUS Rounded 1c", "Noto Sans TC", sans-serif',
+    loadName: "M PLUS Rounded 1c"
+  },
+  {
+    name: "貓啃珠圓",
+    family: '"MaokenZhuyuan", "Noto Sans TC", sans-serif',
+    loadName: "MaokenZhuyuan"
+  },
+  {
+    name: "悠哉手寫",
+    family: '"Yozai", "Noto Sans TC", sans-serif',
+    loadName: "Yozai"
+  },
+  {
+    name: "輕鬆圓體",
+    family: '"Chill", "Noto Sans TC", sans-serif',
+    loadName: "Chill"
+  },
+  {
+    name: "微笑字體",
+    family: '"Smiley", "Noto Sans TC", sans-serif',
+    loadName: "Smiley"
+  },
+  {
+    name: "楓糖圓體",
+    family: '"Maple", "Noto Sans TC", sans-serif',
+    loadName: "Maple"
+  },
+  {
+    name: "辰宇手寫",
+    family: '"ChenYu", "Noto Sans TC", sans-serif',
+    loadName: "ChenYu"
+  },
+  {
+    name: "粉圓字體",
+    family: '"Huninn", "Noto Sans TC", sans-serif',
+    loadName: "Huninn"
+  }
 ];
 
 const themes = [
@@ -33,15 +65,20 @@ const themes = [
   ["balloon", "氣球", "#ebefff", "#7889df", "🎈"]
 ];
 
+const savedProfile = window.FeixinSharedData?.read() || {};
 const S = {
-  name: "林小可",
+  name: savedProfile.chineseName || "林小可",
+  english: savedProfile.englishName || "Cathy",
+  className: savedProfile.className || "維也納班",
   font: 0,
   fontScale: 1,
   color: "#4b3b52",
   outline: true,
   theme: "car",
   paper: "a4",
-  qty: 24,
+  qty: 48,
+  usePhoto: true,
+  photoShape: "circle",
   img: null,
   url: null,
   crop: {
@@ -64,33 +101,44 @@ function fontButton(font, index) {
       data-i="${index}"
       type="button"
     >
-      <span style="font-family:${font[1]}">
-        ${font[0]}
-      </span>
+      <span class="font-display-name" style='font-family:${font.family}'>${font.name}</span>
     </button>
   `;
 }
 
 async function ensureFontLoaded(index) {
-  const fontFamily = fonts[index][2];
+  const fontFamily = fonts[index].loadName;
 
   try {
-    await document.fonts.load(`800 48px "${fontFamily}"`, "林小可");
+    await document.fonts.load(
+      `800 48px "${fontFamily}"`,
+      "林小可"
+    );
   } catch (error) {
-    console.warn(`字體載入失敗：${fontFamily}`, error);
+    console.warn(
+      `字體載入失敗：${fontFamily}`,
+      error
+    );
   }
 }
 
 function updateFontButtonStatus() {
   $$(".font-btn").forEach((button, index) => {
-    const fontFamily = fonts[index][2];
-    const loaded = document.fonts.check(`24px "${fontFamily}"`, "林小可");
+    const fontFamily = fonts[index].loadName;
+
+    const loaded = document.fonts.check(
+      `24px "${fontFamily}"`,
+      "林小可"
+    );
 
     button.title = loaded
       ? "字體已載入"
       : "字體尚未載入，將使用替代字體";
 
-    button.classList.toggle("font-missing", !loaded);
+    button.classList.toggle(
+      "font-missing",
+      !loaded
+    );
   });
 }
 
@@ -168,9 +216,9 @@ function renderThemes() {
 function stickerSizeLabel(paper, quantity) {
   const sizes = {
     a4: {
-      24: "約 6.3 × 3.2 cm",
-      30: "約 6.3 × 2.5 cm",
-      48: "約 4.6 × 2.0 cm"
+      48: "約 4.6 × 2.0 cm",
+      96: "約 3.0 × 1.5 cm",
+      102: "約 3.0 × 1.4 cm"
     },
     "4x6": {
       16: "約 4.5 × 1.7 cm",
@@ -184,42 +232,38 @@ function stickerSizeLabel(paper, quantity) {
 
 function renderQty() {
   const quantities = S.paper === "a4"
-    ? [24, 30, 48]
+    ? [48, 96, 102]
     : [16, 20, 24];
 
   if (!quantities.includes(S.qty)) {
     S.qty = quantities[0];
   }
 
+  const labelMap = {
+    48: "彩之舞 48 格",
+    96: "彩之舞 96 格",
+    102: "彩之舞 102 格"
+  };
+
   $("#quantities").innerHTML = quantities
-    .map((quantity) => {
-      return `
-        <button
-          class="${quantity === S.qty ? "active" : ""}"
-          data-n="${quantity}"
-          type="button"
-        >
-          ${quantity} 張
-          <small>
-            單張 ${stickerSizeLabel(S.paper, quantity)}
-          </small>
-        </button>
-      `;
-    })
-    .join("");
+    .map((quantity) => `
+      <button class="${quantity === S.qty ? "active" : ""}" data-n="${quantity}" type="button">
+        ${S.paper === "a4" ? labelMap[quantity] : `${quantity} 張`}
+        <small>${S.paper === "a4" ? `單張貼紙 ${stickerSizeLabel(S.paper, quantity)}` : `單張貼紙 ${stickerSizeLabel(S.paper, quantity)}`}</small>
+      </button>
+    `).join("");
 
   $$("#quantities button").forEach((button) => {
     button.addEventListener("click", () => {
       S.qty = Number(button.dataset.n);
-
       renderQty();
       drawSheet();
     });
   });
 
   $("#layoutHint").textContent = S.paper === "a4"
-    ? "尺寸依目前版面留白、間距與頁尾估算。"
-    : "16、20 張為左右版；24 張為較小型左右版。尺寸依 4×6 相片版面估算。";
+    ? "目前最佳化支援彩之舞 48／96／102 格預裁切姓名貼紙。其他品牌刀模可能不同。"
+    : "使用 4×6 貼紙至超商列印，完成後需自行裁切。";
 }
 
 function setPaper(paper) {
@@ -245,6 +289,20 @@ function loadImage(url) {
     image.src = url;
   });
 }
+
+$("#usePhoto").addEventListener("change", (event) => {
+  S.usePhoto = event.target.checked;
+  $("#photoSettingPanel").classList.toggle("photo-disabled", !S.usePhoto);
+  drawSheet();
+});
+
+$$("#photoShapeButtons button").forEach((button) => {
+  button.addEventListener("click", () => {
+    S.photoShape = button.dataset.shape;
+    $$("#photoShapeButtons button").forEach((item) => item.classList.toggle("active", item === button));
+    drawSheet();
+  });
+});
 
 $("#photoInput").addEventListener("change", async (event) => {
   const file = event.target.files?.[0];
@@ -513,8 +571,7 @@ function drawStickerText(
   maximumWidth,
   baseSize
 ) {
-  const fontFamily = fonts[S.font][1];
-
+const fontFamily = fonts[S.font].family;
   let fontSize = baseSize * S.fontScale;
 
   context.font = `800 ${fontSize}px ${fontFamily}`;
@@ -741,116 +798,62 @@ function drawSticker(
     height
   );
 
-  const croppedImage = createCroppedImage();
+  const secondaryText = [S.english, S.className].filter(Boolean).join(" ・ ");
 
-  let imageSize;
-  let imageX;
-  let imageY;
+  if (S.usePhoto) {
+    const croppedImage = createCroppedImage();
+    let imageSize, imageX, imageY;
 
-  if (vertical) {
-    imageSize = Math.min(
-      width * 0.58,
-      height * 0.54
-    );
+    if (vertical) {
+      imageSize = Math.min(width * 0.58, height * 0.54);
+      imageX = x + (width - imageSize) / 2;
+      imageY = y + height * 0.07;
+    } else {
+      imageSize = Math.min(height * 0.72, width * 0.34);
+      imageX = x + width * 0.06;
+      imageY = y + (height - imageSize) / 2;
+    }
 
-    imageX =
-      x + (width - imageSize) / 2;
+    context.save();
+    if (S.photoShape === "square") {
+      roundedRect(context, imageX, imageY, imageSize, imageSize, imageSize * 0.18);
+    } else {
+      context.beginPath();
+      context.arc(imageX + imageSize / 2, imageY + imageSize / 2, imageSize / 2, 0, Math.PI * 2);
+      context.closePath();
+    }
+    context.clip();
 
-    imageY =
-      y + height * 0.07;
+    if (S.img) {
+      context.drawImage(croppedImage, imageX, imageY, imageSize, imageSize);
+    } else {
+      context.fillStyle = "#ffffffbb";
+      context.fillRect(imageX, imageY, imageSize, imageSize);
+    }
+    context.restore();
+
+    context.strokeStyle = "#ffffff";
+    context.lineWidth = Math.max(3, imageSize * 0.04);
+    if (S.photoShape === "square") {
+      roundedRect(context, imageX + context.lineWidth / 2, imageY + context.lineWidth / 2, imageSize - context.lineWidth, imageSize - context.lineWidth, imageSize * 0.18);
+    } else {
+      context.beginPath();
+      context.arc(imageX + imageSize / 2, imageY + imageSize / 2, imageSize / 2 - context.lineWidth / 2, 0, Math.PI * 2);
+    }
+    context.stroke();
+
+    if (vertical) {
+      drawStickerText(context, S.name, x + width / 2, y + height * (secondaryText ? 0.76 : 0.82), width * 0.82, height * 0.14);
+      if (secondaryText) drawStickerText(context, secondaryText, x + width / 2, y + height * 0.89, width * 0.84, height * 0.075);
+    } else {
+      const remainingWidth = width - (imageX - x) - imageSize;
+      const textX = imageX + imageSize + remainingWidth * 0.48;
+      drawStickerText(context, S.name, textX, y + height * (secondaryText ? 0.43 : 0.5), remainingWidth - width * 0.08, height * 0.21);
+      if (secondaryText) drawStickerText(context, secondaryText, textX, y + height * 0.68, remainingWidth - width * 0.08, height * 0.095);
+    }
   } else {
-    imageSize = Math.min(
-      height * 0.72,
-      width * 0.34
-    );
-
-    imageX =
-      x + width * 0.06;
-
-    imageY =
-      y + (height - imageSize) / 2;
-  }
-
-  context.save();
-
-  context.beginPath();
-
-  context.arc(
-    imageX + imageSize / 2,
-    imageY + imageSize / 2,
-    imageSize / 2,
-    0,
-    Math.PI * 2
-  );
-
-  context.clip();
-
-  if (S.img) {
-    context.drawImage(
-      croppedImage,
-      imageX,
-      imageY,
-      imageSize,
-      imageSize
-    );
-  } else {
-    context.fillStyle = "#ffffffbb";
-
-    context.fillRect(
-      imageX,
-      imageY,
-      imageSize,
-      imageSize
-    );
-  }
-
-  context.restore();
-
-  context.strokeStyle = "#ffffff";
-
-  context.lineWidth = Math.max(
-    3,
-    imageSize * 0.04
-  );
-
-  context.beginPath();
-
-  context.arc(
-    imageX + imageSize / 2,
-    imageY + imageSize / 2,
-    imageSize / 2 -
-      context.lineWidth / 2,
-    0,
-    Math.PI * 2
-  );
-
-  context.stroke();
-
-  if (vertical) {
-    drawStickerText(
-      context,
-      S.name,
-      x + width / 2,
-      y + height * 0.82,
-      width * 0.82,
-      height * 0.15
-    );
-  } else {
-    const remainingWidth =
-      width -
-      (imageX - x) -
-      imageSize;
-
-    drawStickerText(
-      context,
-      S.name,
-      imageX +
-        imageSize +
-        remainingWidth * 0.48,
-      y + height / 2,
-      remainingWidth - width * 0.08,
-      height * 0.23
-    );
+    drawStickerText(context, S.name, x + width / 2, y + height * (secondaryText ? 0.43 : 0.5), width * 0.82, height * 0.27);
+    if (secondaryText) drawStickerText(context, secondaryText, x + width / 2, y + height * 0.66, width * 0.84, height * 0.11);
   }
 
   context.restore();
@@ -872,9 +875,9 @@ function drawSticker(
 function getLayout() {
   if (S.paper === "a4") {
     const layoutMap = {
-      24: [3, 8],
-      30: [3, 10],
-      48: [4, 12]
+      48: [4, 12],
+      96: [6, 16],
+      102: [6, 17]
     };
 
     const selectedLayout =
@@ -1014,8 +1017,8 @@ function drawSheet() {
   sheetContext.restore();
 
   $("#meta").textContent =
-    `${S.paper === "a4" ? "A4" : "4×6"} · ` +
-    `${S.qty} 張`;
+    `${S.paper === "a4" ? "彩之舞" : "4×6 貼紙"} · ` +
+    `${S.qty} ${S.paper === "a4" ? "格" : "張"}`;
   
   drawMobileStickerPreview();
 }
@@ -1106,6 +1109,13 @@ $("#nameInput").addEventListener(
   }
 );
 
+function saveSharedProfile() {
+  window.FeixinSharedData?.write({ chineseName: S.name.trim(), englishName: S.english.trim(), className: S.className.trim() });
+}
+$("#nameInput").addEventListener("input", saveSharedProfile);
+$("#englishInput").addEventListener("input", (event) => { S.english = event.target.value; saveSharedProfile(); drawSheet(); });
+$("#classInput").addEventListener("input", (event) => { S.className = event.target.value; saveSharedProfile(); drawSheet(); });
+
 $("#textColor").addEventListener(
   "input",
   (event) => {
@@ -1157,13 +1167,17 @@ $("#resetBtn").addEventListener(
 
     Object.assign(S, {
       name: "林小可",
+      english: "Cathy",
+      className: "維也納班",
       font: 0,
       fontScale: 1,
       color: "#4b3b52",
       outline: true,
       theme: "car",
       paper: "a4",
-      qty: 24,
+      qty: 48,
+      usePhoto: true,
+      photoShape: "circle",
       img: null,
       url: null,
       crop: {
@@ -1174,8 +1188,14 @@ $("#resetBtn").addEventListener(
     });
 
     $("#nameInput").value = S.name;
+    $("#englishInput").value = S.english;
+    $("#classInput").value = S.className;
+    saveSharedProfile();
     $("#textColor").value = S.color;
 
+    $("#usePhoto").checked = true;
+    $("#photoSettingPanel").classList.remove("photo-disabled");
+    $$("#photoShapeButtons button").forEach((button) => button.classList.toggle("active", button.dataset.shape === "circle"));
     $("#fontSizeRange").value = 100;
     $("#fontSizeValue").textContent =
       "100%";
@@ -1253,38 +1273,32 @@ const previewSection =
 const previewPlaceholder =
   document.createComment("preview-original-position");
 function drawMobileStickerPreview() {
-  if (
-    !mobileStickerCanvas ||
-    !mobileStickerContext
-  ) {
+  const mobileCanvas =
+    document.getElementById(
+      "mobileStickerCanvas"
+    );
+
+  if (!mobileCanvas) {
     return;
   }
 
-  const width = 320;
-  const height = 130;
+  const context =
+    mobileCanvas.getContext("2d");
+
+  const width = mobileCanvas.width;
+  const height = mobileCanvas.height;
+
+  context.clearRect(
+    0,
+    0,
+    width,
+    height
+  );
+
   const padding = 8;
 
-  mobileStickerCanvas.width = width;
-  mobileStickerCanvas.height = height;
-
-  mobileStickerContext.clearRect(
-    0,
-    0,
-    width,
-    height
-  );
-
-  mobileStickerContext.fillStyle = "#ffffff";
-
-  mobileStickerContext.fillRect(
-    0,
-    0,
-    width,
-    height
-  );
-
   drawSticker(
-    mobileStickerContext,
+    context,
     padding,
     padding,
     width - padding * 2,
@@ -1317,7 +1331,11 @@ function openMobilePreview() {
     "mobile-preview-open"
   );
 
-  drawSheet();
+  
+$("#nameInput").value = S.name;
+$("#englishInput").value = S.english;
+$("#classInput").value = S.className;
+drawSheet();
 
   requestAnimationFrame(() => {
     mobilePreviewContent.scrollTo({ top: 0, behavior: "instant" });

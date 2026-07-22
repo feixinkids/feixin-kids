@@ -4,15 +4,14 @@
 ========================================================= */
 
 :root {
-  --fx-pink: #ef5f8e;
-  --fx-pink-dark: #d94f7c;
-  --fx-pink-soft: #fff3f7;
+  --fx-pink: var(--fx-pink-600);
+  --fx-pink-dark: var(--fx-pink-600);
+  --fx-pink-soft: var(--fx-pink-50);
   --fx-ink: #594654;
   --fx-muted: #8e8089;
   --fx-line: #eee2e9;
-  --fx-card: #ffffff;
-  --fx-radius-card: 22px;
-  --fx-shadow-card: 0 16px 45px rgba(90, 53, 73, 0.08);
+  --fx-card: var(--fx-surface);
+  --fx-radius-card: var(--fx-radius-lg);
 }
 
 /* 工具頁共用 Header */
