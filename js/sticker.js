@@ -44,26 +44,8 @@ const fonts = [
   }
 ];
 
-const themes = [
-  ["car", "小車車", "#dff3ff", "#ef746e", "🚗"],
-  ["truck", "挖土機", "#fff0bd", "#e59a22", "🚧"],
-  ["dino", "恐龍", "#dff4df", "#65ad6b", "🦕"],
-  ["rocket", "火箭", "#e8e3ff", "#7b70d0", "🚀"],
-  ["zoo", "動物樂園", "#dff7ee", "#df9853", "🐾"],
-  ["castle", "夢幻城堡", "#ffe1ed", "#b27bd1", "🏰"],
-  ["bear", "小熊娃娃", "#fff0db", "#b8845e", "🧸"],
-  ["unicorn", "獨角獸", "#f4e3ff", "#e779af", "🦄"],
-  ["flower", "小花朵", "#fff0f5", "#e9759a", "🌸"],
-  ["strawberry", "草莓", "#ffe3e5", "#e45e69", "🍓"],
-  ["rainbow", "彩虹", "#e8f6ff", "#ee82a2", "🌈"],
-  ["star", "星星", "#fff7d5", "#ddb039", "⭐"],
-  ["cloud", "雲朵", "#e7f4ff", "#78afd2", "☁️"],
-  ["forest", "森林", "#e5f2de", "#62a369", "🌳"],
-  ["panda", "熊貓", "#f1f1f1", "#555555", "🐼"],
-  ["ocean", "海洋", "#ddf3f8", "#45a0ba", "🐳"],
-  ["heart", "愛心", "#ffe6ee", "#e96f94", "♥"],
-  ["balloon", "氣球", "#ebefff", "#7889df", "🎈"]
-];
+const themes = window.FeixinTemplateData.templates;
+const solidBackgrounds = window.FeixinTemplateData.solidBackgrounds;
 
 const savedProfile = window.FeixinSharedData?.read() || {};
 const S = {
@@ -75,6 +57,9 @@ const S = {
   color: "#4b3b52",
   outline: true,
   theme: "car",
+  backgroundMode: "template",
+  solidBackground: "macaron-pink",
+  gradient: false,
   paper: "a4",
   qty: 48,
   usePhoto: true,
@@ -174,39 +159,31 @@ function renderFonts() {
 }
 
 function renderFilters() {
-  $("#filters").innerHTML = `
-    <button class="active" type="button" data-c="全部">
-      全部
-    </button>
-  `;
+  document.querySelectorAll("[data-bg-mode]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.bgMode === S.backgroundMode);
+  });
+  const solidOptions = $("#solidOptions");
+  if (solidOptions) solidOptions.hidden = S.backgroundMode !== "solid";
 }
 
 function renderThemes() {
-  $("#backgroundGrid").innerHTML = themes
-    .map((theme) => {
-      return `
-        <button
-          class="bg-btn ${theme[0] === S.theme ? "active" : ""}"
-          data-t="${theme[0]}"
-          type="button"
-        >
-          <span
-            class="swatch"
-            style="background:${theme[2]}"
-          >
-            ${theme[4]}
-          </span>
+  const items = S.backgroundMode === "template" ? themes : solidBackgrounds;
+  $("#backgroundGrid").innerHTML = items.map((item) => {
+    const active = S.backgroundMode === "template" ? item[0] === S.theme : item[0] === S.solidBackground;
+    const swatchStyle = S.backgroundMode === "template"
+      ? `background:${item[2]}`
+      : `background:${S.gradient ? `linear-gradient(135deg, ${item[2]}, #fff)` : item[2]}`;
+    return `
+      <button class="bg-btn ${active ? "active" : ""}" data-bg-id="${item[0]}" type="button">
+        <span class="swatch" style="${swatchStyle}">${S.backgroundMode === "template" ? item[4] : ""}</span>
+        <span>${item[1]}</span>
+      </button>`;
+  }).join("");
 
-          <span>${theme[1]}</span>
-        </button>
-      `;
-    })
-    .join("");
-
-  $$(".bg-btn").forEach((button) => {
+  $$("[data-bg-id]").forEach((button) => {
     button.addEventListener("click", () => {
-      S.theme = button.dataset.t;
-
+      if (S.backgroundMode === "template") S.theme = button.dataset.bgId;
+      else S.solidBackground = button.dataset.bgId;
       renderThemes();
       drawSheet();
     });
@@ -289,6 +266,21 @@ function loadImage(url) {
     image.src = url;
   });
 }
+
+document.querySelectorAll("[data-bg-mode]").forEach((button) => {
+  button.addEventListener("click", () => {
+    S.backgroundMode = button.dataset.bgMode;
+    renderFilters();
+    renderThemes();
+    drawSheet();
+  });
+});
+
+$("#gradientToggle")?.addEventListener("change", (event) => {
+  S.gradient = event.target.checked;
+  renderThemes();
+  drawSheet();
+});
 
 $("#usePhoto").addEventListener("change", (event) => {
   S.usePhoto = event.target.checked;
@@ -702,61 +694,45 @@ function drawExcavator(
   context.restore();
 }
 
-function drawDecoration(
-  context,
-  theme,
-  x,
-  y,
-  width,
-  height
-) {
-  context.fillStyle = theme[2];
-  context.fillRect(x, y, width, height);
+function getSolidColor() {
+  return solidBackgrounds.find((item) => item[0] === S.solidBackground)?.[2] || "#F8DDE7";
+}
 
-  const decorationSize =
-    Math.min(width, height) * 0.6;
-
-  context.save();
-
-  context.globalAlpha = 0.4;
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-
-  if (theme[0] === "truck") {
-    drawExcavator(
-      context,
-      x + width * 0.15,
-      y + height * 0.24,
-      decorationSize,
-      theme[3]
-    );
-
-    drawExcavator(
-      context,
-      x + width * 0.86,
-      y + height * 0.82,
-      decorationSize,
-      theme[3]
-    );
-  } else {
-    context.font =
-      `${decorationSize}px ` +
-      `"Apple Color Emoji", ` +
-      `"Segoe UI Emoji", sans-serif`;
-
-    context.fillText(
-      theme[4],
-      x + width * 0.15,
-      y + height * 0.24
-    );
-
-    context.fillText(
-      theme[4],
-      x + width * 0.86,
-      y + height * 0.82
-    );
+function drawDecoration(context, theme, x, y, width, height) {
+  if (S.backgroundMode === "solid") {
+    const color = getSolidColor();
+    if (S.gradient) {
+      const gradient = context.createLinearGradient(x, y, x + width, y + height);
+      gradient.addColorStop(0, color);
+      gradient.addColorStop(1, "#ffffff");
+      context.fillStyle = gradient;
+    } else {
+      context.fillStyle = color;
+    }
+    context.fillRect(x, y, width, height);
+    return;
   }
 
+  context.fillStyle = theme[2];
+  context.fillRect(x, y, width, height);
+  const decorationSize = Math.min(width, height) * 0.90;
+  context.save();
+  context.globalAlpha = 0.22;
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+  const leftX = x + width * 0.17;
+  const topY = y + height * 0.25;
+  const rightX = x + width * 0.83;
+  const bottomY = y + height * 0.75;
+
+  if (theme[0] === "truck") {
+    drawExcavator(context, leftX, topY, decorationSize, theme[3]);
+    drawExcavator(context, rightX, bottomY, decorationSize, theme[3]);
+  } else {
+    context.font = `${decorationSize}px "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
+    context.fillText(theme[4], leftX, topY);
+    context.fillText(theme[4], rightX, bottomY);
+  }
   context.restore();
 }
 
@@ -1060,7 +1036,7 @@ $("#pdfBtn").addEventListener(
 
     drawSheet();
 
-    if (!window.jspdf) {
+    if (!window.jspdf?.jsPDF) {
       $("#exportStatus").textContent =
         "PDF 元件尚未載入。";
 
@@ -1174,6 +1150,9 @@ $("#resetBtn").addEventListener(
       color: "#4b3b52",
       outline: true,
       theme: "car",
+      backgroundMode: "template",
+      solidBackground: "macaron-pink",
+      gradient: false,
       paper: "a4",
       qty: 48,
       usePhoto: true,
@@ -1201,6 +1180,7 @@ $("#resetBtn").addEventListener(
       "100%";
 
     $("#textOutline").checked = true;
+    if ($("#gradientToggle")) $("#gradientToggle").checked = false;
     $("#photoInput").value = "";
     $("#photoTools").hidden = true;
 
