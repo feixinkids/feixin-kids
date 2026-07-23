@@ -369,3 +369,15 @@ body.mobile-preview-open {
 .exports{display:grid;grid-template-columns:1fr 1fr;gap:10px}.exports #pngBtn{background:linear-gradient(135deg,#ef709a,#df5f8d)!important;color:#fff!important;border:0!important}.exports #pdfBtn{background:linear-gradient(135deg,#a18bdc,#7765bf)!important;color:#fff!important;border:0!important}.exports p{grid-column:1/-1}
 
 .bg-btn .swatch img{width:43%;height:43%;object-fit:contain;display:block;filter:drop-shadow(0 2px 2px rgba(92,70,82,.12))}
+
+
+/* Feixin Kids 吉祥物整合 */
+.mascot-title-row{position:relative;min-height:118px;padding:18px 152px 18px 20px;border:1px solid #eee2e9;border-radius:22px;background:linear-gradient(135deg,#fff7fb,#faf5ff);box-shadow:0 16px 45px #5a354914;overflow:hidden}
+.mascot-title-copy{display:grid;gap:2px}
+.mascot-title-copy>span{font-size:12px;color:#8f7e89;font-weight:600}
+.tool-mascot{position:absolute;right:72px;bottom:-9px;width:96px;height:108px;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(95,65,84,.12));animation:toolMascotFloat 4s ease-in-out infinite}
+.mascot-title-row>#resetBtn{position:absolute;right:14px;top:14px;padding:8px 10px;font-size:11px;background:rgba(255,255,255,.9)}
+@keyframes toolMascotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.mascot-exports{position:relative;min-height:126px;padding-left:132px!important;align-content:center;overflow:hidden}
+.export-mascot{position:absolute;left:10px;bottom:0;width:116px;height:120px;object-fit:contain;filter:drop-shadow(0 7px 9px rgba(95,65,84,.11));pointer-events:none}
+@media(max-width:650px){.mascot-title-row{min-height:105px;padding:15px 112px 15px 15px}.tool-mascot{right:52px;width:76px;height:90px}.mascot-title-row>#resetBtn{right:8px;top:8px;padding:7px;font-size:10px}.mascot-title-copy>span{font-size:11px}.mascot-exports{padding-left:104px!important}.export-mascot{width:92px;height:104px}}
