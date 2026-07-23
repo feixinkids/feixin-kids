@@ -56,7 +56,7 @@ const S = {
   fontScale: 1,
   color: "#4b3b52",
   outline: true,
-  theme: "car",
+  theme: "excavator",
   backgroundMode: "template",
   solidBackground: "macaron-pink",
   gradient: false,
@@ -175,7 +175,7 @@ function renderThemes() {
       : `background:${S.gradient ? `linear-gradient(135deg, ${item[2]}, #fff)` : item[2]}`;
     return `
       <button class="bg-btn ${active ? "active" : ""}" data-bg-id="${item[0]}" type="button">
-        <span class="swatch" style="${swatchStyle}">${S.backgroundMode === "template" ? item[4] : ""}</span>
+        <span class="swatch" style="${swatchStyle}">${S.backgroundMode === "template" ? `<img src="${item[4]}" alt="" loading="lazy">` : ""}</span>
         <span>${item[1]}</span>
       </button>`;
   }).join("");
@@ -603,95 +603,27 @@ const fontFamily = fonts[S.font].family;
   );
 }
 
-function drawExcavator(
-  context,
-  x,
-  y,
-  size,
-  color
-) {
-  context.save();
-  context.translate(x, y);
+const themeImageCache = new Map();
 
-  context.fillStyle = color;
-  context.strokeStyle = color;
-  context.lineWidth = Math.max(
-    2,
-    size * 0.05
-  );
+function getThemeImage(theme) {
+  const src = theme?.[4];
+  if (!src) return null;
+  if (!themeImageCache.has(src)) {
+    const image = new Image();
+    image.decoding = "async";
+    image.onload = () => drawSheet();
+    image.src = src;
+    themeImageCache.set(src, image);
+  }
+  return themeImageCache.get(src);
+}
 
-  context.fillRect(
-    -size * 0.34,
-    -size * 0.03,
-    size * 0.5,
-    size * 0.22
-  );
-
-  context.fillRect(
-    -size * 0.18,
-    -size * 0.28,
-    size * 0.25,
-    size * 0.26
-  );
-
-  context.beginPath();
-  context.moveTo(
-    size * 0.03,
-    -size * 0.24
-  );
-
-  context.lineTo(
-    size * 0.38,
-    -size * 0.48
-  );
-
-  context.lineTo(
-    size * 0.48,
-    -size * 0.39
-  );
-
-  context.lineTo(
-    size * 0.17,
-    -size * 0.12
-  );
-
-  context.stroke();
-
-  context.beginPath();
-  context.moveTo(
-    size * 0.48,
-    -size * 0.39
-  );
-
-  context.lineTo(
-    size * 0.56,
-    -size * 0.12
-  );
-
-  context.lineTo(
-    size * 0.38,
-    -size * 0.09
-  );
-
-  context.closePath();
-  context.fill();
-
-  context.fillStyle = "#5b5360";
-
-  context.beginPath();
-
-  context.ellipse(
-    -size * 0.12,
-    size * 0.24,
-    size * 0.28,
-    size * 0.11,
-    0,
-    0,
-    Math.PI * 2
-  );
-
-  context.fill();
-  context.restore();
+function drawThemeImage(context, image, centerX, centerY, boxSize) {
+  if (!image || !image.complete || !image.naturalWidth) return;
+  const scale = Math.min(boxSize / image.naturalWidth, boxSize / image.naturalHeight);
+  const width = image.naturalWidth * scale;
+  const height = image.naturalHeight * scale;
+  context.drawImage(image, centerX - width / 2, centerY - height / 2, width, height);
 }
 
 function getSolidColor() {
@@ -715,24 +647,12 @@ function drawDecoration(context, theme, x, y, width, height) {
 
   context.fillStyle = theme[2];
   context.fillRect(x, y, width, height);
-  const decorationSize = Math.min(width, height) * 0.90;
+  const decorationSize = Math.min(width, height) * 0.88;
+  const image = getThemeImage(theme);
   context.save();
-  context.globalAlpha = 0.22;
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-  const leftX = x + width * 0.17;
-  const topY = y + height * 0.25;
-  const rightX = x + width * 0.83;
-  const bottomY = y + height * 0.75;
-
-  if (theme[0] === "truck") {
-    drawExcavator(context, leftX, topY, decorationSize, theme[3]);
-    drawExcavator(context, rightX, bottomY, decorationSize, theme[3]);
-  } else {
-    context.font = `${decorationSize}px "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
-    context.fillText(theme[4], leftX, topY);
-    context.fillText(theme[4], rightX, bottomY);
-  }
+  context.globalAlpha = 0.26;
+  drawThemeImage(context, image, x + width * 0.16, y + height * 0.25, decorationSize);
+  drawThemeImage(context, image, x + width * 0.84, y + height * 0.75, decorationSize);
   context.restore();
 }
 
@@ -1149,7 +1069,7 @@ $("#resetBtn").addEventListener(
       fontScale: 1,
       color: "#4b3b52",
       outline: true,
-      theme: "car",
+      theme: "excavator",
       backgroundMode: "template",
       solidBackground: "macaron-pink",
       gradient: false,
