@@ -1,0 +1,3 @@
+Feixin Kids V6.0.1
+Build: 2026-07-24-r2
+Changes: timetable scroll-frame preview, icons + toggle switches, 7-day label updated.
