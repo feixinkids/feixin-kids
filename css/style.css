@@ -482,15 +482,46 @@ header {
 }
 
 .tool-icon {
-  width: 68px;
-  height: 68px;
+  width: 88px;
+  height: 88px;
   display: grid;
   place-items: center;
-  border-radius: 21px;
-  background: rgba(255, 255, 255, 0.85);
-  font-size: 33px;
-  box-shadow:
-    0 10px 25px rgba(82, 57, 82, 0.08);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.tool-icon img {
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  display: block;
+  filter:
+    drop-shadow(2px 0 0 rgba(255,255,255,.96))
+    drop-shadow(-2px 0 0 rgba(255,255,255,.96))
+    drop-shadow(0 2px 0 rgba(255,255,255,.96))
+    drop-shadow(0 -2px 0 rgba(255,255,255,.96))
+    drop-shadow(2px 2px 0 rgba(255,255,255,.92))
+    drop-shadow(-2px 2px 0 rgba(255,255,255,.92))
+    drop-shadow(2px -2px 0 rgba(255,255,255,.92))
+    drop-shadow(-2px -2px 0 rgba(255,255,255,.92))
+    drop-shadow(0 9px 10px rgba(103,72,101,.16));
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.tool-card:hover .tool-icon img {
+  transform: translateY(-3px) rotate(-2deg) scale(1.05);
+  filter:
+    drop-shadow(2px 0 0 rgba(255,255,255,1))
+    drop-shadow(-2px 0 0 rgba(255,255,255,1))
+    drop-shadow(0 2px 0 rgba(255,255,255,1))
+    drop-shadow(0 -2px 0 rgba(255,255,255,1))
+    drop-shadow(2px 2px 0 rgba(255,255,255,.96))
+    drop-shadow(-2px 2px 0 rgba(255,255,255,.96))
+    drop-shadow(2px -2px 0 rgba(255,255,255,.96))
+    drop-shadow(-2px -2px 0 rgba(255,255,255,.96))
+    drop-shadow(0 12px 12px rgba(103,72,101,.2));
 }
 
 .tool-card h3 {

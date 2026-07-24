@@ -97,26 +97,22 @@
 }
 
 /* =========================
-   4. Bows
+   4. Extra bubbles
 ========================= */
 
-.decor-bow {
-  width: 82px;
-  animation: bow-float 8s ease-in-out infinite;
+.bubble-4 {
+  width: 86px;
+  height: 86px;
+  top: 13%;
+  left: 5%;
+  animation-delay: -1s;
 }
 
-.bow-1 {
-  top: 18%;
-  left: 7%;
-}
-
-/* 右側蝴蝶結：放在「物」字旁邊 */
-.bow-2 {
-  width: 64px;
+.bubble-5 {
+  width: 58px;
+  height: 58px;
   left: calc(50% + 245px);
-  top: 47%;
-  right: auto;
-  bottom: auto;
+  top: 45%;
   animation-delay: -4s;
 }
 
