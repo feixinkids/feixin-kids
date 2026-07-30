@@ -45,7 +45,7 @@ const fonts = [
 ];
 
 const themes = window.FeixinTemplateData.templates;
-const solidBackgrounds = window.FeixinTemplateData.solidBackgrounds;
+const solidBackgrounds = [...window.FeixinTemplateData.solidBackgrounds, ["pure-white", "白色", "#FFFFFF"]];
 
 const savedProfile = window.FeixinSharedData?.read() || {};
 const S = {
@@ -199,8 +199,8 @@ function stickerSizeLabel(paper, quantity) {
     },
     "4x6": {
       16: "約 4.5 × 1.7 cm",
-      20: "約 4.5 × 1.3 cm",
-      24: "約 2.9 × 1.7 cm"
+      24: "約 3.0 × 1.7 cm",
+      36: "約 3.0 × 1.1 cm"
     }
   };
 
@@ -210,7 +210,7 @@ function stickerSizeLabel(paper, quantity) {
 function renderQty() {
   const quantities = S.paper === "a4"
     ? [48, 96, 102]
-    : [16, 20, 24];
+    : [16, 24, 36];
 
   if (!quantities.includes(S.qty)) {
     S.qty = quantities[0];
@@ -802,12 +802,12 @@ function getLayout() {
     ];
   }
 
-  if (S.qty === 20) {
+  if (S.qty === 24) {
     return [
       1200,
       1800,
-      2,
-      10,
+      3,
+      8,
       false,
       54,
       14
@@ -818,7 +818,7 @@ function getLayout() {
     1200,
     1800,
     3,
-    8,
+    12,
     false,
     54,
     14

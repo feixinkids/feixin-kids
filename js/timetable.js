@@ -9,17 +9,17 @@ const TEMPLATES=[
 ];
 const SOLIDS=[['macaron-pink','馬卡龍粉','#fbdce8'],['macaron-yellow','馬卡龍黃','#fff1bd'],['macaron-orange','馬卡龍橘','#f9dfc8'],['macaron-green','馬卡龍綠','#dcefd9'],['macaron-blue','馬卡龍藍','#dcecf6'],['macaron-purple','馬卡龍紫','#e9ddf5'],['morandi-gray','莫蘭迪灰','#ded9d6'],['morandi-green','莫蘭迪綠','#ccd8c8'],['morandi-pink','莫蘭迪粉','#dfc8cc'],['morandi-milk-tea','莫蘭迪奶茶','#decfbe'],['morandi-blue','莫蘭迪藍','#c8d4db'],['morandi-purple','莫蘭迪紫','#cec7d7']];
 const FONTS=[
-{name:'貓啃珠圓體',family:'MaokenZhuyuan, sans-serif'},
-{name:'悠哉字體',family:'Yozai, sans-serif'},
-{name:'寒蟬童圓體',family:'ChillRound, sans-serif'},
-{name:'得意黑',family:'CjkAllseto, sans-serif'},
-{name:'Maple Mono Rounded',family:'MapleMonoRounded, sans-serif'},
-{name:'辰宇落雁體',family:'ChenYu, sans-serif'},
-{name:'思源黑體',family:'"Noto Sans TC", sans-serif'},
-{name:'jf open 粉圓',family:'JustfontFenYuan, sans-serif'}
+{name:'圓潤預設',family:'"M PLUS Rounded 1c", "Noto Sans TC", sans-serif'},
+{name:'貓啃珠圓',family:'"MaokenZhuyuan", "Noto Sans TC", sans-serif'},
+{name:'悠哉手寫',family:'"Yozai", "Noto Sans TC", sans-serif'},
+{name:'輕鬆圓體',family:'"Chill", "Noto Sans TC", sans-serif'},
+{name:'微笑字體',family:'"Smiley", "Noto Sans TC", sans-serif'},
+{name:'楓糖圓體',family:'"Maple", "Noto Sans TC", sans-serif'},
+{name:'辰宇手寫',family:'"ChenYu", "Noto Sans TC", sans-serif'},
+{name:'粉圓字體',family:'"Huninn", "Noto Sans TC", sans-serif'}
 ];
 const SUBJECT_COLORS=['#f8dce8','#dceafa','#f3e1fb','#def0dc','#fff0c9','#f9dfcd','#dceeea','#e8e1fa','#f7e4dc','#e3edf7','#f4e7b9','#dfe9ce'];
-const S={days:5,periodCount:7,clothing:true,morning:true,lunch:true,after:false,showTime:true,format:'a4',font:0,fontScale:1,textColor:'#4b3b52',backgroundMode:'template',template:'strawberry',solid:'macaron-pink',gradient:false,selectedDay:0,courses:{},clothingData:Array(7).fill(''),times:DEFAULT_TIMES.map(v=>[...v]),editingKey:null,images:new Map()};
+const S={days:5,periodCount:7,clothing:true,morning:true,lunch:true,after:false,showTime:true,format:'a4',font:0,fontScale:1.5,textColor:'#4b3b52',backgroundMode:'template',template:'strawberry',solid:'macaron-pink',gradient:false,selectedDay:0,courses:{},clothingData:Array(7).fill(''),times:DEFAULT_TIMES.map(v=>[...v]),editingKey:null,images:new Map()};
 const canvas=$('#timetableCanvas'),ctx=canvas.getContext('2d');
 
 function rowDefs(){const rows=[];if(S.clothing)rows.push({key:'clothing',label:'服裝',time:''});if(S.morning)rows.push({key:'morning',label:'早自習',time:'08:00～08:40'});for(let i=0;i<S.periodCount;i++){const t=S.times[i];rows.push({key:`p${i}`,label:t[0],time:`${t[1]}～${t[2]}`});if(i===3&&S.lunch)rows.push({key:'lunch',label:'午休',time:'12:00～13:20',merged:true})}if(S.after)rows.push({key:'after',label:'課後時段',time:'16:10～17:30'});return rows}
@@ -43,10 +43,13 @@ function fitText(text,maxWidth,startSize,minSize=20){let s=startSize;ctx.font=`8
 function drawCoverImage(im,w,h){const scale=Math.max(w/im.width,h/im.height),sw=w/scale,sh=h/scale,sx=(im.width-sw)/2,sy=(im.height-sh)/2;ctx.drawImage(im,sx,sy,sw,sh,0,0,w,h)}
 async function drawBackground(w,h){if(S.backgroundMode==='template'){const item=TEMPLATES.find(v=>v[0]===S.template);try{const im=await loadImage(`../assets/timetable/templates/${item[2]}`);drawCoverImage(im,w,h)}catch{ctx.fillStyle='#fff8f3';ctx.fillRect(0,0,w,h)}}else{const c=SOLIDS.find(v=>v[0]===S.solid)?.[2]||'#fbdce8';if(S.gradient){const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,c);g.addColorStop(1,'#fff9fc');ctx.fillStyle=g}else ctx.fillStyle=c;ctx.fillRect(0,0,w,h)}}
 async function drawCanvas(){await document.fonts.ready;const format=S.format==='a4'?{w:3508,h:2480,label:'A4 橫式'}:{w:1800,h:1200,label:'4×6 橫式'};canvas.width=format.w;canvas.height=format.h;await drawBackground(format.w,format.h);const W=format.w,H=format.h,scale=H/2480;
-const marginX=(S.format==='a4'?360:160),top=(S.format==='a4'?300:145),bottom=(S.format==='a4'?250:110);const x=marginX,y=top,w=W-marginX*2,h=H-top-bottom;
-ctx.save();roundedRect(ctx,x,y,w,h,38*scale);ctx.fillStyle='rgba(255,255,255,.10)';ctx.fill();ctx.strokeStyle='rgba(126,92,111,.30)';ctx.lineWidth=Math.max(2,5*scale);ctx.stroke();ctx.restore();
-const titleSize=fitText($('#titleInput').value||'我的課表',w*.62,(S.format==='a4'?92:47)*S.fontScale,28);drawText($('#titleInput').value||'我的課表',W/2,y-(S.format==='a4'?125:57),titleSize,'900');
-const info=[($('#schoolInput').value||'').trim(),($('#termInput').value||'').trim(),[($('#nameInput').value||'').trim(),($('#classInput').value||'').trim(),($('#teacherInput').value||'').trim()?`導師：${$('#teacherInput').value.trim()}`:''].filter(Boolean).join('　')].filter(Boolean);drawText(info.join('　｜　'),W/2,y-(S.format==='a4'?52:25),(S.format==='a4'?34:18)*S.fontScale,'700','#6e5964','center',w*.9);
+const titleText=($('#titleInput').value||'').trim();
+const info=[($('#schoolInput').value||'').trim(),($('#termInput').value||'').trim(),[($('#nameInput').value||'').trim(),($('#classInput').value||'').trim(),($('#teacherInput').value||'').trim()?`導師：${$('#teacherInput').value.trim()}`:''].filter(Boolean).join('　')].filter(Boolean);const infoText=info.join('　｜　');
+const hasTitle=Boolean(titleText),hasInfo=Boolean(infoText);const marginX=(S.format==='a4'?360:160),baseTop=S.format==='a4'?(hasTitle&&hasInfo?300:hasTitle?245:hasInfo?225:150):(hasTitle&&hasInfo?145:hasTitle?115:hasInfo?105:72),titleY=baseTop-(S.format==='a4'?(hasInfo?125:72):(hasInfo?57:34)),contentShift=hasTitle?(S.format==='a4'?105:52):0,top=baseTop+contentShift,bottom=(S.format==='a4'?250:110);const x=marginX,y=top,w=W-marginX*2,h=H-top-bottom;
+// 課表區覆蓋 50% 白色透明層，降低背景干擾並保留水彩圖案。
+ctx.save();roundedRect(ctx,x,y,w,h,38*scale);ctx.fillStyle='rgba(255,255,255,.50)';ctx.fill();ctx.strokeStyle='rgba(126,92,111,.30)';ctx.lineWidth=Math.max(2,5*scale);ctx.stroke();ctx.restore();
+if(hasTitle){const titleSize=fitText(titleText,w*.62,(S.format==='a4'?92:47)*S.fontScale,28);drawText(titleText,W/2,titleY,titleSize,'900')}
+if(hasInfo)drawText(infoText,W/2,y-(S.format==='a4'?52:25),(S.format==='a4'?34:18)*S.fontScale,'700','#6e5964','center',w*.9);
 const rows=rowDefs(),labelW=w*(S.format==='a4'?.145:.16),colW=(w-labelW)/S.days,rowH=h/(rows.length+1),headerH=rowH;ctx.save();roundedRect(ctx,x,y,w,h,34*scale);ctx.clip();
 // 課表格子保持透明，只以格線與文字呈現，讓背景模板完整可見。
 ctx.strokeStyle='rgba(105,80,94,.32)';ctx.lineWidth=Math.max(1,3*scale);for(let d=0;d<=S.days;d++){const xx=x+labelW+d*colW;ctx.beginPath();ctx.moveTo(xx,y);ctx.lineTo(xx,y+h);ctx.stroke()}ctx.beginPath();ctx.moveTo(x,y+headerH);ctx.lineTo(x+w,y+headerH);ctx.stroke();

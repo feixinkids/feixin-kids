@@ -43,7 +43,7 @@
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const fonts=[{name:'圓潤預設',family:'"M PLUS Rounded 1c","Noto Sans TC",sans-serif',load:'M PLUS Rounded 1c'},{name:'貓啃珠圓',family:'"MaokenZhuyuan","Noto Sans TC",sans-serif',load:'MaokenZhuyuan'},{name:'悠哉手寫',family:'"Yozai","Noto Sans TC",sans-serif',load:'Yozai'},{name:'輕鬆圓體',family:'"Chill","Noto Sans TC",sans-serif',load:'Chill'},{name:'微笑字體',family:'"Smiley","Noto Sans TC",sans-serif',load:'Smiley'},{name:'楓糖圓體',family:'"Maple","Noto Sans TC",sans-serif',load:'Maple'},{name:'辰宇手寫',family:'"ChenYu","Noto Sans TC",sans-serif',load:'ChenYu'},{name:'粉圓字體',family:'"Huninn","Noto Sans TC",sans-serif',load:'Huninn'}];
-const themes=window.FeixinTemplateData.templates,solids=window.FeixinTemplateData.solidBackgrounds;
+const themes=window.FeixinTemplateData.templates,solids=[...window.FeixinTemplateData.solidBackgrounds,['pure-white','白色','#FFFFFF']];
 const S={font:0,theme:'excavator',backgroundMode:'template',solidBackground:'macaron-pink',gradient:false,layout:4,usePhoto:true,shape:'circle',zoom:1,img:null,holeEnabled:true,holePosition:'top',textColor:'#4b3b52',fontScale:1,textOutline:true};
 const canvas=$('#sheetCanvas'),ctx=canvas.getContext('2d');
 function roundedRect(c,x,y,w,h,r){r=Math.min(r,w/2,h/2);c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}

@@ -6,13 +6,13 @@
 <meta name="description" content="製作孩子專屬的可愛課表，可下載 A4、4×6 PNG 與 PDF。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/base.css"><link rel="stylesheet" href="../css/design-system.css"><link rel="stylesheet" href="../css/layout.css"><link rel="stylesheet" href="../css/animations-v2.css"><link rel="stylesheet" href="../css/components.css"><link rel="stylesheet" href="../css/timetable.css?v=20260724-2">
+<link rel="stylesheet" href="../css/tokens.css"><link rel="stylesheet" href="../css/base.css"><link rel="stylesheet" href="../css/design-system.css"><link rel="stylesheet" href="../css/layout.css"><link rel="stylesheet" href="../css/animations-v2.css"><link rel="stylesheet" href="../css/components.css"><link rel="stylesheet" href="../css/timetable.css?v=20260730-3">
 </head>
 <body>
 <header class="tool-header"><a class="header-home tool-header-home" href="../index.html" aria-label="返回 Feixin Kids 首頁"><b>Feixin Kids</b><span>課表設計器</span></a></header>
 <main class="timetable-app">
 <section class="controls">
-  <div class="title-row mascot-title-row"><div class="mascot-title-copy"><small>FEIXIN KIDS V6.0.1</small><h1>製作專屬課表</h1></div><img class="tool-mascot" src="../images/mascots/fifi/fifi-school.png" alt="Fifi 菲菲"><button id="resetBtn" type="button">重新開始</button></div>
+  <div class="title-row mascot-title-row"><div class="mascot-title-copy"><h1>製作專屬課表</h1></div><img class="tool-mascot" src="../images/mascots/fifi/fifi-school.png" alt="Fifi 菲菲"><button id="resetBtn" type="button">重新開始</button></div>
 
   <article><h2>1. 設定星期與時段</h2>
     <div class="setting-row days-setting">
@@ -36,8 +36,8 @@
   </article>
 
   <article><h2>2. 基本資料</h2>
-    <label class="profile-field"><span>課表標題</span><input id="titleInput" maxlength="18" value="我的課表"></label>
-    <div class="two"><label class="profile-field"><span>姓名</span><input id="nameInput" maxlength="8" value="林小可"></label><label class="profile-field"><span>班級</span><input id="classInput" maxlength="12" value="一年1班"></label></div>
+    <label class="profile-field"><span>課表標題 <em>選填</em></span><input id="titleInput" maxlength="18" value="我的課表"></label>
+    <div class="two"><label class="profile-field"><span>姓名 <em>選填</em></span><input id="nameInput" maxlength="8" value="林小可"></label><label class="profile-field"><span>班級 <em>選填</em></span><input id="classInput" maxlength="12" value="一年1班"></label></div>
     <label class="profile-field"><span>學校名稱 <em>選填</em></span><input id="schoolInput" maxlength="24" value="快樂國民小學"></label>
     <div class="two"><label class="profile-field"><span>學年度／學期 <em>選填</em></span><input id="termInput" maxlength="18" value="113學年度 上學期"></label><label class="profile-field"><span>導師姓名 <em>選填</em></span><input id="teacherInput" maxlength="12" value="王老師"></label></div>
   </article>
@@ -49,7 +49,7 @@
   </article>
 
   <article><div class="title-row"><h2>4. 選擇字體</h2><span id="fontCount" class="font-count"></span></div><div id="fontGrid" class="font-grid"></div>
-    <div class="two font-settings"><label>文字顏色<input id="textColor" type="color" value="#4b3b52"></label><label>字體大小 <b id="fontSizeValue">100%</b><input id="fontSizeRange" type="range" min="80" max="130" step="2" value="100"></label></div>
+    <div class="two font-settings"><label>文字顏色<input id="textColor" type="color" value="#4b3b52"></label><label>字體大小 <b id="fontSizeValue">150%</b><input id="fontSizeRange" type="range" min="80" max="250" step="2" value="150"></label></div>
   </article>
 
   <article><div class="title-row"><h2>5. 選擇背景</h2><div class="background-mode-tabs"><button class="active" type="button" data-bg-mode="template">固定模板</button><button type="button" data-bg-mode="solid">素色背景</button></div></div>
@@ -59,7 +59,7 @@
 
   <article><h2>6. 預覽與下載</h2>
     <p class="field-title">輸出尺寸</p><div class="option-grid two-options"><button class="active" data-format="a4" type="button">A4 橫式<small>3508 × 2480 px</small></button><button data-format="4x6" type="button">4×6 橫式<small>1800 × 1200 px</small></button></div>
-    <div class="exports"><button id="pngBtn" type="button">下載 PNG</button><button id="pdfBtn" type="button">下載 PDF</button><p id="exportStatus" aria-live="polite"></p></div>
+    <div class="exports mascot-exports"><button id="pngBtn" class="mascot-download-button" type="button"><img src="../images/mascots/fifi/fifi-download.png" alt=""><span>下載 PNG</span></button><button id="pdfBtn" class="mascot-download-button" type="button"><img src="../images/mascots/xinxin/xinxin-thankyou.png" alt=""><span>下載 PDF</span></button><p id="exportStatus" aria-live="polite"></p></div>
   </article>
 </section>
 
@@ -72,5 +72,5 @@
 <div id="timeModal" class="editor-modal" hidden><div class="editor-dialog"><div class="title-row"><h2>編輯時段</h2><button id="closeTimeModal" type="button">✕</button></div><div id="timeEditorList"></div><button id="saveTimesBtn" class="primary-action" type="button">完成</button></div></div>
 <div id="cellModal" class="editor-modal" hidden><div class="editor-dialog"><div class="title-row"><h2 id="cellModalTitle">編輯課程</h2><button id="closeCellModal" type="button">✕</button></div><label class="profile-field"><span>科目名稱</span><input id="cellSubject" maxlength="12"></label><div id="cellMoreFields" hidden><label class="profile-field"><span>授課老師 <em>選填</em></span><input id="cellTeacher" maxlength="12"></label><label class="profile-field"><span>教室地點 <em>選填</em></span><input id="cellRoom" maxlength="18"></label></div><button id="toggleMoreFields" class="soft-button full-button" type="button">更多資料</button><div class="dialog-actions"><button id="deleteCellBtn" type="button">清除此格</button><button id="saveCellBtn" class="primary-action" type="button">完成</button></div></div></div>
 <footer>© 2026 Feixin Kids · Design · Download · Print</footer>
-<script src="../js/shared-data.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="../js/timetable.js?v=20260724-2"></script>
+<script src="../js/shared-data.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="../js/timetable.js?v=20260730-2"></script>
 </body></html>
