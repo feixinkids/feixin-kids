@@ -772,9 +772,10 @@ function getLayout() {
       6,
       16,
       false,
-      79.7143,
-      0,
-      78.524
+      64.9524,
+      5.9048,
+      78.524,
+      0
     ];
   }
 
@@ -821,11 +822,13 @@ function drawSheet() {
     rows,
     vertical,
     marginX,
-    gap,
-    layoutMarginY
+    gapX,
+    layoutMarginY,
+    layoutGapY
   ] = getLayout();
 
   const marginY = layoutMarginY ?? marginX;
+  const gapY = layoutGapY ?? gapX;
 
   sheetCanvas.width = canvasWidth;
   sheetCanvas.height = canvasHeight;
@@ -845,7 +848,7 @@ function drawSheet() {
     (
       canvasWidth -
       marginX * 2 -
-      (columns - 1) * gap
+      (columns - 1) * gapX
     ) /
     columns;
 
@@ -854,7 +857,7 @@ function drawSheet() {
       canvasHeight -
       marginY * 2 -
       footerHeight -
-      (rows - 1) * gap
+      (rows - 1) * gapY
     ) /
     rows;
 
@@ -872,10 +875,10 @@ function drawSheet() {
         sheetContext,
         marginX +
           column *
-          (stickerWidth + gap),
+          (stickerWidth + gapX),
         marginY +
           row *
-          (stickerHeight + gap),
+          (stickerHeight + gapY),
         stickerWidth,
         stickerHeight,
         vertical
