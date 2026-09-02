@@ -45,7 +45,7 @@ const fonts = [
 ];
 
 const themes = window.FeixinTemplateData.templates;
-const solidBackgrounds = [...window.FeixinTemplateData.solidBackgrounds, ["pure-white", "白色", "#FFFFFF"]];
+const solidBackgrounds = window.FeixinTemplateData.solidBackgrounds;
 
 const savedProfile = window.FeixinSharedData?.read() || {};
 const S = {
@@ -61,7 +61,7 @@ const S = {
   solidBackground: "macaron-pink",
   gradient: false,
   paper: "a4",
-  qty: 48,
+  qty: 96,
   usePhoto: true,
   photoShape: "circle",
   img: null,
@@ -193,9 +193,7 @@ function renderThemes() {
 function stickerSizeLabel(paper, quantity) {
   const sizes = {
     a4: {
-      48: "約 4.6 × 2.0 cm",
-      96: "約 3.0 × 1.5 cm",
-      102: "約 3.0 × 1.4 cm"
+      96: "3.05 × 1.69 cm"
     },
     "4x6": {
       16: "約 4.5 × 1.7 cm",
@@ -209,7 +207,7 @@ function stickerSizeLabel(paper, quantity) {
 
 function renderQty() {
   const quantities = S.paper === "a4"
-    ? [48, 96, 102]
+    ? [96]
     : [16, 24, 36];
 
   if (!quantities.includes(S.qty)) {
@@ -217,9 +215,7 @@ function renderQty() {
   }
 
   const labelMap = {
-    48: "彩之舞 48 格",
-    96: "彩之舞 96 格",
-    102: "彩之舞 102 格"
+    96: "彩之舞 96 格"
   };
 
   $("#quantities").innerHTML = quantities
@@ -239,7 +235,7 @@ function renderQty() {
   });
 
   $("#layoutHint").textContent = S.paper === "a4"
-    ? "目前最佳化支援彩之舞 48／96／102 格預裁切姓名貼紙。其他品牌刀模可能不同。"
+    ? "適用彩之舞 U4100-100TW（6 欄 × 16 列）；列印請選擇 100%／實際大小。"
     : "使用 4×6 貼紙至超商列印，完成後需自行裁切。";
 }
 
@@ -770,23 +766,15 @@ function drawSticker(
 
 function getLayout() {
   if (S.paper === "a4") {
-    const layoutMap = {
-      48: [4, 12],
-      96: [6, 16],
-      102: [6, 17]
-    };
-
-    const selectedLayout =
-      layoutMap[S.qty];
-
     return [
       1240,
       1754,
-      selectedLayout[0],
-      selectedLayout[1],
+      6,
+      16,
       false,
-      52,
-      14
+      79.7143,
+      0,
+      78.524
     ];
   }
 
@@ -832,9 +820,12 @@ function drawSheet() {
     columns,
     rows,
     vertical,
-    margin,
-    gap
+    marginX,
+    gap,
+    layoutMarginY
   ] = getLayout();
+
+  const marginY = layoutMarginY ?? marginX;
 
   sheetCanvas.width = canvasWidth;
   sheetCanvas.height = canvasHeight;
@@ -848,13 +839,12 @@ function drawSheet() {
     canvasHeight
   );
 
-  const footerHeight =
-    S.paper === "a4" ? 44 : 48;
+  const footerHeight = S.paper === "a4" ? 0 : 48;
 
   const stickerWidth =
     (
       canvasWidth -
-      margin * 2 -
+      marginX * 2 -
       (columns - 1) * gap
     ) /
     columns;
@@ -862,7 +852,7 @@ function drawSheet() {
   const stickerHeight =
     (
       canvasHeight -
-      margin * 2 -
+      marginY * 2 -
       footerHeight -
       (rows - 1) * gap
     ) /
@@ -880,10 +870,10 @@ function drawSheet() {
     ) {
       drawSticker(
         sheetContext,
-        margin +
+        marginX +
           column *
           (stickerWidth + gap),
-        margin +
+        marginY +
           row *
           (stickerHeight + gap),
         stickerWidth,
@@ -893,6 +883,7 @@ function drawSheet() {
     }
   }
 
+  if (S.paper !== "a4") {
   sheetContext.save();
 
   sheetContext.fillStyle = "#8f818b";
@@ -907,10 +898,11 @@ function drawSheet() {
   sheetContext.fillText(
     "© 2026 Feixin Kids · Design · Download · Print",
     canvasWidth / 2,
-    canvasHeight - margin / 2
+    canvasHeight - marginY / 2
   );
 
   sheetContext.restore();
+  }
 
   $("#meta").textContent =
     `${S.paper === "a4" ? "彩之舞" : "4×6 貼紙"} · ` +
@@ -1074,7 +1066,7 @@ $("#resetBtn").addEventListener(
       solidBackground: "macaron-pink",
       gradient: false,
       paper: "a4",
-      qty: 48,
+      qty: 96,
       usePhoto: true,
       photoShape: "circle",
       img: null,

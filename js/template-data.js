@@ -22,6 +22,7 @@ window.FeixinTemplateData = {
     ["heart", "愛心", "#FFE6EE", "#E96F94", "../images/templates/heart.png"]
   ],
   solidBackgrounds: [
+    ["pure-white", "白色", "#FFFFFF"],
     ["macaron-pink", "馬卡龍粉", "#F8DDE7"],
     ["macaron-yellow", "馬卡龍黃", "#FFF0B8"],
     ["macaron-orange", "馬卡龍橘", "#FFDCC4"],
