@@ -783,8 +783,7 @@ function getLayout() {
       1.8 * pxPerMmX,
       13.3 * pxPerMmY,
       0,
-      -0.5 * pxPerMmY,
-      0.5 * pxPerMmX
+      -0.5 * pxPerMmY
     ];
   }
 
@@ -834,14 +833,12 @@ function drawSheet() {
     gapX,
     layoutMarginY,
     layoutGapY,
-    layoutOffsetY,
-    layoutOffsetX
+    layoutOffsetY
   ] = getLayout();
 
   const marginY = layoutMarginY ?? marginX;
   const gapY = layoutGapY ?? gapX;
   const offsetY = layoutOffsetY ?? 0;
-  const offsetX = layoutOffsetX ?? 0;
 
   sheetCanvas.width = canvasWidth;
   sheetCanvas.height = canvasHeight;
@@ -874,47 +871,8 @@ function drawSheet() {
     ) /
     rows;
 
-  // 素色背景專用出血：只放大底色，不移動照片、文字或模板圖案。
-  // 先畫完全部出血再畫貼紙內容，避免相鄰貼紙的出血蓋到內容。
-  if (S.paper === "a4" && S.backgroundMode === "solid") {
-    const bleedX = 0.8 * canvasWidth / 210;
-    const bleedY = 0.8 * canvasHeight / 297;
-    const color = getSolidColor();
-
-    for (let row = 0; row < rows; row += 1) {
-      for (let column = 0; column < columns; column += 1) {
-        const bleedLeft = marginX + offsetX + column * (stickerWidth + gapX) - bleedX;
-        const bleedTop = marginY + offsetY + row * (stickerHeight + gapY) - bleedY;
-        const bleedWidth = stickerWidth + bleedX * 2;
-        const bleedHeight = stickerHeight + bleedY * 2;
-
-        sheetContext.save();
-        if (S.gradient) {
-          const gradient = sheetContext.createLinearGradient(
-            bleedLeft,
-            bleedTop,
-            bleedLeft + bleedWidth,
-            bleedTop + bleedHeight
-          );
-          gradient.addColorStop(0, color);
-          gradient.addColorStop(1, "#ffffff");
-          sheetContext.fillStyle = gradient;
-        } else {
-          sheetContext.fillStyle = color;
-        }
-        roundedRect(
-          sheetContext,
-          bleedLeft,
-          bleedTop,
-          bleedWidth,
-          bleedHeight,
-          Math.min(stickerWidth, stickerHeight) * 0.1
-        );
-        sheetContext.fill();
-        sheetContext.restore();
-      }
-    }
-  }
+  const a4ColumnOffsetsMm = [-0.8, -0.5, 0, 0, 0.5, 0.8];
+  const a4PxPerMmX = canvasWidth / 210;
 
   for (
     let row = 0;
@@ -928,9 +886,12 @@ function drawSheet() {
     ) {
       drawSticker(
         sheetContext,
-        marginX + offsetX +
+        marginX +
           column *
-          (stickerWidth + gapX),
+          (stickerWidth + gapX) +
+          (S.paper === "a4"
+            ? a4ColumnOffsetsMm[column] * a4PxPerMmX
+            : 0),
         marginY + offsetY +
           row *
           (stickerHeight + gapY),
