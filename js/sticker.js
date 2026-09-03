@@ -457,9 +457,9 @@ $(".crop-wrap").addEventListener(
     const currentZoom = S.crop.scale / baseScale;
 
     const nextZoom = Math.max(
-      0.5,
+      0.25,
       Math.min(
-        4,
+        2.5,
         currentZoom * (event.deltaY > 0 ? 0.94 : 1.06)
       )
     );
@@ -772,8 +772,8 @@ function getLayout() {
       6,
       16,
       false,
-      35.4286,
-      17.7143,
+      50.1905,
+      11.8095,
       78.524,
       0,
       -2.9529
