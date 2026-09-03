@@ -871,7 +871,7 @@ function drawSheet() {
     ) /
     rows;
 
-  const a4ColumnOffsetsMm = [-0.8, -0.5, 0, 0, 0.5, 0.8];
+  const a4ColumnOffsetsMm = [-0.5, -0.3, -0.2, 0, 0.2, 0.3];
   const a4PxPerMmX = canvasWidth / 210;
 
   for (
