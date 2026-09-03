@@ -766,17 +766,24 @@ function drawSticker(
 
 function getLayout() {
   if (S.paper === "a4") {
+    // 彩之舞 U4100-100TW：A4 6×16，30.5×16.9 mm。
+    // 300 DPI 輸出可避免小尺寸姓名與照片在 PDF 中糊掉。
+    const canvasWidth = 2480;
+    const canvasHeight = 3508;
+    const pxPerMmX = canvasWidth / 210;
+    const pxPerMmY = canvasHeight / 297;
+
     return [
-      1240,
-      1754,
+      canvasWidth,
+      canvasHeight,
       6,
       16,
       false,
-      50.1905,
-      11.8095,
-      78.524,
+      9 * pxPerMmX,
+      1.8 * pxPerMmX,
+      13.3 * pxPerMmY,
       0,
-      -2.9529
+      -0.5 * pxPerMmY
     ];
   }
 
@@ -973,15 +980,14 @@ $("#pdfBtn").addEventListener(
       });
 
     pdf.addImage(
-      sheetCanvas.toDataURL(
-        "image/jpeg",
-        0.96
-      ),
-      "JPEG",
+      sheetCanvas.toDataURL("image/png"),
+      "PNG",
       0,
       0,
       isA4 ? 210 : 101.6,
-      isA4 ? 297 : 152.4
+      isA4 ? 297 : 152.4,
+      undefined,
+      "FAST"
     );
 
     pdf.save(
