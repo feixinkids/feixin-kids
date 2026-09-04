@@ -646,7 +646,7 @@ function drawDecoration(context, theme, x, y, width, height) {
   const decorationSize = Math.min(width, height) * 0.88;
   const image = getThemeImage(theme);
   context.save();
-  context.globalAlpha = 0.26;
+  context.globalAlpha = 0.312;
   drawThemeImage(context, image, x + width * 0.16, y + height * 0.25, decorationSize);
   drawThemeImage(context, image, x + width * 0.84, y + height * 0.75, decorationSize);
   context.restore();
