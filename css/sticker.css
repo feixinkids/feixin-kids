@@ -1,8 +1,9 @@
-@font-face{font-family:"MaokenZhuyuan";src:url("../assets/fonts/MaokenZhuyuan.ttf") format("truetype");font-display:swap}
+@font-face{font-family:"Nikumaru07";src:url("../assets/fonts/Nikumaru07.otf") format("opentype");font-display:swap}
+@font-face{font-family:"MaokenAssorted";src:url("../assets/fonts/MaokenAssorted.ttf") format("truetype");font-display:swap}
 @font-face{font-family:"Yozai";src:url("../assets/fonts/Yozai.ttf") format("truetype");font-display:swap}
-@font-face{font-family:"Chill";src:url("../assets/fonts/Chill.ttf") format("truetype");font-display:swap}
-@font-face{font-family:"Smiley";src:url("../assets/fonts/Smiley.ttf") format("truetype");font-display:swap}
-@font-face{font-family:"Maple";src:url("../assets/fonts/Maple.ttf") format("truetype");font-display:swap}
+@font-face{font-family:"Seto";src:url("../assets/fonts/Seto.ttf") format("truetype");font-display:swap}
+@font-face{font-family:"JasonHandwriting";src:url("../assets/fonts/JasonHandwriting.ttf") format("truetype");font-display:swap}
+@font-face{font-family:"JustfontFenYuan";src:url("../assets/fonts/JustfontFenYuan.ttf") format("truetype");font-display:swap}
 @font-face{font-family:"ChenYu";src:url("../assets/fonts/ChenYu.ttf") format("truetype");font-display:swap}
 @font-face{font-family:"Huninn";src:url("../assets/fonts/Huninn.ttf") format("truetype");font-display:swap}
 *{box-sizing:border-box}

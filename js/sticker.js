@@ -4,13 +4,13 @@ const $$ = (selector) => [...document.querySelectorAll(selector)];
 const fonts = [
   {
     name: "圓潤預設",
-    family: '"M PLUS Rounded 1c", "Noto Sans TC", sans-serif',
-    loadName: "M PLUS Rounded 1c"
+    family: '"Nikumaru07", "Noto Sans TC", sans-serif',
+    loadName: "Nikumaru07"
   },
   {
     name: "貓啃珠圓",
-    family: '"MaokenZhuyuan", "Noto Sans TC", sans-serif',
-    loadName: "MaokenZhuyuan"
+    family: '"MaokenAssorted", "Noto Sans TC", sans-serif',
+    loadName: "MaokenAssorted"
   },
   {
     name: "悠哉手寫",
@@ -19,18 +19,18 @@ const fonts = [
   },
   {
     name: "輕鬆圓體",
-    family: '"Chill", "Noto Sans TC", sans-serif',
-    loadName: "Chill"
+    family: '"Seto", "Noto Sans TC", sans-serif',
+    loadName: "Seto"
   },
   {
     name: "微笑字體",
-    family: '"Smiley", "Noto Sans TC", sans-serif',
-    loadName: "Smiley"
+    family: '"JasonHandwriting", "Noto Sans TC", sans-serif',
+    loadName: "JasonHandwriting"
   },
   {
     name: "楓糖圓體",
-    family: '"Maple", "Noto Sans TC", sans-serif',
-    loadName: "Maple"
+    family: '"JustfontFenYuan", "Noto Sans TC", sans-serif',
+    loadName: "JustfontFenYuan"
   },
   {
     name: "辰宇手寫",
@@ -91,13 +91,13 @@ function fontButton(font, index) {
   `;
 }
 
-async function ensureFontLoaded(index) {
+async function ensureFontLoaded(index, sampleText = S.name || "林小可") {
   const fontFamily = fonts[index].loadName;
 
   try {
     await document.fonts.load(
       `800 48px "${fontFamily}"`,
-      "林小可"
+      sampleText
     );
   } catch (error) {
     console.warn(
@@ -113,7 +113,7 @@ function updateFontButtonStatus() {
 
     const loaded = document.fonts.check(
       `24px "${fontFamily}"`,
-      "林小可"
+      S.name || "林小可"
     );
 
     button.title = loaded
@@ -646,7 +646,7 @@ function drawDecoration(context, theme, x, y, width, height) {
   const decorationSize = Math.min(width, height) * 0.88;
   const image = getThemeImage(theme);
   context.save();
-  context.globalAlpha = 0.312;
+  context.globalAlpha = 0.3744;
   drawThemeImage(context, image, x + width * 0.16, y + height * 0.25, decorationSize);
   drawThemeImage(context, image, x + width * 0.84, y + height * 0.75, decorationSize);
   context.restore();
@@ -871,7 +871,7 @@ function drawSheet() {
     ) /
     rows;
 
-  const a4ColumnOffsetsMm = [-0.5, -0.3, -0.2, 0, 0.2, 0.3];
+  const a4ColumnOffsetsMm = [-0.5, -0.3, 0, 0, 0.2, 0.3];
   const a4PxPerMmX = canvasWidth / 210;
 
   for (
@@ -1007,11 +1007,13 @@ $("#pdfBtn").addEventListener(
 
 $("#nameInput").addEventListener(
   "input",
-  (event) => {
+  async (event) => {
     S.name =
       event.target.value || " ";
 
+    await ensureFontLoaded(S.font, S.name);
     drawSheet();
+    updateFontButtonStatus();
   }
 );
 
